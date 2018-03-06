@@ -7,7 +7,7 @@ package com.hzz.model;
  */
 public class Balance {
     private String asset;
-    private Double free;
+    private String free;
     private Double locked;
 
     @Override
@@ -27,11 +27,11 @@ public class Balance {
         this.asset = asset;
     }
 
-    public Double getFree() {
+    public String getFree() {
         return free;
     }
 
-    public void setFree(Double free) {
+    public void setFree(String free) {
         this.free = free;
     }
 

@@ -1,9 +1,7 @@
 package com.hzz.main;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.hzz.model.Account;
-import com.hzz.model.Balance;
-import com.hzz.model.Price;
+import com.hzz.model.*;
 import com.hzz.utils.HmacUtils;
 import com.hzz.utils.NumberUtils;
 import com.hzz.utils.SslUtils;
@@ -40,7 +38,7 @@ public class Api {
 //        System.out.println("------汇兑信息--------");
 //        System.out.println(api.getExchangeInfo());
 //        System.out.println("------出售--------");
-//        System.out.println(api.sell("TRXBTC",1843.0,"0.00000409"));
+//        System.out.println(api.sell("TRXBTC",1842.0,"0.00000416"));
 //        System.out.println("------买进--------");
 //        System.out.println(api.buy("TRXBTC",1843.0,"0.00000407"));
 //        System.out.println("------打开订单--------");
@@ -132,7 +130,7 @@ public class Api {
            List<Balance>oldBalances=account.getBalances();
            for(int i=0;i<oldBalances.size();i++){
                Balance balance=oldBalances.get(i);
-               if(NumberUtils.isEquals(balance.getFree(),0.0)){
+               if(NumberUtils.isEquals(NumberUtils.valueOf(balance.getFree()),0.0)){
                    newBalances.put(balance.getAsset(),balance);
                }
            }
@@ -213,11 +211,16 @@ public class Api {
      * @param price 价格
      * @return
      */
-    public Map buy(String symbol,Double quantity,String price){
+    public SellOrBuyInfo buy(String symbol,Double quantity,String price){
         String query_string="side=BUY&symbol="+symbol+"&quantity="+quantity+"&price="+price +
                 "&type=LIMIT&timeInForce=GTC&recvWindow="+recvWindow;
         String result=tryRequestOrder(query_string,"POST");
-        return  jsonStr2Map(result);
+        Gson gson = new Gson();
+        if(result!=null) {
+            SellOrBuyInfo sellOrBuyInfo = gson.fromJson(result, SellOrBuyInfo.class);
+            return sellOrBuyInfo;
+        }
+        return null;
 
     }
     /**
@@ -227,11 +230,16 @@ public class Api {
      * @param price 价格
      * @return
      */
-    public Map sell(String symbol,Double quantity,String price){
+    public SellOrBuyInfo sell(String symbol, Double quantity, String price){
         String query_string="symbol="+symbol+"&side=SELL&type=LIMIT&timeInForce=GTC&quantity="+quantity+"&price="+price +
                 "&recvWindow="+recvWindow;
         String result=tryRequestOrder(query_string,"POST");
-        return  jsonStr2Map(result);
+        Gson gson = new Gson();
+        if(result!=null) {
+            SellOrBuyInfo sellOrBuyInfo = gson.fromJson(result, SellOrBuyInfo.class);
+            return sellOrBuyInfo;
+        }
+        return null;
     }
 
     //获取服务器时间戳（毫秒）
@@ -241,10 +249,15 @@ public class Api {
         return  jsonStr2Map(result);
     }
     //获取汇兑信息
-    public Map  getExchangeInfo(){
+    public ExchangeInfo getExchangeInfo(){
         String url_api="https://api.binance.com/api/v1/exchangeInfo";
         String result=requestApi(url_api,createRQuery("GET","",false),false);
-        return  jsonStr2Map(result);
+        Gson gson = new Gson();
+        if(result!=null) {
+            ExchangeInfo exchangeInfo = gson.fromJson(result, ExchangeInfo.class);
+            return exchangeInfo;
+        }
+        return null;
     }
 
     public Map getOrderBook(String symbol,int limit){

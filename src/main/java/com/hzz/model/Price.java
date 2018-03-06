@@ -7,7 +7,7 @@ package com.hzz.model;
  */
 public class Price {
     private String symbol;
-    private Double price;
+    private String price;
 
     @Override
     public String toString() {
@@ -25,11 +25,11 @@ public class Price {
         this.symbol = symbol;
     }
 
-    public Double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 }
