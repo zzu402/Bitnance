@@ -23,10 +23,42 @@ public class Api {
     private String secret_key = "";  //账户私密key，用于个人签名，所有账户相关敏感查询或操作都需要将参数加密做一个签名一起附带
     private String api_key = ""; //api接口key，用于发送请求时添加到http(s)头进行简单验证，大部分需要
     private Long currentTime = 0L;
+    private Integer recvWindow=150000;
 
     public static void main(String[] args) {
         Api api = new Api();
-        System.out.println(api.getExchangeInfo());
+//        System.out.println("------账户信息--------");
+//        System.out.println(api.getAccountInfo());
+        System.out.println("------账户金币信息--------");
+        System.out.println(api.getAllMoneyFree());
+//        System.out.println("------账户某币信息--------");
+//        System.out.println(api.getMoneyFree("BTC"));
+//        System.out.println("------币市价格信息--------");
+//        System.out.println(api.getMoneyPrice(""));
+        System.out.println("------币市某币价格信息--------");
+        System.out.println(api.getMoneyPrice("TRXBTC"));
+//        System.out.println("------汇兑信息--------");
+//        System.out.println(api.getExchangeInfo());
+//        System.out.println("------出售--------");
+//        System.out.println(api.sell("TRXBTC",1843.0,"0.00000409"));
+//        System.out.println("------买进--------");
+//        System.out.println(api.buy("TRXBTC",1843.0,"0.00000407"));
+//        System.out.println("------打开订单--------");
+//        System.out.println(api.openOrders("TRXBTC"));
+    }
+
+    private Map jsonStr2Map(String jsonStr){
+        Gson gson = new Gson();
+        Map<String, Object> data = new HashMap<String, Object>();
+        data = gson.fromJson(jsonStr, data.getClass());
+        return  data;
+    }
+    private Map createRQuery(String method,String query_string ,Boolean b_add_time ){
+        Map map = new HashMap();
+        map.put("method", method);
+        map.put("query_string", query_string);
+        map.put("b_add_time", b_add_time);
+        return map;
     }
 
     private String requestApi(String url, Map rQuery, boolean bSign) {
@@ -58,8 +90,13 @@ public class Api {
             header.put("X-MBX-APIKEY",api_key);
             Connection connection = Jsoup.connect(url).headers(header).ignoreContentType(true).ignoreHttpErrors(true).timeout(10000);
             if (!isGetMethod) {
-                if(queryString!=null&&!queryString.equals(""))
-                    connection.data(queryString);
+                if(queryString!=null&&!queryString.equals("")) {
+                    String[] querys=queryString.split("&");
+                    for(int i=0;i<querys.length;i++){
+                        String[] datas=querys[i].split("=");
+                        connection.data(datas[0],datas[1]);
+                    }
+                }
                 if(isPostMethod)
                     connection.method(Connection.Method.POST);
                 else
@@ -77,12 +114,8 @@ public class Api {
     //获取账户信息
     public Account getAccountInfo() {
         String url_api = "https://api.binance.com/api/v3/account";
-        String query_string = "recvWindow=500000";
-        Map map = new HashMap();
-        map.put("method", "GET");
-        map.put("query_string", query_string);
-        map.put("b_add_time", true);
-        String result =requestApi(url_api, map, true);
+        String query_string = "recvWindow="+recvWindow;
+        String result =requestApi(url_api, createRQuery("GET",query_string,true), true);
         Gson gson = new Gson();
         if(result!=null) {
             Account account = gson.fromJson(result, Account.class);
@@ -126,11 +159,7 @@ public class Api {
         if(!symbol.equals("")){
             query_string+="symbol="+symbol;
         }
-        Map map = new HashMap();
-        map.put("method", "GET");
-        map.put("query_string", query_string);
-        map.put("b_add_time", false);
-        String result=requestApi(url_api,map,false);
+        String result=requestApi(url_api,createRQuery("GET",query_string,false),false);
         List<Price>priceList=null;
         Gson gson = new Gson();
         if(result!=null) {
@@ -149,44 +178,34 @@ public class Api {
     //尝试请求交易
     public String tryRequestOrder(String query_string,String method){
         String url_api="https://api.binance.com/api/v3/order";
-        Map map = new HashMap();
-        map.put("method", method);
-        map.put("query_string", query_string);
-        map.put("b_add_time", true);
-        String result =requestApi(url_api, map, true);
+        String result =requestApi(url_api, createRQuery(method,query_string,true), true);
         return  result;
     }
 
     //检查交易状态
     public  Map checkOrderStrtus(String symbol,String orderId,String origClientOrderId){
        String query_string="symbol="+symbol+"&orderId="+orderId+"&origClientOrderId="+origClientOrderId+
-               "&recvWindow=500000";
+               "&recvWindow="+recvWindow;
        String result=tryRequestOrder(query_string,"GET");
         return  jsonStr2Map(result);
     }
 
     public Map  cancelOrder(String symbol,String orderId,String origClientOrderId){
         String query_string="symbol="+symbol+"&orderId="+orderId+"&origClientOrderId="+origClientOrderId+
-                "&recvWindow=500000";
+                "&recvWindow="+recvWindow;
         String result=tryRequestOrder(query_string,"DELETE");
         return  jsonStr2Map(result);
     }
 
     public Map openOrders(String symbol){
-        String query_string ="recvWindow=500000";
+        String query_string ="recvWindow="+recvWindow;
         if(!symbol.equals("")){
             query_string+="&symbol="+symbol;
         }
         String url_api="https://api.binance.com/api/v3/openOrders";
-        Map map = new HashMap();
-        map.put("method", "GET");
-        map.put("query_string", query_string);
-        map.put("b_add_time", true);
-        String result=requestApi(url_api,map,true);
+        String result=requestApi(url_api,createRQuery("GET",query_string,true),true);
         return  jsonStr2Map(result);
     }
-
-
     /**
      *
      * @param symbol  币名 xxxBTC 如ETHBTC
@@ -194,21 +213,13 @@ public class Api {
      * @param price 价格
      * @return
      */
-    public Map buy(String symbol,Double quantity,Double price){
+    public Map buy(String symbol,Double quantity,String price){
         String query_string="side=BUY&symbol="+symbol+"&quantity="+quantity+"&price="+price +
-                "type=LIMIT&timeInForce=GTC&recvWindow=500000";
+                "&type=LIMIT&timeInForce=GTC&recvWindow="+recvWindow;
         String result=tryRequestOrder(query_string,"POST");
         return  jsonStr2Map(result);
 
     }
-
-    private Map jsonStr2Map(String jsonStr){
-        Gson gson = new Gson();
-        Map<String, Object> data = new HashMap<String, Object>();
-        data = gson.fromJson(jsonStr, data.getClass());
-        return  data;
-    }
-
     /**
      *
      * @param symbol  币名 xxxBTC 如ETHBTC
@@ -216,43 +227,30 @@ public class Api {
      * @param price 价格
      * @return
      */
-    public Map sell(String symbol,Double quantity,Double price){
-        String query_string="side=SELL&symbol="+symbol+"&quantity="+quantity+"&price="+price +
-                "type=LIMIT&timeInForce=GTC&recvWindow=500000";
+    public Map sell(String symbol,Double quantity,String price){
+        String query_string="symbol="+symbol+"&side=SELL&type=LIMIT&timeInForce=GTC&quantity="+quantity+"&price="+price +
+                "&recvWindow="+recvWindow;
         String result=tryRequestOrder(query_string,"POST");
         return  jsonStr2Map(result);
     }
 
     //获取服务器时间戳（毫秒）
     public Map getServerTime(){
-        Long time_server=0L;
         String url_api="https://api.binance.com/api/v1/time";
-        Map map = new HashMap();
-        map.put("method", "GET");
-        map.put("query_string", "");
-        map.put("b_add_time", false);
-        String result=requestApi(url_api,map,false);
+        String result=requestApi(url_api,createRQuery("GET","",false),false);
         return  jsonStr2Map(result);
     }
-
+    //获取汇兑信息
     public Map  getExchangeInfo(){
         String url_api="https://api.binance.com/api/v1/exchangeInfo";
-        Map map = new HashMap();
-        map.put("method", "GET");
-        map.put("query_string", "");
-        map.put("b_add_time", false);
-        String result=requestApi(url_api,map,false);
+        String result=requestApi(url_api,createRQuery("GET","",false),false);
         return  jsonStr2Map(result);
     }
 
     public Map getOrderBook(String symbol,int limit){
         String url_api="https://api.binance.com/api/v1/depth";
         String quert_string="symbol="+symbol+"&limit="+limit;
-        Map map = new HashMap();
-        map.put("method", "GET");
-        map.put("query_string", quert_string);
-        map.put("b_add_time", false);
-        String result=requestApi(url_api,map,false);
+        String result=requestApi(url_api,createRQuery("GET",quert_string,false),false);
         return  jsonStr2Map(result);
     }
 
