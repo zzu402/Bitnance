@@ -22,17 +22,19 @@ public class Api {
     private String api_key = ""; //api接口key，用于发送请求时添加到http(s)头进行简单验证，大部分需要
     private Long currentTime = 0L;
     private Integer recvWindow=150000;
+    private Integer limit=500;
+    private Double rateFee =  0.001; //手续费比率
 
     public static void main(String[] args) {
         Api api = new Api();
-//        System.out.println("------账户信息--------");
-//        System.out.println(api.getAccountInfo());
+        System.out.println("------账户信息--------");
+        System.out.println(api.getAccountInfo());
         System.out.println("------账户金币信息--------");
         System.out.println(api.getAllMoneyFree());
-//        System.out.println("------账户某币信息--------");
-//        System.out.println(api.getMoneyFree("BTC"));
-//        System.out.println("------币市价格信息--------");
-//        System.out.println(api.getMoneyPrice(""));
+        System.out.println("------账户某币信息--------");
+        System.out.println(api.getMoneyFree("BTC"));
+        System.out.println("------币市价格信息--------");
+        System.out.println(api.getMoneyPrice(""));
         System.out.println("------币市某币价格信息--------");
         System.out.println(api.getMoneyPrice("TRXBTC"));
 //        System.out.println("------汇兑信息--------");
@@ -41,11 +43,22 @@ public class Api {
 //        System.out.println(api.sell("TRXBTC",1842.0,"0.00000416"));
 //        System.out.println("------买进--------");
 //        System.out.println(api.buy("TRXBTC",1843.0,"0.00000407"));
-//        System.out.println("------打开订单--------");
-//        System.out.println(api.openOrders("TRXBTC"));
+//        System.out.println("------打开待处理订单--------");
+//        System.out.println(api.openMyOrders("TRXBTC"));
+//        System.out.println("------获取我的成交交易--------");
+//        System.out.println(api.getMyTrades("TRXBTC","",10));
+//        System.out.println("------获取我的订单--------");
+//        System.out.println(api.getMyOrders("TRXBTC","",10));
+//        System.out.println("------获取历史成交交易--------");
+//        System.out.println(api.getHistoticalTrades("TRXBTC",10,""));
+//        System.out.println("------获取最近成交交易--------");
+//        System.out.println(api.getRecentTrades("TRXBTC",10));
     }
 
     private Map jsonStr2Map(String jsonStr){
+        System.out.println(jsonStr);
+        if(jsonStr==null)
+            return null;
         Gson gson = new Gson();
         Map<String, Object> data = new HashMap<String, Object>();
         data = gson.fromJson(jsonStr, data.getClass());
@@ -58,7 +71,6 @@ public class Api {
         map.put("b_add_time", b_add_time);
         return map;
     }
-
     private String requestApi(String url, Map rQuery, boolean bSign) {
         try {
             SslUtils.ignoreSsl();
@@ -108,7 +120,6 @@ public class Api {
             return null;
         }
     }
-
     //获取账户信息
     public Account getAccountInfo() {
         String url_api = "https://api.binance.com/api/v3/account";
@@ -121,7 +132,6 @@ public class Api {
         }
         return null;
     }
-
     //获取所有闲置钱币
     public Map<String,Balance> getAllMoneyFree(){
         Map<String,Balance>newBalances=new HashMap<String, Balance>();
@@ -138,14 +148,11 @@ public class Api {
         }
         return null;
     }
-
    //获取某种币的余额
     public Balance getMoneyFree(String name){
-        Double free=0.0;
         Map<String,Balance> balanceMap=getAllMoneyFree();
         return balanceMap.get(name);
     }
-
     /**
      * 获取目前数字币价格信息,当symbol为""，返回全部
      * @param symbol
@@ -172,30 +179,27 @@ public class Api {
         }
         return  priceList;
     }
-
     //尝试请求交易
     public String tryRequestOrder(String query_string,String method){
         String url_api="https://api.binance.com/api/v3/order";
         String result =requestApi(url_api, createRQuery(method,query_string,true), true);
         return  result;
     }
-
     //检查交易状态
-    public  Map checkOrderStrtus(String symbol,String orderId,String origClientOrderId){
+    public  Map checkOrderStatus(String symbol,String orderId,String origClientOrderId){
        String query_string="symbol="+symbol+"&orderId="+orderId+"&origClientOrderId="+origClientOrderId+
                "&recvWindow="+recvWindow;
        String result=tryRequestOrder(query_string,"GET");
         return  jsonStr2Map(result);
     }
-
     public Map  cancelOrder(String symbol,String orderId,String origClientOrderId){
         String query_string="symbol="+symbol+"&orderId="+orderId+"&origClientOrderId="+origClientOrderId+
                 "&recvWindow="+recvWindow;
         String result=tryRequestOrder(query_string,"DELETE");
         return  jsonStr2Map(result);
     }
-
-    public Map openOrders(String symbol){
+    //打开当前待处理订单
+    public Map openMyOrders(String symbol){
         String query_string ="recvWindow="+recvWindow;
         if(!symbol.equals("")){
             query_string+="&symbol="+symbol;
@@ -241,7 +245,6 @@ public class Api {
         }
         return null;
     }
-
     //获取服务器时间戳（毫秒）
     public Map getServerTime(){
         String url_api="https://api.binance.com/api/v1/time";
@@ -259,12 +262,78 @@ public class Api {
         }
         return null;
     }
-
+    //获取（预定？）订单
     public Map getOrderBook(String symbol,int limit){
         String url_api="https://api.binance.com/api/v1/depth";
         String quert_string="symbol="+symbol+"&limit="+limit;
         String result=requestApi(url_api,createRQuery("GET",quert_string,false),false);
         return  jsonStr2Map(result);
+    }
+    //获取历史订单
+    public List<Order> getMyOrders(String symbol,String orderId,Integer limit){
+        String query_string="symbol="+symbol+"&recvWindow="+recvWindow+"&limit="+limit;
+        if(!orderId.equals("")){
+            query_string+="&orderId="+orderId;
+        }
+        String url_api="https://api.binance.com/api/v3/allOrders";
+        String result=requestApi(url_api,createRQuery("GET",query_string,true),true);
+        Gson gson = new Gson();
+        List<Order>orders=null;
+        if(result!=null) {
+            orders=gson.fromJson(result, new TypeToken<List<Order>>() {
+            }.getType());
+            return  orders;
+        }
+        return null;
+    }
+    //获取我的历史交易
+    public List<MyTrade> getMyTrades(String symbol,String formId,Integer limit){
+        String query_string="symbol="+symbol+"&recvWindow="+recvWindow+"&limit="+limit;
+        if(!formId.equals("")){
+            query_string+="&formId="+formId;
+        }
+        String url_api="https://api.binance.com/api/v3/myTrades";
+        String result=requestApi(url_api,createRQuery("GET",query_string,true),true);
+        Gson gson = new Gson();
+        List<MyTrade>trades=null;
+        if(result!=null) {
+            trades=gson.fromJson(result, new TypeToken<List<MyTrade>>() {
+            }.getType());
+            return  trades;
+        }
+        return null;
+    }
+    //获取最新成交交易
+    public List<Trade> getRecentTrades(String symbol,Integer limit){
+        String query_string="symbol="+symbol+"&limit="+limit;
+        String url_api="https://api.binance.com/api/v1/trades";
+        String result=requestApi(url_api,createRQuery("GET",query_string,false),false);
+        Gson gson = new Gson();
+        List<Trade>trades=null;
+        if(result!=null) {
+            trades=gson.fromJson(result, new TypeToken<List<Trade>>() {
+            }.getType());
+            return  trades;
+        }
+        return null;
+    }
+
+    //获取历史成交交易
+    public List<Trade> getHistoticalTrades(String symbol, Integer limit, String formId){
+        String query_string="symbol="+symbol+"&limit="+limit;
+        if(!formId.equals("")){
+            query_string+="&formId="+formId;
+        }
+        String url_api="https://api.binance.com/api/v1/historicalTrades";
+        String result=requestApi(url_api,createRQuery("GET",query_string,false),false);
+        Gson gson = new Gson();
+        List<Trade>trades=null;
+        if(result!=null) {
+           trades=gson.fromJson(result, new TypeToken<List<Trade>>() {
+            }.getType());
+            return  trades;
+        }
+        return null;
     }
 
 
