@@ -16,7 +16,7 @@ public class Symbol {
     private Long baseAssetPrecision;
     private Long quoteAssetPrecision;
     private List<String> orderTypes;
-    private Boolean icebergAllowed;
+    private String icebergAllowed;
     private List<Filter>filters;
 
     @Override
@@ -90,11 +90,11 @@ public class Symbol {
         this.orderTypes = orderTypes;
     }
 
-    public Boolean getIcebergAllowed() {
+    public String getIcebergAllowed() {
         return icebergAllowed;
     }
 
-    public void setIcebergAllowed(Boolean icebergAllowed) {
+    public void setIcebergAllowed(String icebergAllowed) {
         this.icebergAllowed = icebergAllowed;
     }
 

@@ -19,7 +19,7 @@ public class Order {
     private String stopPrice;
     private String icebergQty;
     private Long time;
-    private Boolean isWorking;
+    private String isWorking;
 
     @Override
     public String toString() {
@@ -145,11 +145,11 @@ public class Order {
         this.time = time;
     }
 
-    public Boolean getWorking() {
+    public String getWorking() {
         return isWorking;
     }
 
-    public void setWorking(Boolean working) {
+    public void setWorking(String working) {
         isWorking = working;
     }
 }

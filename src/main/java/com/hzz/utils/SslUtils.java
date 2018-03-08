@@ -25,11 +25,11 @@ public class SslUtils {private static void trustAllHttpsCertificates() throws Ex
             return null;
         }
 
-        public boolean isServerTrusted(X509Certificate[] certs) {
+        public Boolean isServerTrusted(X509Certificate[] certs) {
             return true;
         }
 
-        public boolean isClientTrusted(X509Certificate[] certs) {
+        public Boolean isClientTrusted(X509Certificate[] certs) {
             return true;
         }
 

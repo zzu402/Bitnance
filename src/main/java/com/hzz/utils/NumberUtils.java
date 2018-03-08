@@ -7,7 +7,7 @@ package com.hzz.utils;
  */
 public class NumberUtils {
 
-    public static boolean isEquals(Double d1,Double d2){
+    public static Boolean isEquals(Double d1,Double d2){
        return Double.doubleToLongBits(d1)!=Double.doubleToLongBits(d2);
     }
     public static Double valueOf(String str){

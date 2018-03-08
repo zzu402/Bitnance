@@ -9,7 +9,7 @@ public class RateLimit {
 
     private  String rateLimitType;
     private String interval;
-    private Double limit;
+    private String limit;
 
     @Override
     public String toString() {
@@ -36,11 +36,11 @@ public class RateLimit {
         this.interval = interval;
     }
 
-    public Double getLimit() {
+    public String getLimit() {
         return limit;
     }
 
-    public void setLimit(Double limit) {
+    public void setLimit(String limit) {
         this.limit = limit;
     }
 }

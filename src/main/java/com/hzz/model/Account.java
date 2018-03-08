@@ -1,5 +1,9 @@
 package com.hzz.model;
 
+import com.hzz.common.dao.AbstractModel;
+import com.hzz.common.dao.annotation.Column;
+import com.hzz.common.dao.annotation.Table;
+
 import java.util.List;
 
 /**
@@ -7,29 +11,49 @@ import java.util.List;
  * @Description:
  * @Date :2018/3/5
  */
-public class Account {
-  private List<Balance> balances;
-  private Double makerCommission;
-  private Double buyerCommission;
-  private Boolean canWithdraw;
-  private Double sellerCommission;
-  private Long updateTime;
-  private Boolean canDeposit;
-  private Long takerCommission;
-  private Boolean canTrade;
+@Table("bitcon_account")
+public class Account extends AbstractModel<Account> {
+    @Column(pk=true)
+    private Long id;
+    private List<Balance> balances;
+    @Column
+    private String makerCommission;
+    @Column
+    private String buyerCommission;
+    @Column
+    private String canWithdraw;
+    @Column
+    private String sellerCommission;
+    @Column
+    private Long updateTime;
+    @Column
+    private String canDeposit;
+    @Column
+    private String takerCommission;
+    @Column
+    private String canTrade;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Override
     public String toString() {
         return "Account{" +
-                "balances=" + balances +
-                ", makerCommission=" + makerCommission +
-                ", buyerCommission=" + buyerCommission +
-                ", canWithdraw=" + canWithdraw +
-                ", sellerCommission=" + sellerCommission +
+                "id=" + id +
+                ", balances=" + balances +
+                ", makerCommission='" + makerCommission + '\'' +
+                ", buyerCommission='" + buyerCommission + '\'' +
+                ", canWithdraw='" + canWithdraw + '\'' +
+                ", sellerCommission='" + sellerCommission + '\'' +
                 ", updateTime=" + updateTime +
-                ", canDeposit=" + canDeposit +
-                ", takerCommission=" + takerCommission +
-                ", canTrade=" + canTrade +
+                ", canDeposit='" + canDeposit + '\'' +
+                ", takerCommission='" + takerCommission + '\'' +
+                ", canTrade='" + canTrade + '\'' +
                 '}';
     }
 
@@ -41,35 +65,35 @@ public class Account {
         this.balances = balances;
     }
 
-    public Double getMakerCommission() {
+    public String getMakerCommission() {
         return makerCommission;
     }
 
-    public void setMakerCommission(Double makerCommission) {
+    public void setMakerCommission(String makerCommission) {
         this.makerCommission = makerCommission;
     }
 
-    public Double getBuyerCommission() {
+    public String getBuyerCommission() {
         return buyerCommission;
     }
 
-    public void setBuyerCommission(Double buyerCommission) {
+    public void setBuyerCommission(String buyerCommission) {
         this.buyerCommission = buyerCommission;
     }
 
-    public Boolean getCanWithdraw() {
+    public String getCanWithdraw() {
         return canWithdraw;
     }
 
-    public void setCanWithdraw(Boolean canWithdraw) {
+    public void setCanWithdraw(String canWithdraw) {
         this.canWithdraw = canWithdraw;
     }
 
-    public Double getSellerCommission() {
+    public String getSellerCommission() {
         return sellerCommission;
     }
 
-    public void setSellerCommission(Double sellerCommission) {
+    public void setSellerCommission(String sellerCommission) {
         this.sellerCommission = sellerCommission;
     }
 
@@ -81,27 +105,27 @@ public class Account {
         this.updateTime = updateTime;
     }
 
-    public Boolean getCanDeposit() {
+    public String getCanDeposit() {
         return canDeposit;
     }
 
-    public void setCanDeposit(Boolean canDeposit) {
+    public void setCanDeposit(String canDeposit) {
         this.canDeposit = canDeposit;
     }
 
-    public Long getTakerCommission() {
+    public String getTakerCommission() {
         return takerCommission;
     }
 
-    public void setTakerCommission(Long takerCommission) {
+    public void setTakerCommission(String takerCommission) {
         this.takerCommission = takerCommission;
     }
 
-    public Boolean getCanTrade() {
+    public String getCanTrade() {
         return canTrade;
     }
 
-    public void setCanTrade(Boolean canTrade) {
+    public void setCanTrade(String canTrade) {
         this.canTrade = canTrade;
     }
 }

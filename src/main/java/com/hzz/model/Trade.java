@@ -1,17 +1,27 @@
 package com.hzz.model;
 
+import com.hzz.common.dao.annotation.Column;
+import com.hzz.common.dao.annotation.Table;
+
 /**
  * @Author: huangzz
  * @Description:
  * @Date :2018/3/7
  */
+@Table("bitcon_trade")
 public class Trade {
+    @Column(pk=true)
     private String id;
+    @Column
     private String price;
+    @Column
     private String qty;
+    @Column
     private Long time;
-    private Boolean isBestMatch;
-    private Boolean isBuyerMaker;
+    @Column
+    private String isBestMatch;
+    @Column
+    private String isBuyerMaker;
 
     @Override
     public String toString() {
@@ -57,19 +67,19 @@ public class Trade {
         this.time = time;
     }
 
-    public Boolean getBestMatch() {
+    public String getBestMatch() {
         return isBestMatch;
     }
 
-    public void setBestMatch(Boolean bestMatch) {
+    public void setBestMatch(String bestMatch) {
         isBestMatch = bestMatch;
     }
 
-    public Boolean getBuyerMaker() {
+    public String getBuyerMaker() {
         return isBuyerMaker;
     }
 
-    public void setBuyerMaker(Boolean buyerMaker) {
+    public void setBuyerMaker(String buyerMaker) {
         isBuyerMaker = buyerMaker;
     }
 }

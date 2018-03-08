@@ -1,22 +1,35 @@
 package com.hzz.model;
 
+import com.hzz.common.dao.annotation.Column;
+import com.hzz.common.dao.annotation.Table;
+
 /**
  * @Author: huangzz
  * @Description:
  * @Date :2018/3/7
  */
+@Table("bitcon_my_trade")
 public class MyTrade {
-
+    @Column(pk=true)
     private String id;
+    @Column
     private String price;
+    @Column
     private String qty;
+    @Column
     private Long time;
-    private Boolean isBestMatch;
+    @Column
+    private String isBestMatch;
+    @Column
     private String orderId;
+    @Column
     private String commission;
+    @Column
     private String commissionAsset;
-    private Boolean isMaker;
-    private Boolean isBuyer;
+    @Column
+    private String isMaker;
+    @Column
+    private String isBuyer;
 
     @Override
     public String toString() {
@@ -66,11 +79,11 @@ public class MyTrade {
         this.time = time;
     }
 
-    public Boolean getBestMatch() {
+    public String getBestMatch() {
         return isBestMatch;
     }
 
-    public void setBestMatch(Boolean bestMatch) {
+    public void setBestMatch(String bestMatch) {
         isBestMatch = bestMatch;
     }
 
@@ -98,19 +111,19 @@ public class MyTrade {
         this.commissionAsset = commissionAsset;
     }
 
-    public Boolean getMaker() {
+    public String getMaker() {
         return isMaker;
     }
 
-    public void setMaker(Boolean maker) {
+    public void setMaker(String maker) {
         isMaker = maker;
     }
 
-    public Boolean getBuyer() {
+    public String getBuyer() {
         return isBuyer;
     }
 
-    public void setBuyer(Boolean buyer) {
+    public void setBuyer(String buyer) {
         isBuyer = buyer;
     }
 }

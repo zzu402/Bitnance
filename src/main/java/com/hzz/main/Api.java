@@ -25,18 +25,18 @@ public class Api {
     private Integer limit=500;
     private Double rateFee =  0.001; //手续费比率
 
-    public static void main(String[] args) {
-        Api api = new Api();
-        System.out.println("------账户信息--------");
-        System.out.println(api.getAccountInfo());
-        System.out.println("------账户金币信息--------");
-        System.out.println(api.getAllMoneyFree());
-        System.out.println("------账户某币信息--------");
-        System.out.println(api.getMoneyFree("BTC"));
-        System.out.println("------币市价格信息--------");
-        System.out.println(api.getMoneyPrice(""));
-        System.out.println("------币市某币价格信息--------");
-        System.out.println(api.getMoneyPrice("TRXBTC"));
+//    public static void main(String[] args) {
+//        Api api = new Api();
+//        System.out.println("------账户信息--------");
+//        System.out.println(api.getAccountInfo());
+//        System.out.println("------账户金币信息--------");
+//        System.out.println(api.getAllMoneyFree());
+//        System.out.println("------账户某币信息--------");
+//        System.out.println(api.getMoneyFree("BTC"));
+//        System.out.println("------币市价格信息--------");
+//        System.out.println(api.getMoneyPrice(""));
+//        System.out.println("------币市某币价格信息--------");
+//        System.out.println(api.getMoneyPrice("TRXBTC"));
 //        System.out.println("------汇兑信息--------");
 //        System.out.println(api.getExchangeInfo());
 //        System.out.println("------出售--------");
@@ -53,7 +53,7 @@ public class Api {
 //        System.out.println(api.getHistoticalTrades("TRXBTC",10,""));
 //        System.out.println("------获取最近成交交易--------");
 //        System.out.println(api.getRecentTrades("TRXBTC",10));
-    }
+//    }
 
     private Map jsonStr2Map(String jsonStr){
         System.out.println(jsonStr);
@@ -71,7 +71,7 @@ public class Api {
         map.put("b_add_time", b_add_time);
         return map;
     }
-    private String requestApi(String url, Map rQuery, boolean bSign) {
+    private String requestApi(String url, Map rQuery, Boolean bSign) {
         try {
             SslUtils.ignoreSsl();
             String queryString = (String) rQuery.get("query_string");
@@ -86,8 +86,8 @@ public class Api {
             }
             String queryString2 = (String) rQuery.get("query_string");
             String method = (String) rQuery.get("method");
-            boolean isGetMethod = false;
-            boolean isPostMethod = false;
+            Boolean isGetMethod = false;
+            Boolean isPostMethod = false;
             if (method.equals("GET") ) {
                 isGetMethod = true;
                 if(!queryString2.equals(""))

@@ -1,22 +1,50 @@
 package com.hzz.model;
 
+import com.hzz.common.dao.annotation.Column;
+import com.hzz.common.dao.annotation.Table;
+
 /**
  * @Author: huangzz
  * @Description:
  * @Date :2018/3/5
  */
+@Table("bitcon_balance")
 public class Balance {
+    @Column(pk=true)
+    private Long id;
+    @Column
+    private Long accountId;
+    @Column
     private String asset;
+    @Column
     private String free;
-    private Double locked;
-
+    @Column
+    private String locked;
     @Override
     public String toString() {
         return "Balance{" +
-                "asset='" + asset + '\'' +
-                ", free=" + free +
-                ", locked=" + locked +
+                "id=" + id +
+                ", accountId=" + accountId +
+                ", asset='" + asset + '\'' +
+                ", free='" + free + '\'' +
+                ", locked='" + locked + '\'' +
                 '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
     }
 
     public String getAsset() {
@@ -35,11 +63,11 @@ public class Balance {
         this.free = free;
     }
 
-    public Double getLocked() {
+    public String getLocked() {
         return locked;
     }
 
-    public void setLocked(Double locked) {
+    public void setLocked(String locked) {
         this.locked = locked;
     }
 }
