@@ -1,5 +1,12 @@
 package com.hzz.ui;
 
+import com.hzz.common.dao.ModelDao;
+import com.hzz.exception.CommonException;
+import com.hzz.model.Account;
+import com.hzz.utils.DaoUtils;
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -15,16 +22,25 @@ public class MainUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainUI window = new MainUI();
-					window.frmBitcon.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					MainUI window = new MainUI();
+//					window.frmBitcon.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+		ModelDao dao=new ModelDao();
+		dao.setJdbcTemplate(DaoUtils.getTemplate());
+		Account account=new Account();
+		account.setSellerCommission("hello");
+		try {
+			dao.insert(account);
+		} catch (CommonException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
