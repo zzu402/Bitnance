@@ -1,5 +1,7 @@
 package com.hzz.model;
 
+import com.hzz.common.dao.AbstractModel;
+
 import java.util.List;
 
 /**
@@ -7,7 +9,7 @@ import java.util.List;
  * @Description:
  * @Date :2018/3/6
  */
-public class ExchangeInfo {
+public class ExchangeInfo  {
 
     private String timezone;
     private Long serverTime;

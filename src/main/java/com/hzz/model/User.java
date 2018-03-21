@@ -1,5 +1,6 @@
 package com.hzz.model;
 
+import com.hzz.common.dao.AbstractModel;
 import com.hzz.common.dao.annotation.Column;
 import com.hzz.common.dao.annotation.Table;
 
@@ -9,7 +10,7 @@ import com.hzz.common.dao.annotation.Table;
  * @Date :2018/3/8
  */
 @Table("bitcon_user")
-public class User {
+public class User extends AbstractModel<User> {
     @Column(pk=true)
     private Long id;
     @Column

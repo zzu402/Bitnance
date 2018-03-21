@@ -8,3 +8,239 @@
 2018-03-21 10:00:01.970 DEBUG   --- [main] o.s.jdbc.core.JdbcTemplate               : SQL update affected 1 rows
 2018-03-21 10:00:01.981 DEBUG   --- [main] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
 2018-03-21 10:00:01.982 DEBUG   --- [main] com.hzz.common.dao.ModelDao              : [71c9ad89-e1f6-4ad6-9c72-295da9363683] update success, return 1
+2018-03-21 10:26:52.814 ERROR   --- [AWT-EventQueue-0] com.hzz.ui.InitUI                        : 数据库信息初始化开始写入配置
+2018-03-21 10:26:52.844 ERROR   --- [AWT-EventQueue-0] com.hzz.ui.InitUI                        : 数据库信息初始化写入配置结束
+2018-03-21 10:29:16.270 ERROR   --- [AWT-EventQueue-0] com.hzz.ui.InitUI                        : 数据库信息初始化开始写入配置
+2018-03-21 10:29:16.306 ERROR   --- [AWT-EventQueue-0] com.hzz.ui.InitUI                        : 数据库信息初始化写入配置结束
+2018-03-21 10:41:13.989  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 10:41:13.993  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 10:41:27.403 ERROR   --- [AWT-EventQueue-0] com.hzz.ui.InitUI                        : 数据库信息初始化开始写入配置
+2018-03-21 10:41:27.405  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 更新属性文件开始
+2018-03-21 10:41:27.409  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 更新属性文件结束
+2018-03-21 10:41:27.409  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 更新属性文件开始
+2018-03-21 10:41:27.411  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 更新属性文件结束
+2018-03-21 10:41:27.412  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 更新属性文件开始
+2018-03-21 10:41:27.414  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 更新属性文件结束
+2018-03-21 10:41:27.415  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 更新属性文件开始
+2018-03-21 10:41:27.417  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 更新属性文件结束
+2018-03-21 10:41:27.418 ERROR   --- [AWT-EventQueue-0] com.hzz.ui.InitUI                        : 数据库信息初始化写入配置结束
+2018-03-21 10:41:31.849  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 10:41:31.853  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 10:51:16.545  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 10:51:16.549  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 10:51:25.449 ERROR   --- [AWT-EventQueue-0] com.hzz.ui.InitUI                        : 数据库信息初始化开始写入配置
+2018-03-21 10:51:25.451  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 更新属性文件开始
+2018-03-21 10:51:25.454  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 更新属性文件结束
+2018-03-21 10:51:25.455  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 更新属性文件开始
+2018-03-21 10:51:25.457  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 更新属性文件结束
+2018-03-21 10:51:25.458  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 更新属性文件开始
+2018-03-21 10:51:25.460  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 更新属性文件结束
+2018-03-21 10:51:25.461  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 更新属性文件开始
+2018-03-21 10:51:25.463  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 更新属性文件结束
+2018-03-21 10:51:25.463 ERROR   --- [AWT-EventQueue-0] com.hzz.ui.InitUI                        : 数据库信息初始化写入配置结束
+2018-03-21 10:52:48.998  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 10:52:49.002  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:00:47.440  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:00:47.445  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:02:09.755  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:02:09.759  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:02:20.578  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:02:20.582  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:03:49.911  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:03:49.916  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:05:21.480  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:05:21.484  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:06:01.503  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:06:01.507  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:06:04.314  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:06:04.315  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:06:13.397  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:06:13.397  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:42:24.851  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:42:24.855  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:42:29.246  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:42:29.246  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:42:29.277  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-21 11:42:29.394 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [369e4b5a-73f4-49c4-974e-fb3ffbbe17ec] select : SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`
+2018-03-21 11:42:29.463 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-21 11:42:29.464 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`]
+2018-03-21 11:42:29.468 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-21 11:42:29.468 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-21 11:42:29.664 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-21 11:42:29.666 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [369e4b5a-73f4-49c4-974e-fb3ffbbe17ec] select success, return count 0
+2018-03-21 11:43:00.277  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:43:00.281  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:43:00.294  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-21 11:43:00.395 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [f2dd2141-94a4-4a94-a410-dbd9ba17190f] select : SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`
+2018-03-21 11:43:00.461 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-21 11:43:00.461 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`]
+2018-03-21 11:43:00.465 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-21 11:43:00.465 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-21 11:43:00.661 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-21 11:43:00.662 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [f2dd2141-94a4-4a94-a410-dbd9ba17190f] select success, return count 0
+2018-03-21 11:44:09.736  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:44:09.736  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:44:09.736  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-21 11:44:09.736  INFO   --- [AWT-EventQueue-0] com.hzz.ui.UserKeyUI                     : 插入用户表开始
+2018-03-21 11:44:09.737 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [a52b7da8-c854-4c6f-af23-06829fde1981] select : SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`
+2018-03-21 11:44:09.737 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-21 11:44:09.737 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`]
+2018-03-21 11:44:09.737 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-21 11:44:09.737 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-21 11:44:09.742 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-21 11:44:09.743 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [a52b7da8-c854-4c6f-af23-06829fde1981] select success, return count 0
+2018-03-21 11:44:34.211  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:44:34.215  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:44:34.228  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-21 11:44:34.326 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [7172cf09-8ec1-407c-b51c-3a5724239f1f] select : SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`
+2018-03-21 11:44:34.391 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-21 11:44:34.391 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`]
+2018-03-21 11:44:34.395 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-21 11:44:34.395 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-21 11:44:34.594 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-21 11:44:34.595 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [7172cf09-8ec1-407c-b51c-3a5724239f1f] select success, return count 0
+2018-03-21 11:44:46.009  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:44:46.010  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:44:46.010  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-21 11:44:46.011  INFO   --- [AWT-EventQueue-0] com.hzz.ui.UserKeyUI                     : 插入用户表开始
+2018-03-21 11:44:46.012 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [9bad0c52-cfb3-4927-be7e-f85c6a5820ae] select : SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`
+2018-03-21 11:44:46.013 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-21 11:44:46.013 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`]
+2018-03-21 11:44:46.014 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-21 11:44:46.014 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-21 11:44:46.029 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-21 11:44:46.030 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [9bad0c52-cfb3-4927-be7e-f85c6a5820ae] select success, return count 0
+2018-03-21 11:44:46.164 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-21 11:44:46.168 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [0ee32824-1b13-418f-abd9-87736bb399db] update : INSERT INTO `bitcon_user` (`secret_key`,`api_key`,`salt`) VALUES (?,?,?) ON DUPLICATE KEY UPDATE `secret_key`=VALUES(`secret_key`),`api_key`=VALUES(`api_key`),`salt`=VALUES(`salt`)
+2018-03-21 11:44:46.168 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL update
+2018-03-21 11:44:46.169 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [INSERT INTO `bitcon_user` (`secret_key`,`api_key`,`salt`) VALUES (?,?,?) ON DUPLICATE KEY UPDATE `secret_key`=VALUES(`secret_key`),`api_key`=VALUES(`api_key`),`salt`=VALUES(`salt`)]
+2018-03-21 11:44:46.169 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-21 11:44:46.169 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-21 11:44:46.203 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : SQL update affected 1 rows
+2018-03-21 11:44:46.203 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-21 11:44:46.204 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [0ee32824-1b13-418f-abd9-87736bb399db] update success, return 1
+2018-03-21 11:44:46.204  INFO   --- [AWT-EventQueue-0] com.hzz.ui.UserKeyUI                     : 插入用户表结束
+2018-03-21 11:45:01.401  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:45:01.401  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:45:01.401  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-21 11:45:01.402 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [1ef2ee7b-70d8-4fd3-9baf-175c996b8f9b] select : SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`
+2018-03-21 11:45:01.402 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-21 11:45:01.402 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`]
+2018-03-21 11:45:01.402 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-21 11:45:01.402 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-21 11:45:01.415 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-21 11:45:01.420 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'secret_key' to property 'secret_key' of type 'java.lang.String'
+2018-03-21 11:45:01.421 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'api_key' to property 'api_key' of type 'java.lang.String'
+2018-03-21 11:45:01.421 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'salt' to property 'salt' of type 'java.lang.String'
+2018-03-21 11:45:01.422 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-21 11:45:01.423 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [1ef2ee7b-70d8-4fd3-9baf-175c996b8f9b] select success, return count 1
+2018-03-21 11:46:42.226  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:46:42.227  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:46:45.015  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:46:45.015  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:46:45.015  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-21 11:46:45.017 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [11b280aa-8083-4a4d-8873-01e1610fc181] select : SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`
+2018-03-21 11:46:45.017 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-21 11:46:45.018 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`]
+2018-03-21 11:46:45.018 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-21 11:46:45.018 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-21 11:46:45.034 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-21 11:46:45.036 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'secret_key' to property 'secret_key' of type 'java.lang.String'
+2018-03-21 11:46:45.036 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'api_key' to property 'api_key' of type 'java.lang.String'
+2018-03-21 11:46:45.037 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'salt' to property 'salt' of type 'java.lang.String'
+2018-03-21 11:46:45.038 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-21 11:46:45.040 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [11b280aa-8083-4a4d-8873-01e1610fc181] select success, return count 1
+2018-03-21 11:46:53.176  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:46:53.177  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:46:55.495  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:46:55.496  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:46:55.497  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-21 11:46:55.498 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [cb53da69-55d9-4304-b4b4-462a3ccb2bb9] select : SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`
+2018-03-21 11:46:55.498 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-21 11:46:55.499 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`]
+2018-03-21 11:46:55.499 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-21 11:46:55.499 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-21 11:46:55.512 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-21 11:46:55.513 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'secret_key' to property 'secret_key' of type 'java.lang.String'
+2018-03-21 11:46:55.513 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'api_key' to property 'api_key' of type 'java.lang.String'
+2018-03-21 11:46:55.513 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'salt' to property 'salt' of type 'java.lang.String'
+2018-03-21 11:46:55.514 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-21 11:46:55.515 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [cb53da69-55d9-4304-b4b4-462a3ccb2bb9] select success, return count 1
+2018-03-21 11:46:57.848  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:46:57.848  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:47:00.639  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:47:00.640  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:47:03.173  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:47:03.173  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:47:03.174  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-21 11:47:03.175 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [0514f75c-e9e0-43ab-8ae8-5ae1b9be8a0f] select : SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`
+2018-03-21 11:47:03.175 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-21 11:47:03.175 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`]
+2018-03-21 11:47:03.175 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-21 11:47:03.176 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-21 11:47:03.189 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-21 11:47:03.190 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'secret_key' to property 'secret_key' of type 'java.lang.String'
+2018-03-21 11:47:03.190 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'api_key' to property 'api_key' of type 'java.lang.String'
+2018-03-21 11:47:03.191 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'salt' to property 'salt' of type 'java.lang.String'
+2018-03-21 11:47:03.193 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-21 11:47:03.194 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [0514f75c-e9e0-43ab-8ae8-5ae1b9be8a0f] select success, return count 1
+2018-03-21 11:47:05.468  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:47:05.469  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:47:05.469  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-21 11:47:05.470 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [1ed3cab2-c994-42ae-91e0-67d96b8838e5] select : SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`
+2018-03-21 11:47:05.471 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-21 11:47:05.471 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`]
+2018-03-21 11:47:05.472 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-21 11:47:05.472 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-21 11:47:05.479 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-21 11:47:05.480 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'secret_key' to property 'secret_key' of type 'java.lang.String'
+2018-03-21 11:47:05.480 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'api_key' to property 'api_key' of type 'java.lang.String'
+2018-03-21 11:47:05.480 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'salt' to property 'salt' of type 'java.lang.String'
+2018-03-21 11:47:05.481 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-21 11:47:05.482 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [1ed3cab2-c994-42ae-91e0-67d96b8838e5] select success, return count 1
+2018-03-21 11:47:20.750  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:47:20.751  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:47:24.116  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:47:24.117  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:47:24.117  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-21 11:47:24.118 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [c77356bf-ae49-46b8-bbff-4cd9f59f1d01] select : SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`
+2018-03-21 11:47:24.119 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-21 11:47:24.119 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`]
+2018-03-21 11:47:24.119 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-21 11:47:24.119 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-21 11:47:24.133 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-21 11:47:24.134 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'secret_key' to property 'secret_key' of type 'java.lang.String'
+2018-03-21 11:47:24.134 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'api_key' to property 'api_key' of type 'java.lang.String'
+2018-03-21 11:47:24.135 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'salt' to property 'salt' of type 'java.lang.String'
+2018-03-21 11:47:24.136 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-21 11:47:24.137 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [c77356bf-ae49-46b8-bbff-4cd9f59f1d01] select success, return count 1
+2018-03-21 11:47:57.932  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:47:57.933  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:47:57.933  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-21 11:47:57.934 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [1d3e4239-2490-4960-8e17-3352a100c097] select : SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`
+2018-03-21 11:47:57.935 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-21 11:47:57.935 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`]
+2018-03-21 11:47:57.935 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-21 11:47:57.935 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-21 11:47:57.947 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-21 11:47:57.948 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'secret_key' to property 'secret_key' of type 'java.lang.String'
+2018-03-21 11:47:57.948 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'api_key' to property 'api_key' of type 'java.lang.String'
+2018-03-21 11:47:57.948 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'salt' to property 'salt' of type 'java.lang.String'
+2018-03-21 11:47:57.949 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-21 11:47:57.950 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [1d3e4239-2490-4960-8e17-3352a100c097] select success, return count 1
+2018-03-21 11:48:18.282  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:48:18.282  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:48:37.796  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-21 11:48:37.796  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-21 11:48:37.796  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-21 11:48:37.797 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [d5ee9fed-79d6-449a-847b-7c8f9986d105] select : SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`
+2018-03-21 11:48:37.797 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-21 11:48:37.797 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`secret_key`,`api_key`,`salt` FROM `bitcon_user`]
+2018-03-21 11:48:37.798 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-21 11:48:37.798 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-21 11:48:37.806 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-21 11:48:37.807 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'secret_key' to property 'secret_key' of type 'java.lang.String'
+2018-03-21 11:48:37.807 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'api_key' to property 'api_key' of type 'java.lang.String'
+2018-03-21 11:48:37.807 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'salt' to property 'salt' of type 'java.lang.String'
+2018-03-21 11:48:37.808 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-21 11:48:37.809 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [d5ee9fed-79d6-449a-847b-7c8f9986d105] select success, return count 1

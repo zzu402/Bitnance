@@ -207,6 +207,11 @@ public class ModelDao {
         insertModels.add(insertModel);
         return batchInsert(insertModels);
     }
+    public <T extends AbstractModel> int insertOrUpdate(T model, String[] updateColumns) throws CommonException {
+        List<T> list = new ArrayList();
+        list.add(model);
+        return this.batchInsertOrUpdate(list, updateColumns);
+    }
 
     public <T extends AbstractModel> int batchInsert(List<T> insertModels) throws CommonException {
         return batchInsertOrUpdate(insertModels, null);

@@ -1,5 +1,6 @@
 package com.hzz.utils;
 
+import com.hzz.common.dao.ModelDao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -13,19 +14,29 @@ import java.io.File;
 public class DaoUtils {
     private  static JdbcTemplate template;
     private static DriverManagerDataSource source;
-    public static DriverManagerDataSource setDataSource(File configFile){
+    private static ModelDao dao;
+    public static DriverManagerDataSource setDataSource(){
+        PropertiesUtils.loadProps(PropertiesUtils.getUserDir());
+        String url="jdbc:mysql://localhost:"+PropertiesUtils.getString("port","3306")+"/"+PropertiesUtils.getString("dbName","bitcon")+"?useUnicode=true&characterEncoding=UTF-8";
         source= new DriverManagerDataSource();
         source.setDriverClassName("com.mysql.jdbc.Driver");
-        source.setUrl("jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8");
-        source.setUsername("root");
-        source.setPassword("huangzhenzong");
+        source.setUrl(url);
+        source.setUsername(PropertiesUtils.getString("userName","root"));
+        source.setPassword(PropertiesUtils.getString("password","root"));
         return  source;
     }
 
     public static JdbcTemplate getTemplate(){
-        setDataSource(null);
+        setDataSource();
         template=new JdbcTemplate(source);
         return template;
+    }
+
+    public static ModelDao getDao(JdbcTemplate jdbcTemplate){
+        dao=new ModelDao();
+        dao.setJdbcTemplate(jdbcTemplate);
+        return  dao;
+
     }
 
 }

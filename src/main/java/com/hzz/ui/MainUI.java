@@ -8,13 +8,15 @@ import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-public class MainUI {
+public class MainUI implements ActionListener{
 
 	private JFrame frmBitcon;
 
@@ -22,27 +24,17 @@ public class MainUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					MainUI window = new MainUI();
-//					window.frmBitcon.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-		ModelDao dao=new ModelDao();
-		dao.setJdbcTemplate(DaoUtils.getTemplate());
-		Account account=new Account();
-		account.setSellerCommission("hello");
-		try {
-			dao.insert(account);
-		} catch (CommonException e) {
-			e.printStackTrace();
-		}
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MainUI window = new MainUI();
+					window.frmBitcon.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
-
 	/**
 	 * Create the application.
 	 */
@@ -58,17 +50,20 @@ public class MainUI {
 		frmBitcon.setTitle("Bitcon");
 		frmBitcon.setBounds(100, 100, 802, 705);
 		frmBitcon.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		JMenuBar menuBar = new JMenuBar();
 		frmBitcon.setJMenuBar(menuBar);
-		
+		frmBitcon.setLocationRelativeTo(null);
 		JMenu menu = new JMenu("基本设置");
 		menuBar.add(menu);
-		
 		JMenuItem menuItem = new JMenuItem("数据库设置");
+		menuItem.setActionCommand("DB");
+		menuItem.addActionListener(this);
 		menu.add(menuItem);
+
 		
 		JMenuItem mntmKey = new JMenuItem("Key设置");
+		mntmKey.setActionCommand("KEY");
+		mntmKey.addActionListener(this);
 		menu.add(mntmKey);
 		
 		JMenuItem menuItem_1 = new JMenuItem("日志设置");
@@ -109,5 +104,18 @@ public class MainUI {
 		
 		JMenuItem menuItem_10 = new JMenuItem("关于作者");
 		menu_3.add(menuItem_10);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+			String command=e.getActionCommand();
+			if(command.equals("DB")){
+				InitUI window = new InitUI();
+				window.frame.setVisible(true);
+			}else if(command.equals("KEY")){
+				UserKeyUI window = new UserKeyUI();
+				window.frmKey.setVisible(true);
+			}
+
 	}
 }
