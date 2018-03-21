@@ -1,10 +1,13 @@
 package com.hzz;
+
 import com.hzz.common.dao.ModelDao;
 import com.hzz.exception.CommonException;
 import com.hzz.model.Account;
 import com.hzz.utils.SpringUtils;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 

@@ -25,18 +25,18 @@ public class Api {
     private Integer limit=500;
     private Double rateFee =  0.001; //手续费比率
 
-//    public static void main(String[] args) {
-//        Api api = new Api();
+    public static void main(String[] args) {
+        Api api = new Api();
 //        System.out.println("------账户信息--------");
 //        System.out.println(api.getAccountInfo());
-//        System.out.println("------账户金币信息--------");
-//        System.out.println(api.getAllMoneyFree());
+        System.out.println("------账户金币信息--------");
+        System.out.println(api.getAllMoneyFree());
 //        System.out.println("------账户某币信息--------");
 //        System.out.println(api.getMoneyFree("BTC"));
 //        System.out.println("------币市价格信息--------");
 //        System.out.println(api.getMoneyPrice(""));
-//        System.out.println("------币市某币价格信息--------");
-//        System.out.println(api.getMoneyPrice("TRXBTC"));
+        System.out.println("------币市某币价格信息--------");
+        System.out.println(api.getMoneyPrice("TRXBTC"));
 //        System.out.println("------汇兑信息--------");
 //        System.out.println(api.getExchangeInfo());
 //        System.out.println("------出售--------");
@@ -53,7 +53,7 @@ public class Api {
 //        System.out.println(api.getHistoticalTrades("TRXBTC",10,""));
 //        System.out.println("------获取最近成交交易--------");
 //        System.out.println(api.getRecentTrades("TRXBTC",10));
-//    }
+    }
 
     private Map jsonStr2Map(String jsonStr){
         System.out.println(jsonStr);
@@ -98,7 +98,7 @@ public class Api {
             }
             Map<String,String> header=new HashMap<String, String>();
             header.put("X-MBX-APIKEY",api_key);
-            Connection connection = Jsoup.connect(url).headers(header).ignoreContentType(true).ignoreHttpErrors(true).timeout(10000);
+            Connection connection = Jsoup.connect(url).headers(header).ignoreContentType(true).ignoreHttpErrors(true).timeout(30000);
             if (!isGetMethod) {
                 if(queryString!=null&&!queryString.equals("")) {
                     String[] querys=queryString.split("&");

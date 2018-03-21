@@ -75,11 +75,7 @@
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </logger>
-    <logger name="com.jibb" level="${logProjectLevel}" additivity="false">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
-    </logger>
-    <logger name="com.gc" level="${logProjectLevel}" additivity="false">
+    <logger name="com.hzz" level="${logProjectLevel}" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </logger>

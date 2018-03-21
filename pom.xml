@@ -71,6 +71,12 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-jdbc</artifactId>
     </dependency>
+        <!-- https://mvnrepository.com/artifact/org.java.net.substance/substance -->
+        <dependency>
+            <groupId>org.java.net.substance</groupId>
+            <artifactId>substance</artifactId>
+            <version>6.0</version>
+        </dependency>
 
     </dependencies>
 

@@ -1,7 +1,6 @@
 package com.hzz.utils;
 
 import com.hzz.App;
-import com.hzz.common.dao.ModelDao;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 

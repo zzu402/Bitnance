@@ -5913,3 +5913,4 @@ Unconditional classes:
 2018-03-08 11:41:18.609 DEBUG 4820 --- [Thread-2] o.s.b.f.support.DisposableBeanAdapter    : Invoking destroy method 'close' on bean with name 'dataSource'
 2018-03-08 11:41:18.611 DEBUG 4820 --- [Thread-2] o.s.b.f.support.DisposableBeanAdapter    : Invoking destroy() on bean with name 'org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor'
 2018-03-08 11:41:18.611 DEBUG 4820 --- [Thread-2] o.s.b.f.s.DefaultListableBeanFactory     : Retrieved dependent beans for bean 'org.springframework.boot.autoconfigure.internalCachingMetadataReaderFactory': [org.springframework.context.annotation.internalConfigurationAnnotationProcessor]
+2018-03-08 16:19:11.525  INFO   --- [main] com.hzz.common.dao.DaoHelper             : ceshi
