@@ -3,6 +3,7 @@ package com.hzz.ui;
 import com.hzz.common.dao.ModelDao;
 import com.hzz.exception.CommonException;
 import com.hzz.model.Account;
+import com.hzz.ui.panel.UserInfoPanel;
 import com.hzz.utils.DaoUtils;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -48,7 +49,7 @@ public class MainUI implements ActionListener{
 	private void initialize() {
 		frmBitcon = new JFrame();
 		frmBitcon.setTitle("Bitcon");
-		frmBitcon.setBounds(100, 100, 802, 705);
+		frmBitcon.setBounds(0, 0, 802, 705);
 		frmBitcon.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JMenuBar menuBar = new JMenuBar();
 		frmBitcon.setJMenuBar(menuBar);
@@ -109,6 +110,10 @@ public class MainUI implements ActionListener{
 		
 		JMenuItem menuItem_10 = new JMenuItem("关于作者");
 		menu_3.add(menuItem_10);
+
+		UserInfoPanel userInfoPanel=new UserInfoPanel();
+		userInfoPanel.setBounds(0,40,800,600);
+		frmBitcon.add(userInfoPanel);
 	}
 
 	@Override

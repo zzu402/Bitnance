@@ -32,6 +32,8 @@ public class Account extends AbstractModel<Account> {
     private String takerCommission;
     @Column
     private String canTrade;
+    @Column
+    private Long moneyCount;
 
     public Long getId() {
         return id;
@@ -127,5 +129,13 @@ public class Account extends AbstractModel<Account> {
 
     public void setCanTrade(String canTrade) {
         this.canTrade = canTrade;
+    }
+
+    public Long getMoneyCount() {
+        return moneyCount;
+    }
+
+    public void setMoneyCount(Long moneyCount) {
+        this.moneyCount = moneyCount;
     }
 }

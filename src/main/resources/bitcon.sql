@@ -111,3 +111,5 @@ ALTER TABLE bitcon_user
   ADD COLUMN `sellTemplet` varchar(255) DEFAULT NULL ;
 ALTER TABLE bitcon_user
   ADD COLUMN `buyTemplet` varchar(255) DEFAULT NULL ;
+ALTER TABLE bitcon_account
+    ADD COLUMN `moneyCount` BIGINT(32)DEFAULT 0;
