@@ -17,6 +17,8 @@ public class Price extends AbstractModel<Price> {
     private String symbol;
     @Column
     private String price;
+    @Column
+    private Long createTime;
 
     public Long getId() {
         return id;
@@ -33,6 +35,14 @@ public class Price extends AbstractModel<Price> {
                 ", symbol='" + symbol + '\'' +
                 ", price='" + price + '\'' +
                 '}';
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
     }
 
     public String getSymbol() {

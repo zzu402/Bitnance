@@ -18,6 +18,14 @@ public class User extends AbstractModel<User> {
     @Column
     private String api_key;
     @Column
+    private String name;
+    @Column
+    private String email;
+    @Column
+    private String sellTemplet;
+    @Column
+    private String buyTemplet;
+    @Column
     private String salt;
 
     public Long getId() {
@@ -52,13 +60,35 @@ public class User extends AbstractModel<User> {
         this.salt = salt;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", secret_key='" + secret_key + '\'' +
-                ", api_key='" + api_key + '\'' +
-                ", salt='" + salt + '\'' +
-                '}';
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSellTemplet() {
+        return sellTemplet;
+    }
+
+    public void setSellTemplet(String sellTemplet) {
+        this.sellTemplet = sellTemplet;
+    }
+
+    public String getBuyTemplet() {
+        return buyTemplet;
+    }
+
+    public void setBuyTemplet(String buyTemplet) {
+        this.buyTemplet = buyTemplet;
     }
 }

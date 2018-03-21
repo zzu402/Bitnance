@@ -65,6 +65,11 @@ public class MainUI implements ActionListener{
 		mntmKey.setActionCommand("KEY");
 		mntmKey.addActionListener(this);
 		menu.add(mntmKey);
+
+		JMenuItem tzItem = new JMenuItem("通知设置");
+		tzItem.setActionCommand("NOTIFY");
+		tzItem.addActionListener(this);
+		menu.add(tzItem);
 		
 		JMenuItem menuItem_1 = new JMenuItem("日志设置");
 		menu.add(menuItem_1);
@@ -115,6 +120,9 @@ public class MainUI implements ActionListener{
 			}else if(command.equals("KEY")){
 				UserKeyUI window = new UserKeyUI();
 				window.frmKey.setVisible(true);
+			}else  if(command.equals("NOTIFY")){
+				NotifyUI window = new NotifyUI();
+				window.frame.setVisible(true);
 			}
 
 	}
