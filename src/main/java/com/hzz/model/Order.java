@@ -1,24 +1,45 @@
 package com.hzz.model;
 
+import com.hzz.common.dao.AbstractModel;
+import com.hzz.common.dao.annotation.Column;
+import com.hzz.common.dao.annotation.Table;
+
 /**
  * @Author: huangzz
  * @Description:
  * @Date :2018/3/7
  */
-public class Order {
+@Table("bitcon_order")
+public class Order extends AbstractModel<Order> {
+    @Column(pk=true)
+    private Long id;
+    @Column
     private String symbol;
+    @Column
     private String orderId;
+    @Column
     private String clientOrderId;
+    @Column
     private String price;
+    @Column
     private String origQty;
+    @Column
     private String executedQty;
+    @Column
     private String status;
+    @Column
     private String timeInForce;
+    @Column
     private String type;
+    @Column
     private String side;
+    @Column
     private String stopPrice;
+    @Column
     private String icebergQty;
+    @Column
     private Long time;
+    @Column
     private String isWorking;
 
     @Override

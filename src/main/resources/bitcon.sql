@@ -60,7 +60,8 @@ CREATE TABLE `bitcon_my_trade` (
   `commissionAsset` varchar(128) DEFAULT NULL,
   `isMaker` varchar(6) DEFAULT NULL,
   `isBuyer` varchar(6) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `orderId` (`orderId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -93,12 +94,35 @@ CREATE TABLE `bitcon_trade` (
 -- ----------------------------
 DROP TABLE IF EXISTS `bitcon_user`;
 CREATE TABLE `bitcon_user` (
-  `id` bigint(10) NOT NULL AUTO_INCREMENT,
+  `id` bigint(32) NOT NULL AUTO_INCREMENT,
   `secret_key` varchar(255) DEFAULT NULL,
   `api_key` varchar(255) DEFAULT NULL,
   `salt` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `bitcon_order`;
+CREATE TABLE `bitcon_order` (
+  `id` bigint(32) NOT NULL AUTO_INCREMENT,
+  `symbol` varchar(255) DEFAULT NULL,
+  `orderId` varchar(255) DEFAULT NULL,
+  `clientOrderId` varchar(255) DEFAULT NULL,
+  `price` varchar(255) DEFAULT NULL,
+  `origQty` varchar(255) DEFAULT NULL,
+  `executedQty` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `timeInForce` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `side` varchar(255) DEFAULT NULL,
+  `stopPrice` varchar(255) DEFAULT NULL,
+  `icebergQty` varchar(255) DEFAULT NULL,
+  `isWorking` varchar(255) DEFAULT NULL,
+  `time` bigint(32) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `orderId` (`orderId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 
 ALTER TABLE bitcon_price
   ADD COLUMN `createTime` BIGINT(32) DEFAULT NULL ;

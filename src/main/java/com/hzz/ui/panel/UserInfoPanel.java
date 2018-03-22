@@ -1,27 +1,21 @@
 package com.hzz.ui.panel;
 
-import com.hzz.common.dao.ModelDao;
+import com.hzz.common.dao.*;
 import com.hzz.exception.CommonException;
 import com.hzz.main.Api;
 import com.hzz.model.Account;
 import com.hzz.model.Balance;
+import com.hzz.model.MyTrade;
+import com.hzz.model.Order;
 import com.hzz.utils.DaoUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.time.Day;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
-
 import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
@@ -62,14 +56,110 @@ public class UserInfoPanel extends JPanel {
 		leftPanel.add(bottom);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(400, 0, 370, 275);
+		panel_1.setBounds(400, 0, 370, 295);
 		panel_1.setBorder(BorderFactory.createTitledBorder("交易记录"));
+
+		panel_1.setLayout(null);
 		add(panel_1);
+
+		JLabel label = new JLabel("币名");
+		label.setBounds(20, 20, 55, 15);
+		panel_1.add(label);
+
+		JLabel label_1 = new JLabel("时间");
+		label_1.setBounds(100, 20, 55, 15);
+		panel_1.add(label_1);
+
+		JLabel label_2 = new JLabel("价格");
+		label_2.setBounds(155, 20, 55, 15);
+		panel_1.add(label_2);
+
+		JLabel label_3 = new JLabel("数量");
+		label_3.setBounds(242, 20, 55, 15);
+		panel_1.add(label_3);
+
+		JLabel label_4 = new JLabel("进/出");
+		label_4.setBounds(306, 20, 55, 15);
+		panel_1.add(label_4);
+
+		setData(panel_1);
+
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(400, 295, 370, 340);
 		panel_2.setBorder(BorderFactory.createTitledBorder("交易策略"));
 		add(panel_2);
+
+	}
+
+
+	private void setData(JPanel panel){
+		ModelDao modelDao=DaoUtils.getDao(DaoUtils.getTemplate());
+
+		Map<JoinModel, JoinType> joinMap = new LinkedHashMap<>();
+		JoinModel joinModel = new JoinModel();
+		joinModel.setAliasName("t");
+		joinModel.setJoinModel(MyTrade.class);
+		joinMap.put(joinModel, JoinType.INNER);
+
+		joinModel = new JoinModel();
+		joinModel.setAliasName("o");
+		joinModel.setJoinModel(Order.class);
+		joinModel.on().add(new ConditionCustom("o.orderId=t.orderId"));
+		joinMap.put(joinModel, JoinType.INNER);
+
+		ConditionModel condition = new ConditionModel();
+		condition.orderBy("t.time desc");
+		condition.limitCount(13);
+
+
+		condition.columns().addAll(Arrays.asList(new String[]{"t.time","t.price","t.qty","t.isMaker","t.isBuyer","o.symbol"}));
+		try {
+			List<Map<String, Object>> tradeList = modelDao.select(joinMap, condition);
+			Map<String,Object> trade=null;
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd HH:mm");
+			int margin=20;
+			for(int i=0;i<tradeList.size();i++){
+				trade=tradeList.get(i);
+				margin=20*(i+1);
+
+				String isMakey= (String) trade.get("isMaker");
+				boolean isBuyer=!isMakey.equals("true");
+				Color color=Color.RED;
+				if(isBuyer)
+					color=Color.GREEN;
+
+				JLabel label = new JLabel((String) trade.get("symbol"));
+				label.setBounds(10, 20+margin, 75, 15);
+				label.setForeground(color);
+				panel.add(label);
+
+				Long time= (Long) trade.get("time");
+				JLabel label_1 = new JLabel(simpleDateFormat.format(new Date(time*1000)));
+				label_1.setBounds(80, 20+margin, 85, 15);
+				label_1.setForeground(color);
+				panel.add(label_1);
+
+				JLabel label_2 = new JLabel((String) trade.get("price"));
+				label_2.setBounds(155, 20+margin, 85, 15);
+				label_2.setForeground(color);
+				panel.add(label_2);
+
+				JLabel label_3 = new JLabel((String) trade.get("qty"));
+				label_3.setBounds(245, 20+margin, 75, 15);
+				label_3.setForeground(color);
+				panel.add(label_3);
+
+				JLabel label_4 = new JLabel(isBuyer?"进":"出");
+				label_4.setBounds(325, 20+margin, 55, 15);
+				label_4.setForeground(color);
+				panel.add(label_4);
+
+			}
+		} catch (CommonException e) {
+			e.printStackTrace();
+		}
+
 
 	}
 
