@@ -4,6 +4,8 @@ import com.hzz.main.Api;
 import com.hzz.model.Price;
 import com.hzz.utils.AlertUtils;
 import com.hzz.utils.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -13,47 +15,17 @@ import java.util.List;
 
 import javax.swing.*;
 
-public class PriceUI {
-
-	public JFrame frame;
+public class PriceUI extends AbstractUI{
+	private static Logger logger = LoggerFactory.getLogger(PriceUI.class);
 	private JTextField textField;
-
 	private List<Price> prices=null;
 	private Integer pageIndex=0;
 	private Api api;
-
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PriceUI window = new PriceUI();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
 	public PriceUI() {
 		api=new Api();
-//		prices=test("");
 		initialize();
 	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-
-
+	protected void initialize() {
 		frame = new JFrame();
 		frame.setTitle("实时价格查询");
 		frame.setBounds(100, 100, 320, 445);
@@ -103,7 +75,7 @@ public class PriceUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String text=textField.getText().trim();
-				prices=api.getMoneyPrice(text);
+				prices=test(text);
 				if(prices.isEmpty()){
 					AlertUtils.showMessage("您查找的货币不存在，请检查输入是否正确！");
 				}
@@ -116,7 +88,7 @@ public class PriceUI {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				prices=api.getMoneyPrice("");
+				prices=test("");
 				setData(button_1,button_2,panel);
 			}
 		}).start();

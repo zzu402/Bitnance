@@ -10,42 +10,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
 
-public class InitUI {
+public class InitUI extends AbstractUI{
 	private Logger logger = LoggerFactory.getLogger(InitUI.class);
-	public JFrame frame;
 	private JTextField textField;
 	private JTextField txtBitcon;
 	private JTextField txtBitcon_1;
 	private JLabel lblmysql;
 	private JTextField txtBitcon_2;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					InitUI window = new InitUI();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
 	public InitUI() {
 		initialize();
 	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
+	protected void initialize() {
 		frame = new JFrame();
 		frame.setTitle("\u672C\u5730\u6570\u636E\u5E93\u914D\u7F6E");
 		frame.setBounds(100, 100, 404, 394);

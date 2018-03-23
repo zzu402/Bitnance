@@ -1,15 +1,16 @@
 package com.hzz.ui;
 
 import com.hzz.utils.AlertUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.EventQueue;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class BuyConfigUI implements ActionListener{
-
-	public JFrame frame;
+public class ConfigUI extends AbstractUI implements ActionListener{
+	private static Logger logger = LoggerFactory.getLogger(ConfigUI.class);
 	private JCheckBox checkBox;
 	private JCheckBox checkBox_1;
 	private JCheckBox checkBox_2;
@@ -21,40 +22,21 @@ public class BuyConfigUI implements ActionListener{
 	private JButton btnB;
 	private JButton button_2;
 	private JButton button_3;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BuyConfigUI window = new BuyConfigUI();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public BuyConfigUI() {
+	private JButton save;
+	private String title;
+	private Integer type;
+	public ConfigUI(String title ,Integer type) {
+		this.title=title;
+		this.type=type;
 		initialize();
 	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
+	protected void initialize() {
 		frame = new JFrame();
-		frame.setTitle("买入设置");
-		frame.setBounds(100, 100, 375, 250);
+		frame.setTitle(title);
+		frame.setBounds(100, 100, 375, 300);
 		frame.getContentPane().setLayout(null);
-		
-		JLabel label = new JLabel("手动买入设置:");
+
+		JLabel label = new JLabel("手动"+title+":");
 		label.setBounds(37, 26, 91, 15);
 		frame.getContentPane().add(label);
 		
@@ -67,7 +49,7 @@ public class BuyConfigUI implements ActionListener{
 		checkBox_1.setBounds(189, 22, 62, 23);
 		frame.getContentPane().add(checkBox_1);
 
-		JLabel label_1 = new JLabel("自动买入设置:");
+		JLabel label_1 = new JLabel("自动"+title+":");
 		label_1.setBounds(37, 82, 84, 15);
 		frame.getContentPane().add(label_1);
 		
@@ -94,6 +76,14 @@ public class BuyConfigUI implements ActionListener{
 		JLabel label_3 = new JLabel("策略2:");
 		label_3.setBounds(37, 178, 54, 15);
 		frame.getContentPane().add(label_3);
+
+
+		save=new JButton("保存设置");
+		save.setBounds(140,230,100,20);
+		save.setActionCommand("SAVE");
+		save.addActionListener(this);
+		frame.getContentPane().add(save);
+
 		
 		checkBox_6 = new JCheckBox("启用");
 		checkBox_6.setBounds(119, 174, 62, 23);
@@ -251,11 +241,22 @@ public class BuyConfigUI implements ActionListener{
 			checkBox_7.setSelected(true);
 			check(checkBox,checkBox_1,checkBox_2,checkBox_3,checkBox_4,checkBox_5,checkBox_6,checkBox_7);
 		}else if(command.equals("SET")){
-			AlertUtils.showMessage("币种设置");
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						ConfigSetUI window = new ConfigSetUI(type);
+						window.frame.setVisible(true);
+					} catch (Exception e) {
+						logger.error("启动异常",e);
+					}
+				}
+			});
 		}else if (command.equals("HELP1")){
 			AlertUtils.showMessage("策略1帮助");
 		}else if (command.equals("HELP2")){
 			AlertUtils.showMessage("策略2帮助");
+		}else if(command.equals("SAVE")){
+
 		}
 
 	}

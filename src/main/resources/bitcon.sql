@@ -123,6 +123,20 @@ CREATE TABLE `bitcon_order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `bitcon_config`;
+CREATE TABLE `bitcon_config` (
+  `id` bigint(32) NOT NULL AUTO_INCREMENT,
+  `symbol` varchar(255) DEFAULT NULL,
+  `type` VARCHAR(100) NOT NULL,
+  `configInfo` VARCHAR(1000) DEFAULT NULL ,
+  `description` VARCHAR(1000) DEFAULT NULL,
+  `status` INT DEFAULT 0,
+  `updateTime` BIGINT DEFAULT NULL,
+  `createTime` BIGINT DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `symbol_type` (`symbol`,`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 ALTER TABLE bitcon_price
   ADD COLUMN `createTime` BIGINT(32) DEFAULT NULL ;

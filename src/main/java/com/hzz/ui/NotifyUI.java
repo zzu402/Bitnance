@@ -5,53 +5,24 @@ import com.hzz.exception.CommonException;
 import com.hzz.model.User;
 import com.hzz.utils.AlertUtils;
 import com.hzz.utils.DaoUtils;
-import com.hzz.utils.EnDecryptUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.UUID;
 
 import javax.swing.*;
 
-public class NotifyUI {
+public class NotifyUI extends AbstractUI {
 	private Logger logger = LoggerFactory.getLogger(NotifyUI.class);
-	public JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
 	private  JTextArea txtrsymbolprice;
 	private JTextArea textArea_1;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					NotifyUI window = new NotifyUI();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
 	public NotifyUI() {
 		initialize();
 	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
+	protected void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 487, 454);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -148,7 +119,6 @@ public class NotifyUI {
 	}
 
 	private void initData(){
-
 		ModelDao modelDao=DaoUtils.getDao(DaoUtils.getTemplate());
 		try {
 			List list=modelDao.select(new User());
