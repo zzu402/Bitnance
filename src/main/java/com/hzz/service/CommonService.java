@@ -4,6 +4,8 @@ import com.hzz.common.dao.ModelDao;
 import com.hzz.constant.QueryConstant;
 import com.hzz.exception.CommonException;
 import com.hzz.main.Api;
+import com.hzz.model.Account;
+import com.hzz.model.Balance;
 import com.hzz.model.Config;
 import com.hzz.model.Price;
 import com.hzz.utils.DaoUtils;
@@ -86,7 +88,9 @@ public class CommonService {
         }
 
     }
-
+    /*
+        生成我的交易策略
+     */
     public Map<String, String> getTradeMethod() {
         Map<String, String> map = new HashMap<>();
         List<Config> list1 = getConfigs(1, null, QueryConstant.CONFIG_BUY_TYPE);
@@ -145,10 +149,57 @@ public class CommonService {
         return map;
     }
 
-
+    /*
+     获取实时价格
+     */
     public List<Price> getPrices(String symbol) {
         return getTestPrices(symbol);
     }
+
+    /*
+     获取我的账户
+     */
+    public List<Account>getAccount(){
+        List<Account>list=new ArrayList<>();
+        Account account=new Account();
+        account.setUpdateTime(1521529200L);
+        account.setMoneyCount(15000L);
+        list.add(account);
+        account=new Account();
+        account.setUpdateTime(1521615600L);
+        account.setMoneyCount(17000L);
+        list.add(account);
+        account=new Account();
+        account.setUpdateTime(1521702000L);
+        account.setMoneyCount(16300L);
+        list.add(account);
+        account=new Account();
+        account.setUpdateTime(1521788400L);
+        account.setMoneyCount(14000L);
+        list.add(account);
+        return  list;
+
+    }
+
+    /*
+      获取目前我拥有的资产
+     */
+    public Map<String,Balance> getBalances(){
+        Map<String,Balance> map=new HashMap<>();
+        Balance balance=new Balance();
+        balance.setFree("1234.05");
+        balance.setLocked("0");
+        map.put("BTC",balance);
+
+        balance=new Balance();
+        balance.setFree("2304.05");
+        balance.setLocked("0");
+        map.put("TFX",balance);
+        return  map;
+
+    }
+
+
 
     public List<Price> getTestPrices(String symbol) {
         List<Price> priceList = new ArrayList<>();

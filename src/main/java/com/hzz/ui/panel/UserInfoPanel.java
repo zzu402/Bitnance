@@ -2,14 +2,11 @@ package com.hzz.ui.panel;
 
 import com.hzz.common.dao.*;
 import com.hzz.exception.CommonException;
-import com.hzz.main.Api;
 import com.hzz.model.Account;
 import com.hzz.model.Balance;
 import com.hzz.model.MyTrade;
 import com.hzz.model.Order;
 import com.hzz.service.CommonService;
-import com.hzz.ui.InitUI;
-import com.hzz.utils.AlertUtils;
 import com.hzz.utils.DaoUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -21,7 +18,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
@@ -193,7 +189,7 @@ public class UserInfoPanel extends JPanel {
 	}
 
 	private void draw(JPanel jp){
-		Map<String,Balance>balanceMap=testDraw();
+		Map<String,Balance>balanceMap=commonService.getBalances();
 		Iterator it = balanceMap.entrySet().iterator();
 		DefaultPieDataset dataSet = new DefaultPieDataset();
 		while (it.hasNext()) {
@@ -212,11 +208,9 @@ public class UserInfoPanel extends JPanel {
 	}
 
 	private  void draw2(JPanel jp){
-
-		Account account=new Account();
-		ModelDao modelDao= DaoUtils.getDao(DaoUtils.getTemplate());
+		Account account=null;
 		try {
-			java.util.List<Account> list=testDraw2();
+			java.util.List<Account> list=commonService.getAccount();
 			if(list.isEmpty())
 				return;;
 			// 获取数据集对象
@@ -227,7 +221,6 @@ public class UserInfoPanel extends JPanel {
 				Date date=new Date(account.getUpdateTime()*1000);
 				dataset.addValue(account.getMoneyCount(),"",simpleDateFormat.format(date));
 			}
-
 			JFreeChart chart = ChartFactory.createLineChart(null,
 					"date", "money", dataset, PlotOrientation.VERTICAL, false, true,
 					false);
@@ -251,49 +244,8 @@ public class UserInfoPanel extends JPanel {
 			ChartPanel panel = new ChartPanel(chart, 360, 295, 300, 200, 1024, 768, true, true, true, true, true, true);
 			jp.add(panel, BorderLayout.CENTER);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("使用jfreeChart出错",e);
 		}
-
-
 	}
-
-
-	private List<Account>testDraw2(){
-		List<Account>list=new ArrayList<>();
-		Account account=new Account();
-		account.setUpdateTime(1521529200L);
-		account.setMoneyCount(15000L);
-		list.add(account);
-		account=new Account();
-		account.setUpdateTime(1521615600L);
-		account.setMoneyCount(17000L);
-		list.add(account);
-		account=new Account();
-		account.setUpdateTime(1521702000L);
-		account.setMoneyCount(16300L);
-		list.add(account);
-		account=new Account();
-		account.setUpdateTime(1521788400L);
-		account.setMoneyCount(14000L);
-		list.add(account);
-		return  list;
-
-	}
-
-	private Map<String,Balance> testDraw(){
-		Map<String,Balance> map=new HashMap<>();
-		Balance balance=new Balance();
-		balance.setFree("1234.05");
-		balance.setLocked("0");
-		map.put("BTC",balance);
-
-		balance=new Balance();
-		balance.setFree("2304.05");
-		balance.setLocked("0");
-		map.put("TFX",balance);
-		return  map;
-
-	}
-
 
 }
