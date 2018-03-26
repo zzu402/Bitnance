@@ -1,6 +1,7 @@
 package com.hzz.ui;
 import com.hzz.constant.CommandConstant;
 import com.hzz.constant.UIConstant;
+import com.hzz.ui.panel.GuidePanel;
 import com.hzz.ui.panel.UserInfoPanel;
 import com.hzz.utils.AlertUtils;
 import com.hzz.utils.DaoUtils;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import javax.swing.*;
 
 public class MainUI extends AbstractUI implements ActionListener {
@@ -102,9 +104,31 @@ public class MainUI extends AbstractUI implements ActionListener {
         JMenuItem menuItem_10 = new JMenuItem(UIConstant.MAIN_UI_MENU_ITEM_4_1);
         menu_3.add(menuItem_10);
 
-        UserInfoPanel userInfoPanel = new UserInfoPanel();
-        userInfoPanel.setBounds(0, 40, 800, 600);
-        frame.add(userInfoPanel);
+        JMenuItem menuItem_11 = new JMenuItem(UIConstant.MAIN_UI_MENU_ITEM_4_2);
+        menuItem_11.setActionCommand(CommandConstant.MAIN_UI_HELP);
+        menuItem_11.addActionListener(this);
+        menu_3.add(menuItem_11);
+
+        selectPanel(frame);
+
+
+        frame.setResizable(false);
+    }
+
+    private void selectPanel(JFrame frame) {
+        File file=new File(String.format("%s//config.properties",System.getProperty("user.dir")));
+        if(!file.exists()) {
+            GuidePanel guidePanel = new GuidePanel();
+            guidePanel.setBounds(0, 40, 800, 600);
+            frame.add(guidePanel);
+        } else {
+            UserInfoPanel userInfoPanel = new UserInfoPanel();
+            userInfoPanel.setBounds(0, 40, 800, 600);
+            frame.add(userInfoPanel);
+        }
+
+
+
     }
 
     @Override
@@ -122,6 +146,8 @@ public class MainUI extends AbstractUI implements ActionListener {
             subWindow = new ConfigUI("买入设置",UIConstant.CONFIG_BUY_UI,WindowConstants.HIDE_ON_CLOSE);
         }else if(command.equals(CommandConstant.MAIN_UI_SELL)){
             subWindow = new ConfigUI("卖出设置",UIConstant.CONFIG_SELL_UI,WindowConstants.HIDE_ON_CLOSE);
+        }else if(command.equals(CommandConstant.MAIN_UI_HELP)){
+            subWindow=new HelpUI();
         }
       new Thread(new Runnable() {
           @Override

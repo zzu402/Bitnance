@@ -13,7 +13,7 @@ public class CommandConstant {
     public static final String MAIN_UI_NOTIFY="NOTIFY";
     public static final String MAIN_UI_BUY="BUY";
     public static final String MAIN_UI_SELL="SELL";
-
+    public static final String MAIN_UI_HELP="HELP";
 
 
 }

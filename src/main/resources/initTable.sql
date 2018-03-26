@@ -1,9 +1,4 @@
-
-
-SET FOREIGN_KEY_CHECKS=0;
-
-DROP TABLE IF EXISTS `bitcon_account`;
-CREATE TABLE `bitcon_account` (
+CREATE TABLE bitcon_account (
   `id` bigint(32) NOT NULL AUTO_INCREMENT,
   `makerCommission` varchar(32) DEFAULT NULL,
   `buyerCommission` varchar(32) DEFAULT NULL,
@@ -13,12 +8,11 @@ CREATE TABLE `bitcon_account` (
   `canDeposit` varchar(6) DEFAULT NULL,
   `takerCommission` varchar(255) DEFAULT NULL,
   `canTrade` varchar(6) DEFAULT NULL,
+  `moneyCount` BIGINT(32)DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `bitcon_balance`;
-CREATE TABLE `bitcon_balance` (
+--------------------
+CREATE TABLE bitcon_balance (
   `id` bigint(32) NOT NULL AUTO_INCREMENT,
   `accountId` bigint(32) DEFAULT NULL,
   `asset` varchar(20) DEFAULT NULL,
@@ -26,10 +20,8 @@ CREATE TABLE `bitcon_balance` (
   `locked` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `bitcon_my_trade`;
-CREATE TABLE `bitcon_my_trade` (
+--------------------
+CREATE TABLE bitcon_my_trade (
   `id` varchar(50) NOT NULL,
   `price` varchar(32) DEFAULT NULL,
   `qty` varchar(32) DEFAULT NULL,
@@ -43,19 +35,16 @@ CREATE TABLE `bitcon_my_trade` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `orderId` (`orderId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `bitcon_price`;
-CREATE TABLE `bitcon_price` (
+--------------------
+CREATE TABLE bitcon_price (
   `id` bigint(32) NOT NULL AUTO_INCREMENT,
   `symbol` varchar(20) DEFAULT NULL,
   `price` varchar(32) DEFAULT NULL,
+   `createTime` BIGINT(32) DEFAULT NULL ,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `bitcon_trade`;
-CREATE TABLE `bitcon_trade` (
+--------------------
+CREATE TABLE bitcon_trade (
   `id` varchar(50) NOT NULL,
   `price` varchar(32) DEFAULT NULL,
   `qty` varchar(32) DEFAULT NULL,
@@ -64,19 +53,20 @@ CREATE TABLE `bitcon_trade` (
   `isBuyerMaker` varchar(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `bitcon_user`;
-CREATE TABLE `bitcon_user` (
+--------------------
+CREATE TABLE bitcon_user (
   `id` bigint(32) NOT NULL AUTO_INCREMENT,
   `secret_key` varchar(255) DEFAULT NULL,
   `api_key` varchar(255) DEFAULT NULL,
   `salt` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `sellTemplet` varchar(255) DEFAULT NULL,
+  `buyTemplet` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `bitcon_order`;
-CREATE TABLE `bitcon_order` (
+--------------------
+CREATE TABLE bitcon_order (
   `id` bigint(32) NOT NULL AUTO_INCREMENT,
   `symbol` varchar(255) DEFAULT NULL,
   `orderId` varchar(255) DEFAULT NULL,
@@ -95,10 +85,8 @@ CREATE TABLE `bitcon_order` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `orderId` (`orderId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `bitcon_config`;
-CREATE TABLE `bitcon_config` (
+--------------------
+CREATE TABLE bitcon_config (
   `id` bigint(32) NOT NULL AUTO_INCREMENT,
   `symbol` varchar(255) DEFAULT NULL,
   `type` VARCHAR(100) NOT NULL,
@@ -110,18 +98,3 @@ CREATE TABLE `bitcon_config` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `symbol_type` (`symbol`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-ALTER TABLE bitcon_price
-  ADD COLUMN `createTime` BIGINT(32) DEFAULT NULL ;
-
-ALTER TABLE bitcon_user
-  ADD COLUMN `name` varchar(255) DEFAULT NULL ;
-ALTER TABLE bitcon_user
-  ADD COLUMN `email` varchar(255) DEFAULT NULL ;
-ALTER TABLE bitcon_user
-  ADD COLUMN `sellTemplet` varchar(255) DEFAULT NULL ;
-ALTER TABLE bitcon_user
-  ADD COLUMN `buyTemplet` varchar(255) DEFAULT NULL ;
-ALTER TABLE bitcon_account
-    ADD COLUMN `moneyCount` BIGINT(32)DEFAULT 0;

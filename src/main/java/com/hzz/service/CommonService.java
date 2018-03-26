@@ -106,7 +106,7 @@ public class CommonService {
                     Map<String,String> configInfo=JsonMapper.nonDefaultMapper().fromJson(value.getConfigInfo(),Map.class);
                     Long time=Long.parseLong((String) configInfo.get("time"));
                     String timeStr=time==0?"无限": DateUtil.format("yyyy-MM-dd hh:mm:ss",new Date(time*1000));
-                    buy+="\r\n币种:"+key+"\r\n设置时币种价格:"+configInfo.get("price")+"\r\n设置买入价格:"+configInfo.get("buyPrice")+" \r\n截止时间:"+timeStr;
+                    buy+="\r\n币种:"+key+"\r\n设置时币种价格:"+configInfo.get("price")+"\r\n设置买入价格:"+configInfo.get("buyPrice")+"\r\n优先级:"+configInfo.get("priority")+"\r\n截止时间:"+timeStr;
                 }
             } else if (config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_AUTO_TYPE_1)) {
                 buy = "当前使用自动买入策略1！";
@@ -129,7 +129,7 @@ public class CommonService {
                     Map<String,String> configInfo=JsonMapper.nonDefaultMapper().fromJson(value.getConfigInfo(),Map.class);
                     Long time=Long.parseLong((String) configInfo.get("time"));
                     String timeStr=time==0?"无限": DateUtil.format("yyyy-MM-dd hh:mm:ss",new Date(time*1000));
-                    sell+="\r\n币种:"+key+"\r\n设置时币种价格:"+configInfo.get("price")+"\r\n设置卖出价格:"+configInfo.get("sellPrice")+" \r\n截止时间:"+timeStr;
+                    sell+="\r\n币种:"+key+"\r\n设置时币种价格:"+configInfo.get("price")+"\r\n设置卖出价格:"+configInfo.get("sellPrice")+"\r\n优先级:"+configInfo.get("priority")+" \r\n截止时间:"+timeStr;
                 }
 
                 } else if (config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_AUTO_TYPE_1)) {

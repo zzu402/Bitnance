@@ -1,6 +1,7 @@
 package com.hzz.ui;
 
 import com.hzz.utils.AlertUtils;
+import com.hzz.utils.DBUtils;
 import com.hzz.utils.PropertiesUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,11 +79,33 @@ public class InitUI extends AbstractUI{
 				PropertiesUtils.updateProperty(userFile,"userName",userName);
 				PropertiesUtils.updateProperty(userFile,"password",password);
 				logger.error("数据库信息初始化写入配置结束");
-				AlertUtils.showMessage("数据库信息初始化成功！");
+				AlertUtils.showMessage("数据库配置信息写入成功！");
 			}
 		});
 		button.setBounds(55, 295, 63, 23);
 		frame.getContentPane().add(button);
+
+		JButton button_2 = new JButton("设置并初始化数据库");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				logger.error("数据库信息初始化开始");
+				String port=textField.getText().trim();
+				String name=txtBitcon.getText().trim();
+				String userName=txtBitcon_1.getText().trim();
+				String password=txtBitcon_2.getText().trim();
+				File userFile=PropertiesUtils.getUserDir();
+				PropertiesUtils.updateProperty(userFile,"port",port);
+				PropertiesUtils.updateProperty(userFile,"dbName",name);
+				PropertiesUtils.updateProperty(userFile,"userName",userName);
+				PropertiesUtils.updateProperty(userFile,"password",password);
+				DBUtils.initDatabase();
+				logger.error("数据库信息初始化结束");
+				AlertUtils.showMessage("数据库信息初始化成功！");
+			}
+		});
+		button_2.setBounds(125, 295, 153, 23);
+		frame.getContentPane().add(button_2);
+
 		button_1.setBounds(285, 295, 63, 23);
 		frame.getContentPane().add(button_1);
 		frame.setLocationRelativeTo(null);
