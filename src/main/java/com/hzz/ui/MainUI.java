@@ -2,15 +2,14 @@ package com.hzz.ui;
 import com.hzz.constant.CommandConstant;
 import com.hzz.constant.UIConstant;
 import com.hzz.ui.panel.UserInfoPanel;
+import com.hzz.utils.AlertUtils;
+import com.hzz.utils.DaoUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
+import javax.swing.*;
 
 public class MainUI extends AbstractUI implements ActionListener {
     private static Logger logger = LoggerFactory.getLogger(MainUI.class);
@@ -20,24 +19,28 @@ public class MainUI extends AbstractUI implements ActionListener {
             public void run() {
                 try {
                     logger.info("Main UI start ...");
-                    AbstractUI window = new MainUI();
+                    AbstractUI window = new MainUI(WindowConstants.EXIT_ON_CLOSE);
                     window.frame.setVisible(true);
                     logger.info("Main UI start finish");
                 } catch (Exception e) {
                    logger.error("Main UI error...",e);
+                  if (e.getMessage().contains("JDBC Connection")){
+                      AlertUtils.showMessage("数据库信息异常!");
+                      DaoUtils.DBError(new InitUI(WindowConstants.EXIT_ON_CLOSE));
+                  }
                 }
             }
         });
     }
 
-    public MainUI() {
-        initialize();
+    public MainUI(int closeOperation) {
+        initialize(closeOperation);
     }
-    protected void initialize() {
+    protected void initialize(int closeOperation) {
         frame = new JFrame();
         frame.setTitle(UIConstant.MAIN_UI_TITLE);
         frame.setBounds(0, 0, 800, 705);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(closeOperation);
         JMenuBar menuBar = new JMenuBar();
         frame.setJMenuBar(menuBar);
         frame.setLocationRelativeTo(null);
@@ -108,17 +111,17 @@ public class MainUI extends AbstractUI implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         if (command.equals(CommandConstant.MAIN_UI_DB)) {
-            subWindow = new InitUI();
+            subWindow = new InitUI(WindowConstants.HIDE_ON_CLOSE);
         } else if (command.equals(CommandConstant.MAIN_UI_KEY)) {
-            subWindow = new UserKeyUI();
+            subWindow = new UserKeyUI(WindowConstants.HIDE_ON_CLOSE);
         } else if (command.equals(CommandConstant.MAIN_UI_NOTIFY)) {
-            subWindow = new NotifyUI();
+            subWindow = new NotifyUI(WindowConstants.HIDE_ON_CLOSE);
         } else if (command.equals(CommandConstant.MAIN_UI_PRICE)) {
-            subWindow = new PriceUI();
+            subWindow = new PriceUI(WindowConstants.HIDE_ON_CLOSE);
         }else if(command.equals(CommandConstant.MAIN_UI_BUY)){
-            subWindow = new ConfigUI("买入设置",1);
+            subWindow = new ConfigUI("买入设置",UIConstant.CONFIG_BUY_UI,WindowConstants.HIDE_ON_CLOSE);
         }else if(command.equals(CommandConstant.MAIN_UI_SELL)){
-            subWindow = new ConfigUI("卖出设置",2);
+            subWindow = new ConfigUI("卖出设置",UIConstant.CONFIG_SELL_UI,WindowConstants.HIDE_ON_CLOSE);
         }
       new Thread(new Runnable() {
           @Override

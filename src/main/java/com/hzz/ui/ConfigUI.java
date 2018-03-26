@@ -1,16 +1,23 @@
 package com.hzz.ui;
 
+import com.hzz.service.CommonService;
+import com.hzz.constant.QueryConstant;
+import com.hzz.constant.UIConstant;
+import com.hzz.model.Config;
 import com.hzz.utils.AlertUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.EventQueue;
+import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class ConfigUI extends AbstractUI implements ActionListener{
 	private static Logger logger = LoggerFactory.getLogger(ConfigUI.class);
+	private CommonService commonService=new CommonService();
 	private JCheckBox checkBox;
 	private JCheckBox checkBox_1;
 	private JCheckBox checkBox_2;
@@ -25,12 +32,12 @@ public class ConfigUI extends AbstractUI implements ActionListener{
 	private JButton save;
 	private String title;
 	private Integer type;
-	public ConfigUI(String title ,Integer type) {
+	public ConfigUI(String title ,Integer type,int closeOperation) {
 		this.title=title;
 		this.type=type;
-		initialize();
+		initialize(closeOperation);
 	}
-	protected void initialize() {
+	protected void initialize(int closeOperation) {
 		frame = new JFrame();
 		frame.setTitle(title);
 		frame.setBounds(100, 100, 375, 300);
@@ -126,10 +133,33 @@ public class ConfigUI extends AbstractUI implements ActionListener{
 		button_2.addActionListener(this);
 		button_3.addActionListener(this);
 		btnB.setBounds(262, 22, 90, 23);
+		setData();
 		check(checkBox,checkBox_1,checkBox_2,checkBox_3,checkBox_4,checkBox_5,checkBox_6,checkBox_7);
 		frame.getContentPane().add(btnB);
 		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);// 设置主窗体关闭按钮样式
+		frame.setDefaultCloseOperation(closeOperation);// 设置主窗体关闭按钮样式
+	}
+
+	private void setData() {
+		String configType=null;
+		if(type== UIConstant.CONFIG_BUY_UI){
+			configType=QueryConstant.CONFIG_BUY_TYPE;
+		}else if(type==UIConstant.CONFIG_SELL_UI){
+			configType=QueryConstant.CONFIG_SELL_TYPE;
+		}
+		java.util.List <Config>list=commonService.getConfigs(1,"",configType);
+		if(list==null||list.isEmpty())
+			return;
+		Config config=list.get(0);
+		if(config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_HAND_TYPE)){
+			checkBox.setSelected(true);
+		}else if(config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_AUTO_TYPE_1)) {
+			checkBox_2.setSelected(true);
+			checkBox_4.setSelected(true);
+		}else if(config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_AUTO_TYPE_2)){
+			checkBox_2.setSelected(true);
+			checkBox_6.setSelected(true);
+		}
 	}
 
 	private void check(JCheckBox checkBox, JCheckBox checkBox_1, JCheckBox checkBox_2, JCheckBox checkBox_3, JCheckBox checkBox_4, JCheckBox checkBox_5, JCheckBox checkBox_6, JCheckBox checkBox_7) {
@@ -244,7 +274,7 @@ public class ConfigUI extends AbstractUI implements ActionListener{
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
-						ConfigSetUI window = new ConfigSetUI(type);
+						ConfigSetUI window = new ConfigSetUI(type,WindowConstants.HIDE_ON_CLOSE);
 						window.frame.setVisible(true);
 					} catch (Exception e) {
 						logger.error("启动异常",e);
@@ -256,10 +286,70 @@ public class ConfigUI extends AbstractUI implements ActionListener{
 		}else if (command.equals("HELP2")){
 			AlertUtils.showMessage("策略2帮助");
 		}else if(command.equals("SAVE")){
+			save();
 
 		}
-
 	}
+
+	private void save() {
+		Map<String,Config> map=null;
+		String configType=null;
+		String configSelectedType="";
+		if(type== UIConstant.CONFIG_BUY_UI){
+			map=commonService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_BUY,1);
+			configType=QueryConstant.CONFIG_BUY_TYPE;
+		}else if(type==UIConstant.CONFIG_SELL_UI){
+			map=commonService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_SELL,1);
+			configType=QueryConstant.CONFIG_SELL_TYPE;
+		}
+		boolean isClose=false;
+		if (map==null&&checkBox.isSelected()){
+			AlertUtils.showMessage("币种未配置，请先配置币种");
+			return;
+		}
+		if(checkBox.isSelected()){//手动开关开启
+			configSelectedType=QueryConstant.CONFIG_SELECTED_HAND_TYPE;
+		}else  if(checkBox_2.isSelected()&&checkBox_4.isSelected()){//自动开关+策略1
+			configSelectedType=QueryConstant.CONFIG_SELECTED_AUTO_TYPE_1;
+		}else  if(checkBox_2.isSelected()&&checkBox_6.isSelected()){//自动开关+策略2
+			configSelectedType=QueryConstant.CONFIG_SELECTED_AUTO_TYPE_2;
+		}else if(checkBox_1.isSelected()&&!checkBox_2.isSelected()&&!checkBox_4.isSelected()&&!checkBox_6.isSelected()){
+			isClose=true;
+		}else if(checkBox_3.isSelected()&&!checkBox.isSelected()){
+			isClose=true;
+		}
+		java.util.List<Config> list=commonService.getConfigs(0,null,configType);
+		Config config=null;
+		int find=-1;
+		if(list!=null){
+			for(int i=0;i<list.size();i++){
+				 config=list.get(i);
+				if(!config.getSymbol().equals(configSelectedType)){
+					config.setStatus(0);
+				}else {
+					config.setStatus(1);
+					find=i;
+				}
+				config.setId(null);
+			}
+		}
+		if(find<0&&!isClose){
+			config=new Config();
+			config.setStatus(1);
+			config.setSymbol(configSelectedType);
+			config.setType(configType);
+			config.setDescription("配置开关信息");
+			config.setCreateTime(System.currentTimeMillis()/1000);
+			config.setConfigInfo("{}");
+			if(list==null)
+				list=new ArrayList<>();
+			list.add(config);
+		}
+		commonService.insertOrUpdateConfigs(list);
+		AlertUtils.showMessage("保存成功，程序将按照配置进行！");
+		this.frame.dispose();
+	}
+
 	private  void unSelected(){
 		checkBox.setSelected(false);
 		checkBox_1.setSelected(false);

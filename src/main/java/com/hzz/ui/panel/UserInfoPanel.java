@@ -7,6 +7,9 @@ import com.hzz.model.Account;
 import com.hzz.model.Balance;
 import com.hzz.model.MyTrade;
 import com.hzz.model.Order;
+import com.hzz.service.CommonService;
+import com.hzz.ui.InitUI;
+import com.hzz.utils.AlertUtils;
 import com.hzz.utils.DaoUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -16,6 +19,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
@@ -23,20 +29,11 @@ import java.util.*;
 import java.util.List;
 
 public class UserInfoPanel extends JPanel {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Create the panel.
-	 */
+	private static Logger logger= LoggerFactory.getLogger(UserInfoPanel.class);
+	private CommonService commonService=new CommonService();
 	public UserInfoPanel() {
-
-
 		setLayout(null);
-
 		JPanel leftPanel = new JPanel();
 		leftPanel.setBounds(0, 0, 390, 635);
 		leftPanel.setBorder(BorderFactory.createTitledBorder("用户资产"));
@@ -88,10 +85,44 @@ public class UserInfoPanel extends JPanel {
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(400, 295, 370, 340);
 		panel_2.setBorder(BorderFactory.createTitledBorder("交易策略"));
+		panel_2.setLayout(null);
+		initTradeMethod(panel_2);
 		add(panel_2);
 
 	}
 
+
+	private void initTradeMethod(JPanel panel){
+		Map<String,String>map=commonService.getTradeMethod();
+		String buy=map.get("buy");
+		String sell=map.get("sell");
+		JLabel label = new JLabel("买入策略");
+		label.setBounds(10, 20, 75, 15);
+		panel.add(label);
+		JScrollPane scrollPane=new JScrollPane();
+		scrollPane.setBounds(10, 40, 340, 120);
+		JTextArea textArea=new JTextArea(buy);
+		textArea.setEnabled(false);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		textArea.setDisabledTextColor(Color.BLUE);
+		scrollPane.setViewportView(textArea);
+		panel.add(scrollPane);
+
+		label = new JLabel("卖出策略");
+		label.setBounds(10, 170, 75, 15);
+		panel.add(label);
+		scrollPane=new JScrollPane();
+		scrollPane.setBounds(10, 190, 340, 120);
+		textArea=new JTextArea(sell);
+		textArea.setEnabled(false);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		textArea.setDisabledTextColor(Color.RED);
+		scrollPane.setViewportView(textArea);
+		panel.add(scrollPane);
+
+	}
 
 	private void setData(JPanel panel){
 		ModelDao modelDao=DaoUtils.getDao(DaoUtils.getTemplate());
@@ -157,14 +188,11 @@ public class UserInfoPanel extends JPanel {
 
 			}
 		} catch (CommonException e) {
-			e.printStackTrace();
+			logger.error("用户信息面板数据初始化错误",e);
 		}
-
-
 	}
 
 	private void draw(JPanel jp){
-		Api api=new Api();
 		Map<String,Balance>balanceMap=testDraw();
 		Iterator it = balanceMap.entrySet().iterator();
 		DefaultPieDataset dataSet = new DefaultPieDataset();

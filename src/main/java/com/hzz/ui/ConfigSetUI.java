@@ -1,8 +1,8 @@
 package com.hzz.ui;
-
+import com.hzz.service.CommonService;
 import com.hzz.common.dao.ModelDao;
+import com.hzz.constant.QueryConstant;
 import com.hzz.exception.CommonException;
-import com.hzz.main.Api;
 import com.hzz.model.Config;
 import com.hzz.model.Price;
 import com.hzz.utils.*;
@@ -21,29 +21,28 @@ public class ConfigSetUI extends AbstractUI{
 	private JTextField textField;
 	private List<Price> prices=null;
 	private Integer pageIndex=0;
-	private Api api;
 	private List<JTextField> textFieldList=null;
 	private List<JCheckBox>checkboxList=null;
 	private String titlePre;
 	private String configTypePre;
 	private String configInfoPre;
-	public ConfigSetUI(Integer type) {
-		api=new Api();
+	private CommonService commonService=new CommonService();
+	public ConfigSetUI(Integer type,int closeOperation) {
 		switch (type){
 			case 1:
 				titlePre="买入";
-				configTypePre="Buy";
+				configTypePre= QueryConstant.CONFIG_TYPE_PRE_BUY;
 				configInfoPre="buy";
 				break;
 			case 2:
 				titlePre="卖出";
-				configTypePre="Sell";
+				configTypePre=QueryConstant.CONFIG_TYPE_PRE_SELL;
 				configInfoPre="sell";
 				break;
 		}
-		initialize();
+		initialize(closeOperation);
 	}
-	protected void initialize() {
+	protected void initialize(int closeOperation) {
 		frame = new JFrame();
 		frame.setTitle(titlePre+"币种设置");
 		frame.setBounds(100, 100, 1050, 445);
@@ -105,8 +104,8 @@ public class ConfigSetUI extends AbstractUI{
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String text=textField.getText().trim();
-				prices=test(text);
+				String symbol=textField.getText().trim();
+				prices=commonService.getPrices(symbol);
 				if(prices.isEmpty()){
 					AlertUtils.showMessage("您查找的货币不存在，请检查输入是否正确！");
 				}
@@ -119,7 +118,7 @@ public class ConfigSetUI extends AbstractUI{
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				prices=test("");
+				prices=commonService.getPrices("");
 				textFieldList=new ArrayList<>(prices.size()*2);
 				checkboxList=new ArrayList<>(prices.size());
 				setData(button_1,button_2,panel);
@@ -127,27 +126,9 @@ public class ConfigSetUI extends AbstractUI{
 		}).start();
 
 		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);// 设置主窗体关闭按钮样式
+		frame.setDefaultCloseOperation(closeOperation);// 设置主窗体关闭按钮样式
 	}
-	private Map<String,Config> getConfigs(Integer status){
-		ModelDao modelDao= DaoUtils.getDao(DaoUtils.getTemplate());
-		Config config=new Config();
-		config.setType(configTypePre+"SetConfig");
-		if(status!=null&&status>0)
-			config.setStatus(status);
-		List<Config>list=null;
-		try {
-			list=modelDao.select(config);
-		} catch (CommonException e) {
-			e.printStackTrace();
-		}
-		if(list!=null&&list.isEmpty())
-			return null;
-		Map<String,Config>map=new HashMap<>();
-		for(int i=0;i<list.size();i++)
-			map.put(list.get(i).getSymbol(),list.get(i));
-		return map;
-	}
+
 
 	private void saveData() {
 		int size=prices.size()>(pageIndex+1)*15?(pageIndex+1)*15:prices.size();
@@ -159,7 +140,7 @@ public class ConfigSetUI extends AbstractUI{
 		Price price;
 		List<Config>configList=new ArrayList<>();
 		ModelDao modelDao= DaoUtils.getDao(DaoUtils.getTemplate());
-		Map map=getConfigs(0);
+		Map map=commonService.getConfigSets(configTypePre,0);
 		int index=0;
 		for(int i=pageIndex*15;i<size;i++,index++){
 			price=prices.get(i);
@@ -240,7 +221,7 @@ public class ConfigSetUI extends AbstractUI{
 		JTextField jTextField1=null;
 		JTextField jTextField2=null;
 		JTextField jTextField3=null;
-		Map map=getConfigs(1);
+		Map map=commonService.getConfigSets(configTypePre,1);
 		if(prices==null||prices.isEmpty()) {
 			AlertUtils.showMessage("查找不到实时货币信息，请检查网络是否异常");
 			return;
@@ -354,23 +335,5 @@ public class ConfigSetUI extends AbstractUI{
 			public void changedUpdate(DocumentEvent e) {
 			}
 		});
-	}
-
-	private List<Price> test(String test){
-		List<Price>priceList=new ArrayList<>();
-		if(StringUtil.isBlank(test)) {
-			for (int i = 0; i < 60; i++) {
-				Price price = new Price();
-				price.setPrice("154.32" + i);
-				price.setSymbol("BTC_" + i);
-				priceList.add(price);
-			}
-		}else {
-			Price price = new Price();
-			price.setPrice("154.32");
-			price.setSymbol(test);
-			priceList.add(price);
-		}
-		return  priceList;
 	}
 }

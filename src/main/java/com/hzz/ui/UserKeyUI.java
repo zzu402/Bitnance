@@ -1,5 +1,4 @@
 package com.hzz.ui;
-
 import com.hzz.common.dao.ModelDao;
 import com.hzz.exception.CommonException;
 import com.hzz.model.User;
@@ -19,10 +18,10 @@ public class UserKeyUI extends AbstractUI{
 	private JTextField textField;
 	private JTextField textField_1;
 
-	public UserKeyUI() {
-		initialize();
+	public UserKeyUI(int closeOperation) {
+		initialize(closeOperation);
 	}
-	protected void initialize() {
+	protected void initialize(int closeOperation) {
 		frame = new JFrame();
 		frame.setTitle("Key设置");
 		frame.getContentPane().setLayout(null);
@@ -95,7 +94,7 @@ public class UserKeyUI extends AbstractUI{
 		});
 		frame.getContentPane().add(button_1);
 		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);// 设置主窗体关闭按钮样式
+		frame.setDefaultCloseOperation(closeOperation);// 设置主窗体关闭按钮样式
 	}
 	private void initData(){
 		ModelDao modelDao=DaoUtils.getDao(DaoUtils.getTemplate());

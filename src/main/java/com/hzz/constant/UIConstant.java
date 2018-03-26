@@ -25,6 +25,9 @@ public class UIConstant {
     public static final String MAIN_UI_MENU_ITEM_3_3="交易策略";
     public static final String MAIN_UI_MENU_ITEM_4_1="关于作者";
 
+    public static final Integer CONFIG_BUY_UI=1;
+    public static final Integer CONFIG_SELL_UI=2;
+
 
 
 

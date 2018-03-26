@@ -17,10 +17,10 @@ public class InitUI extends AbstractUI{
 	private JTextField txtBitcon_1;
 	private JLabel lblmysql;
 	private JTextField txtBitcon_2;
-	public InitUI() {
-		initialize();
+	public InitUI(int closeOperation) {
+		initialize(closeOperation);
 	}
-	protected void initialize() {
+	protected void initialize(int closeOperation) {
 		frame = new JFrame();
 		frame.setTitle("\u672C\u5730\u6570\u636E\u5E93\u914D\u7F6E");
 		frame.setBounds(100, 100, 404, 394);
@@ -86,7 +86,7 @@ public class InitUI extends AbstractUI{
 		button_1.setBounds(285, 295, 63, 23);
 		frame.getContentPane().add(button_1);
 		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);// 设置主窗体关闭按钮样式
+		frame.setDefaultCloseOperation(closeOperation);// 设置主窗体关闭按钮样式
 	}
 	private void initData(){
 		PropertiesUtils.loadProps(PropertiesUtils.getUserDir());

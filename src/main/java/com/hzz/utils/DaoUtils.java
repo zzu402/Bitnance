@@ -1,6 +1,7 @@
 package com.hzz.utils;
 
 import com.hzz.common.dao.ModelDao;
+import com.hzz.ui.AbstractUI;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -36,6 +37,17 @@ public class DaoUtils {
         dao=new ModelDao();
         dao.setJdbcTemplate(jdbcTemplate);
         return  dao;
+
+    }
+
+    public static void DBError(AbstractUI subWindow){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(subWindow!=null)
+                    subWindow.frame.setVisible(true);
+            }
+        }).start();
 
     }
 

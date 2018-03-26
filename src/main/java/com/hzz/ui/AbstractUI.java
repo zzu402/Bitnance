@@ -7,6 +7,6 @@ import javax.swing.*;
  * @Date :2018/3/23
  */
 public abstract class AbstractUI {
-    protected JFrame frame;
-    protected  abstract void initialize();
+    public JFrame frame;
+    protected  abstract void initialize(int closeOperation);
 }

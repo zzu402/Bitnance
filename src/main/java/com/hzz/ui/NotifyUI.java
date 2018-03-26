@@ -19,10 +19,10 @@ public class NotifyUI extends AbstractUI {
 	private JTextField textField_1;
 	private  JTextArea txtrsymbolprice;
 	private JTextArea textArea_1;
-	public NotifyUI() {
-		initialize();
+	public NotifyUI(int closeOperation) {
+		initialize(closeOperation);
 	}
-	protected void initialize() {
+	protected void initialize(int closeOperation) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 487, 454);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -115,7 +115,7 @@ public class NotifyUI extends AbstractUI {
 
 		frame.getContentPane().add(button);
 		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);// 设置主窗体关闭按钮样式
+		frame.setDefaultCloseOperation(closeOperation);// 设置主窗体关闭按钮样式
 	}
 
 	private void initData(){

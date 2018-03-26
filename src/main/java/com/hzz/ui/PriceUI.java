@@ -1,16 +1,12 @@
 package com.hzz.ui;
 
-import com.hzz.main.Api;
+import com.hzz.service.CommonService;
 import com.hzz.model.Price;
 import com.hzz.utils.AlertUtils;
-import com.hzz.utils.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
@@ -20,12 +16,11 @@ public class PriceUI extends AbstractUI{
 	private JTextField textField;
 	private List<Price> prices=null;
 	private Integer pageIndex=0;
-	private Api api;
-	public PriceUI() {
-		api=new Api();
-		initialize();
+	private CommonService commonService=new CommonService();
+	public PriceUI(int closeOperation) {
+		initialize(closeOperation);
 	}
-	protected void initialize() {
+	protected void initialize(int closeOperation) {
 		frame = new JFrame();
 		frame.setTitle("实时价格查询");
 		frame.setBounds(100, 100, 320, 445);
@@ -75,7 +70,7 @@ public class PriceUI extends AbstractUI{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String text=textField.getText().trim();
-				prices=test(text);
+				prices=commonService.getPrices(text);
 				if(prices.isEmpty()){
 					AlertUtils.showMessage("您查找的货币不存在，请检查输入是否正确！");
 				}
@@ -88,13 +83,13 @@ public class PriceUI extends AbstractUI{
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				prices=test("");
+				prices=commonService.getPrices("");
 				setData(button_1,button_2,panel);
 			}
 		}).start();
 
 		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);// 设置主窗体关闭按钮样式
+		frame.setDefaultCloseOperation(closeOperation);// 设置主窗体关闭按钮样式
 
 
 
@@ -134,23 +129,5 @@ public class PriceUI extends AbstractUI{
 			panel.add(label2);
 		}
 		panel.repaint();
-	}
-
-	private List<Price> test(String test){
-		List<Price>priceList=new ArrayList<>();
-		if(StringUtil.isBlank(test)) {
-			for (int i = 0; i < 60; i++) {
-				Price price = new Price();
-				price.setPrice("154.32" + i);
-				price.setSymbol("BTC_" + i);
-				priceList.add(price);
-			}
-		}else {
-			Price price = new Price();
-			price.setPrice("154.32");
-			price.setSymbol(test);
-			priceList.add(price);
-		}
-		return  priceList;
 	}
 }
