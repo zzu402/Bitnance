@@ -2,6 +2,7 @@ package com.hzz.ui;
 import com.hzz.common.dao.ModelDao;
 import com.hzz.exception.CommonException;
 import com.hzz.model.User;
+import com.hzz.service.TradeService;
 import com.hzz.utils.AlertUtils;
 import com.hzz.utils.DaoUtils;
 import com.hzz.utils.EnDecryptUtil;
@@ -76,6 +77,8 @@ public class UserKeyUI extends AbstractUI{
 					user.setSalt(salt);
 					modelDao.insertOrUpdate(user,new String[]{"secret_key","api_key","salt"});
 					logger.info("插入用户表结束");
+					TradeService tradeService=new TradeService();
+					tradeService.initKey();
 					AlertUtils.showMessage("数据设置成功！");
 				} catch (CommonException e1) {
 					logger.error("插入用户表失败",e1);
@@ -111,6 +114,5 @@ public class UserKeyUI extends AbstractUI{
 		} catch (CommonException e) {
 			logger.error("初始化用户数据失败",e);
 		}
-
 	}
 }

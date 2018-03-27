@@ -26,13 +26,9 @@ public class CommonService {
 
     private Logger logger = LoggerFactory.getLogger(CommonService.class);
     private ModelDao modelDao = DaoUtils.getDao(DaoUtils.getTemplate());
-    ;
     public static Api api = new Api();
 
-    /*
-     * 获取手动买入/卖出币种设置的配置信息
-     */
-    public Map<String, Config> getConfigSets(String configTypePre, Integer status) {
+    public List<Config> getConfigSetList(String configTypePre, Integer status) {
         Config config = new Config();
         config.setType(configTypePre + "SetConfig");
         if (status != null && status > 0)
@@ -44,6 +40,44 @@ public class CommonService {
             logger.error("查询币种配置信息异常", e);
         }
         if (list == null || list.isEmpty())
+            return null;
+        return list;
+    }
+
+
+    public Config[] sortConfigListByPriority(List<Config> list) {
+        Config[] configs = list.toArray(new Config[list.size()]);
+        Config config_i = null;
+        Config config_j = null;
+        Map<String, String> configInfo_i;
+        Map<String, String> configInfo_j;
+        for (int i = 0; i < configs.length; i++) {
+            config_i = configs[i];
+            configInfo_i = JsonMapper.nonDefaultMapper().fromJson(config_i.getConfigInfo(), Map.class);
+            Integer priority_i = Integer.parseInt(configInfo_i.get("priority"));
+
+            for (int j = i + 1; j < configs.length; j++) {
+                config_j = configs[j];
+                configInfo_j = JsonMapper.nonDefaultMapper().fromJson(config_j.getConfigInfo(), Map.class);
+                Integer priority_j = Integer.parseInt(configInfo_j.get("priority"));
+                if (priority_j > priority_i) {
+                    configs[i] = config_j;
+                    configs[j] = config_i;
+                    config_i = config_j;
+                    continue;
+                }
+            }
+
+        }
+        return configs;
+    }
+
+    /*
+     * 获取手动买入/卖出币种设置的配置信息
+     */
+    public Map<String, Config> getConfigSets(String configTypePre, Integer status) {
+        List<Config> list = getConfigSetList(configTypePre, status);
+        if (list == null)
             return null;
         Map<String, Config> map = new HashMap<>();
         for (int i = 0; i < list.size(); i++)
@@ -88,6 +122,7 @@ public class CommonService {
         }
 
     }
+
     /*
         生成我的交易策略
      */
@@ -101,16 +136,16 @@ public class CommonService {
             Config config = list1.get(0);
             if (config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_HAND_TYPE)) {
                 buy = "当前使用手动买入策略:";
-                Map<String, Config> buySets=getConfigSets(QueryConstant.CONFIG_TYPE_PRE_BUY,1);
+                Map<String, Config> buySets = getConfigSets(QueryConstant.CONFIG_TYPE_PRE_BUY, 1);
                 Iterator it = buySets.entrySet().iterator();
                 while (it.hasNext()) {
                     Map.Entry entry = (Map.Entry) it.next();
                     String key = (String) entry.getKey();
                     Config value = (Config) entry.getValue();
-                    Map<String,String> configInfo=JsonMapper.nonDefaultMapper().fromJson(value.getConfigInfo(),Map.class);
-                    Long time=Long.parseLong((String) configInfo.get("time"));
-                    String timeStr=time==0?"无限": DateUtil.format("yyyy-MM-dd hh:mm:ss",new Date(time*1000));
-                    buy+="\r\n币种:"+key+"\r\n设置时币种价格:"+configInfo.get("price")+"\r\n设置买入价格:"+configInfo.get("buyPrice")+"\r\n优先级:"+configInfo.get("priority")+"\r\n截止时间:"+timeStr;
+                    Map<String, String> configInfo = JsonMapper.nonDefaultMapper().fromJson(value.getConfigInfo(), Map.class);
+                    Long time = Long.parseLong((String) configInfo.get("time"));
+                    String timeStr = time == 0 ? "无限" : DateUtil.format("yyyy-MM-dd hh:mm:ss", new Date(time * 1000));
+                    buy += "\r\n币种:" + key + "\r\n设置时币种价格:" + configInfo.get("price") + "\r\n设置买入价格:" + configInfo.get("buyPrice") + "\r\n优先级:" + configInfo.get("priority") + "\r\n截止时间:" + timeStr;
                 }
             } else if (config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_AUTO_TYPE_1)) {
                 buy = "当前使用自动买入策略1！";
@@ -124,19 +159,19 @@ public class CommonService {
             Config config = list2.get(0);
             if (config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_HAND_TYPE)) {
                 sell = "当前使用手动卖出策略:";
-                Map<String, Config> sellSets=getConfigSets(QueryConstant.CONFIG_TYPE_PRE_SELL,1);
+                Map<String, Config> sellSets = getConfigSets(QueryConstant.CONFIG_TYPE_PRE_SELL, 1);
                 Iterator it = sellSets.entrySet().iterator();
                 while (it.hasNext()) {
                     Map.Entry entry = (Map.Entry) it.next();
                     String key = (String) entry.getKey();
                     Config value = (Config) entry.getValue();
-                    Map<String,String> configInfo=JsonMapper.nonDefaultMapper().fromJson(value.getConfigInfo(),Map.class);
-                    Long time=Long.parseLong((String) configInfo.get("time"));
-                    String timeStr=time==0?"无限": DateUtil.format("yyyy-MM-dd hh:mm:ss",new Date(time*1000));
-                    sell+="\r\n币种:"+key+"\r\n设置时币种价格:"+configInfo.get("price")+"\r\n设置卖出价格:"+configInfo.get("sellPrice")+"\r\n优先级:"+configInfo.get("priority")+" \r\n截止时间:"+timeStr;
+                    Map<String, String> configInfo = JsonMapper.nonDefaultMapper().fromJson(value.getConfigInfo(), Map.class);
+                    Long time = Long.parseLong((String) configInfo.get("time"));
+                    String timeStr = time == 0 ? "无限" : DateUtil.format("yyyy-MM-dd hh:mm:ss", new Date(time * 1000));
+                    sell += "\r\n币种:" + key + "\r\n设置时币种价格:" + configInfo.get("price") + "\r\n设置卖出价格:" + configInfo.get("sellPrice") + "\r\n优先级:" + configInfo.get("priority") + " \r\n截止时间:" + timeStr;
                 }
 
-                } else if (config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_AUTO_TYPE_1)) {
+            } else if (config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_AUTO_TYPE_1)) {
                 sell = "当前使用自动卖出策略1!";
             } else if (config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_AUTO_TYPE_2)) {
                 sell = "当前使用自动卖出策略2!";
@@ -156,49 +191,64 @@ public class CommonService {
         return getTestPrices(symbol);
     }
 
+
+
+
+
+
     /*
      获取我的账户
      */
-    public List<Account>getAccount(){
-        List<Account>list=new ArrayList<>();
-        Account account=new Account();
+    public List<Account> getAccount() {
+
+//        try {
+//            List<Account>list=modelDao.select(new Account());
+//            return list;
+//        } catch (CommonException e) {
+//            logger.error("查询我的账户出错",e);
+//            return new ArrayList<Account>();
+//        }
+
+
+        List<Account> list = new ArrayList<>();
+        Account account = new Account();
         account.setUpdateTime(1521529200L);
         account.setMoneyCount(15000L);
         list.add(account);
-        account=new Account();
+        account = new Account();
         account.setUpdateTime(1521615600L);
         account.setMoneyCount(17000L);
         list.add(account);
-        account=new Account();
+        account = new Account();
         account.setUpdateTime(1521702000L);
         account.setMoneyCount(16300L);
         list.add(account);
-        account=new Account();
+        account = new Account();
         account.setUpdateTime(1521788400L);
         account.setMoneyCount(14000L);
         list.add(account);
-        return  list;
+        return list;
 
     }
 
     /*
       获取目前我拥有的资产
      */
-    public Map<String,Balance> getBalances(){
-        Map<String,Balance> map=new HashMap<>();
-        Balance balance=new Balance();
+    public Map<String, Balance> getBalances() {
+//        return api.getAllMoneyFree();
+        Map<String, Balance> map = new HashMap<>();
+        Balance balance = new Balance();
         balance.setFree("1234.05");
         balance.setLocked("0");
-        map.put("BTC",balance);
+        map.put("BTC", balance);
 
-        balance=new Balance();
+        balance = new Balance();
         balance.setFree("2304.05");
         balance.setLocked("0");
-        map.put("TFX",balance);
-        return  map;
+        map.put("TFX", balance);
+        return map;
 
     }
-
 
 
     public List<Price> getTestPrices(String symbol) {

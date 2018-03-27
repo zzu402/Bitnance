@@ -39,13 +39,13 @@ public class UserInfoPanel extends JPanel {
 		JPanel top = new JPanel();
 		top.setBounds(5, 15, 380, 280);
 		top.setBorder(BorderFactory.createTitledBorder("当前资产饼状图"));
-		draw(top);
+		initUserFreeMoney(top);
 		leftPanel.add(top);
 
 		JPanel bottom = new JPanel();
 		bottom.setBounds(5, 300, 380, 330);
 		bottom.setBorder(BorderFactory.createTitledBorder("历史资产折线图"));
-		draw2(bottom);
+		initUserAccount(bottom);
 		leftPanel.add(bottom);
 
 		JPanel panel_1 = new JPanel();
@@ -75,7 +75,7 @@ public class UserInfoPanel extends JPanel {
 		label_4.setBounds(306, 20, 55, 15);
 		panel_1.add(label_4);
 
-		setData(panel_1);
+		initTradeHistory(panel_1);
 
 
 		JPanel panel_2 = new JPanel();
@@ -120,7 +120,7 @@ public class UserInfoPanel extends JPanel {
 
 	}
 
-	private void setData(JPanel panel){
+	private void initTradeHistory(JPanel panel){
 		ModelDao modelDao=DaoUtils.getDao(DaoUtils.getTemplate());
 
 		Map<JoinModel, JoinType> joinMap = new LinkedHashMap<>();
@@ -188,7 +188,7 @@ public class UserInfoPanel extends JPanel {
 		}
 	}
 
-	private void draw(JPanel jp){
+	private void initUserFreeMoney(JPanel jp){
 		Map<String,Balance>balanceMap=commonService.getBalances();
 		Iterator it = balanceMap.entrySet().iterator();
 		DefaultPieDataset dataSet = new DefaultPieDataset();
@@ -207,7 +207,7 @@ public class UserInfoPanel extends JPanel {
 		jp.add(panel, BorderLayout.CENTER);
 	}
 
-	private  void draw2(JPanel jp){
+	private  void initUserAccount(JPanel jp){
 		Account account=null;
 		try {
 			java.util.List<Account> list=commonService.getAccount();

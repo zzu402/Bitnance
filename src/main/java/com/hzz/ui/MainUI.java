@@ -1,6 +1,8 @@
 package com.hzz.ui;
 import com.hzz.constant.CommandConstant;
 import com.hzz.constant.UIConstant;
+import com.hzz.service.DataService;
+import com.hzz.service.TradeService;
 import com.hzz.ui.panel.GuidePanel;
 import com.hzz.ui.panel.UserInfoPanel;
 import com.hzz.utils.AlertUtils;
@@ -16,14 +18,28 @@ import javax.swing.*;
 public class MainUI extends AbstractUI implements ActionListener {
     private static Logger logger = LoggerFactory.getLogger(MainUI.class);
     private static AbstractUI subWindow=null;
+    private  TradeService tradeService=new TradeService();
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
+                    TradeService tradeService=new TradeService();
+                    logger.info("init Key start ...");
+                    tradeService.initKey();
+                    logger.info("init Key end ...");
+
+                    DataService dataService=new DataService();
+                    logger.info("get Data start ...");
+                    dataService.doSaveInfo();
+
                     logger.info("Main UI start ...");
                     AbstractUI window = new MainUI(WindowConstants.EXIT_ON_CLOSE);
                     window.frame.setVisible(true);
                     logger.info("Main UI start finish");
+
+
+                    tradeService.doHm();
+                    logger.info("doHm start... ");
                 } catch (Exception e) {
                    logger.error("Main UI error...",e);
                   if (e.getMessage().contains("JDBC Connection")){
@@ -110,14 +126,12 @@ public class MainUI extends AbstractUI implements ActionListener {
         menu_3.add(menuItem_11);
 
         selectPanel(frame);
-
-
         frame.setResizable(false);
     }
 
     private void selectPanel(JFrame frame) {
         File file=new File(String.format("%s//config.properties",System.getProperty("user.dir")));
-        if(!file.exists()) {
+        if(!file.exists()||!tradeService.initKey()) {
             GuidePanel guidePanel = new GuidePanel();
             guidePanel.setBounds(0, 40, 800, 600);
             frame.add(guidePanel);
@@ -126,9 +140,6 @@ public class MainUI extends AbstractUI implements ActionListener {
             userInfoPanel.setBounds(0, 40, 800, 600);
             frame.add(userInfoPanel);
         }
-
-
-
     }
 
     @Override

@@ -45,7 +45,7 @@ public class ConfigSetUI extends AbstractUI{
 	protected void initialize(int closeOperation) {
 		frame = new JFrame();
 		frame.setTitle(titlePre+"币种设置");
-		frame.setBounds(100, 100, 1050, 445);
+		frame.setBounds(100, 100, 1050+150, 445);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -67,7 +67,7 @@ public class ConfigSetUI extends AbstractUI{
 		frame.getContentPane().add(button);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 35, 1050, 327);
+		panel.setBounds(10, 35, 1050+150, 327);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 
@@ -137,6 +137,7 @@ public class ConfigSetUI extends AbstractUI{
 		JTextField jTextField1;
 		JTextField jTextField2;
 		JTextField jTextField3;
+		JTextField jTextField4;
 		Price price;
 		List<Config>configList=new ArrayList<>();
 		ModelDao modelDao= DaoUtils.getDao(DaoUtils.getTemplate());
@@ -153,15 +154,17 @@ public class ConfigSetUI extends AbstractUI{
 				continue;
 			if(map==null&&!checkBox.isSelected())
 				continue;
-			jTextField=textFieldList.get(4*index);
-			jTextField1=textFieldList.get(4*index+1);
-			jTextField2=textFieldList.get(4*index+2);
-			jTextField3=textFieldList.get(4*index+3);
+			jTextField=textFieldList.get(5*index);
+			jTextField1=textFieldList.get(5*index+1);
+			jTextField2=textFieldList.get(5*index+2);
+			jTextField3=textFieldList.get(5*index+3);
+			jTextField4=textFieldList.get(5*index+4);
 
 			String t1=jTextField.getText();
 			String t2=jTextField1.getText();
 			String t3=jTextField2.getText();
 			String t4=jTextField3.getText();
+			String t5=jTextField4.getText();
 			if((StringUtil.isBlank(t1)||StringUtil.isBlank(t2))&&status==1) {
 				AlertUtils.showMessage("请填写选用币种的断点幅度！");
 				return;
@@ -178,6 +181,8 @@ public class ConfigSetUI extends AbstractUI{
 					return;
 				}
 			}
+			if(StringUtil.isBlank(t5))
+				t5="0";
 			Map<String,Object> configMap=new HashMap<>();
 			configMap.put("symbol",price.getSymbol());
 			configMap.put("price",price.getPrice());
@@ -185,6 +190,7 @@ public class ConfigSetUI extends AbstractUI{
 			configMap.put(configInfoPre+"Price",t2);
 			configMap.put("priority",t3);
 			configMap.put("time",t4);
+			configMap.put("num",t5);
 			Config config=new Config();
 			config.setConfigInfo(JsonMapper.nonDefaultMapper().toJson(configMap));
 			config.setCreateTime(System.currentTimeMillis()/1000);
@@ -216,11 +222,13 @@ public class ConfigSetUI extends AbstractUI{
 		JLabel label4=null;
 		JLabel label5=null;
 		JLabel label6=null;
+		JLabel label7=null;
 		JCheckBox jCheckBox=null;
 		JTextField jTextField=null;
 		JTextField jTextField1=null;
 		JTextField jTextField2=null;
 		JTextField jTextField3=null;
+		JTextField jTextField4=null;
 		Map map=commonService.getConfigSets(configTypePre,1);
 		if(prices==null||prices.isEmpty()) {
 			AlertUtils.showMessage("查找不到实时货币信息，请检查网络是否异常");
@@ -271,6 +279,10 @@ public class ConfigSetUI extends AbstractUI{
 			label6.setBounds(800,10+margin,90,20);
 			jTextField3=new JTextField(10);
 			jTextField3.setBounds(880,10+margin,130,20);
+			label7=new JLabel("交易数量:");
+			label7.setBounds(1020,10+margin,90,20);
+			jTextField4=new JTextField(10);
+			jTextField4.setBounds(1080,10+margin,80,20);
 
 			if(isExist){
 				Config config= (Config) map.get(price.getSymbol());
@@ -286,6 +298,7 @@ public class ConfigSetUI extends AbstractUI{
 				else
 					jTextField3.setText("无限");
 
+				jTextField4.setText((String) configInfo.get("num"));
 			}
 			setListener(jTextField,jTextField1,i);
 
@@ -293,10 +306,14 @@ public class ConfigSetUI extends AbstractUI{
 			textFieldList.add(jTextField1);
 			textFieldList.add(jTextField2);
 			textFieldList.add(jTextField3);
+			textFieldList.add(jTextField4);
+
 			checkboxList.add(jCheckBox);
 
 			panel.add(jTextField2);
 			panel.add(jTextField3);
+			panel.add(jTextField4);
+			panel.add(label7);
 			panel.add(label5);
 			panel.add(label6);
 			panel.add(jTextField);
