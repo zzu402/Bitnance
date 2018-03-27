@@ -19,38 +19,6 @@ public class MainUI extends AbstractUI implements ActionListener {
     private static Logger logger = LoggerFactory.getLogger(MainUI.class);
     private static AbstractUI subWindow=null;
     private  TradeService tradeService=new TradeService();
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    TradeService tradeService=new TradeService();
-                    logger.info("init Key start ...");
-                    tradeService.initKey();
-                    logger.info("init Key end ...");
-
-                    DataService dataService=new DataService();
-                    logger.info("get Data start ...");
-                    dataService.doSaveInfo();
-
-                    logger.info("Main UI start ...");
-                    AbstractUI window = new MainUI(WindowConstants.EXIT_ON_CLOSE);
-                    window.frame.setVisible(true);
-                    logger.info("Main UI start finish");
-
-
-                    tradeService.doHm();
-                    logger.info("doHm start... ");
-                } catch (Exception e) {
-                   logger.error("Main UI error...",e);
-                  if (e.getMessage().contains("JDBC Connection")){
-                      AlertUtils.showMessage("数据库信息异常!");
-                      DaoUtils.DBError(new InitUI(WindowConstants.EXIT_ON_CLOSE));
-                  }
-                }
-            }
-        });
-    }
-
     public MainUI(int closeOperation) {
         initialize(closeOperation);
     }
