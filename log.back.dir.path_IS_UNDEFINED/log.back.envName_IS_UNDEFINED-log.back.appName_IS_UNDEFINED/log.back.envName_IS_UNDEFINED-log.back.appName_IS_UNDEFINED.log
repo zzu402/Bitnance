@@ -23526,3 +23526,221 @@ javax.mail.AuthenticationFailedException: null
 2018-03-29 11:47:42.976 DEBUG   --- [Thread-7] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
 2018-03-29 11:47:42.976 DEBUG   --- [Thread-7] com.hzz.common.dao.ModelDao              : [4e451d96-e35c-4cfe-8b71-b9b718247dca] select success, return count 2
 2018-03-29 11:47:42.983  INFO   --- [Thread-7] com.hzz.ui.panel.UserInfoPanel           : 线程准备进入等待状态
+2018-03-29 13:24:32.726  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-29 13:24:32.730  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-29 13:24:32.748  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-29 13:24:32.765  INFO   --- [AWT-EventQueue-0] com.hzz.App                              : init Key start ...
+2018-03-29 13:24:32.765  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-29 13:24:32.765  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-29 13:24:32.765  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-29 13:24:32.765  INFO   --- [AWT-EventQueue-0] com.hzz.service.TradeService             : 设置key开始
+2018-03-29 13:24:32.879 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [c85230b7-1150-4421-9616-fbb3b8a86be7] select : SELECT `id`,`secret_key`,`api_key`,`name`,`email`,`sellTemplet`,`buyTemplet`,`salt` FROM `bitcon_user`
+2018-03-29 13:24:32.964 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-29 13:24:32.965 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`secret_key`,`api_key`,`name`,`email`,`sellTemplet`,`buyTemplet`,`salt` FROM `bitcon_user`]
+2018-03-29 13:24:32.968 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-29 13:24:32.969 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-29 13:24:33.273 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-29 13:24:33.278 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'secret_key' to property 'secret_key' of type 'java.lang.String'
+2018-03-29 13:24:33.279 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'api_key' to property 'api_key' of type 'java.lang.String'
+2018-03-29 13:24:33.279 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'name' to property 'name' of type 'java.lang.String'
+2018-03-29 13:24:33.280 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'email' to property 'email' of type 'java.lang.String'
+2018-03-29 13:24:33.280 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'sellTemplet' to property 'sellTemplet' of type 'java.lang.String'
+2018-03-29 13:24:33.280 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'buyTemplet' to property 'buyTemplet' of type 'java.lang.String'
+2018-03-29 13:24:33.280 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'salt' to property 'salt' of type 'java.lang.String'
+2018-03-29 13:24:33.288 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-29 13:24:33.290 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [c85230b7-1150-4421-9616-fbb3b8a86be7] select success, return count 1
+2018-03-29 13:24:33.451  INFO   --- [AWT-EventQueue-0] com.hzz.service.TradeService             : 设置Key结束
+2018-03-29 13:24:33.451  INFO   --- [AWT-EventQueue-0] com.hzz.App                              : init Key end ...
+2018-03-29 13:24:33.452  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-29 13:24:33.452  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-29 13:24:33.452  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-29 13:24:33.452  INFO   --- [AWT-EventQueue-0] com.hzz.App                              : get Data start ...
+2018-03-29 13:24:33.454  INFO   --- [AWT-EventQueue-0] com.hzz.App                              : Main UI start ...
+2018-03-29 13:24:33.458  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-29 13:24:33.458  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-29 13:24:33.458  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-29 13:24:33.585  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-29 13:24:33.585  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-29 13:24:33.585  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-29 13:24:33.585  INFO   --- [AWT-EventQueue-0] com.hzz.service.TradeService             : 设置key开始
+2018-03-29 13:24:33.586 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [44f8abe8-27b5-4c8c-a198-eca7e73718f6] select : SELECT `id`,`secret_key`,`api_key`,`name`,`email`,`sellTemplet`,`buyTemplet`,`salt` FROM `bitcon_user`
+2018-03-29 13:24:33.586 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-29 13:24:33.586 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`secret_key`,`api_key`,`name`,`email`,`sellTemplet`,`buyTemplet`,`salt` FROM `bitcon_user`]
+2018-03-29 13:24:33.586 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-29 13:24:33.586 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-29 13:24:33.590 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-29 13:24:33.591 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'secret_key' to property 'secret_key' of type 'java.lang.String'
+2018-03-29 13:24:33.591 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'api_key' to property 'api_key' of type 'java.lang.String'
+2018-03-29 13:24:33.591 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'name' to property 'name' of type 'java.lang.String'
+2018-03-29 13:24:33.591 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'email' to property 'email' of type 'java.lang.String'
+2018-03-29 13:24:33.591 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'sellTemplet' to property 'sellTemplet' of type 'java.lang.String'
+2018-03-29 13:24:33.592 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'buyTemplet' to property 'buyTemplet' of type 'java.lang.String'
+2018-03-29 13:24:33.592 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'salt' to property 'salt' of type 'java.lang.String'
+2018-03-29 13:24:33.592 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-29 13:24:33.593 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [44f8abe8-27b5-4c8c-a198-eca7e73718f6] select success, return count 1
+2018-03-29 13:24:33.594  INFO   --- [AWT-EventQueue-0] com.hzz.service.TradeService             : 设置Key结束
+2018-03-29 13:24:33.594  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-29 13:24:33.595  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-29 13:24:33.595  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-29 13:24:33.603 DEBUG   --- [Thread-5] com.hzz.common.dao.ModelDao              : [004504ed-9ec8-4f45-b08c-ecc6cc65fc92] select : SELECT `id`,`makerCommission`,`buyerCommission`,`canWithdraw`,`sellerCommission`,`updateTime`,`canDeposit`,`takerCommission`,`canTrade`,`moneyCount` FROM `bitcon_account`
+2018-03-29 13:24:33.606  INFO   --- [Thread-6] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-29 13:24:33.606  INFO   --- [Thread-6] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-29 13:24:33.606  INFO   --- [Thread-6] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-29 13:24:33.607 DEBUG   --- [Thread-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-29 13:24:33.607 DEBUG   --- [Thread-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`makerCommission`,`buyerCommission`,`canWithdraw`,`sellerCommission`,`updateTime`,`canDeposit`,`takerCommission`,`canTrade`,`moneyCount` FROM `bitcon_account`]
+2018-03-29 13:24:33.607 DEBUG   --- [Thread-5] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-29 13:24:33.607 DEBUG   --- [Thread-5] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-29 13:24:33.614 DEBUG   --- [Thread-7] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-29 13:24:33.616 DEBUG   --- [Thread-5] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-29 13:24:33.616 DEBUG   --- [Thread-5] com.hzz.common.dao.ModelDao              : [004504ed-9ec8-4f45-b08c-ecc6cc65fc92] select success, return count 0
+2018-03-29 13:24:33.623 DEBUG   --- [Thread-7] com.hzz.common.dao.ModelDao              : [52a4e5db-0ad2-4803-9fb3-5e852fe40f82] select : SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ?
+2018-03-29 13:24:33.624 DEBUG   --- [Thread-6] com.hzz.common.dao.ModelDao              : [37be9c5d-2b34-4fa4-a02b-b862e509e785] select : SELECT t.time,t.price,t.qty,t.isMaker,t.isBuyer,o.symbol FROM bitcon_my_trade AS t INNER JOIN bitcon_order AS o ON o.orderId=t.orderId ORDER BY t.time desc LIMIT 13
+2018-03-29 13:24:33.624 DEBUG   --- [Thread-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-29 13:24:33.624 DEBUG   --- [Thread-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT t.time,t.price,t.qty,t.isMaker,t.isBuyer,o.symbol FROM bitcon_my_trade AS t INNER JOIN bitcon_order AS o ON o.orderId=t.orderId ORDER BY t.time desc LIMIT 13]
+2018-03-29 13:24:33.624 DEBUG   --- [Thread-6] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-29 13:24:33.624 DEBUG   --- [Thread-6] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-29 13:24:33.625 DEBUG   --- [Thread-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-29 13:24:33.625 DEBUG   --- [Thread-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ?]
+2018-03-29 13:24:33.626 DEBUG   --- [Thread-7] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-29 13:24:33.626 DEBUG   --- [Thread-7] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-29 13:24:33.632 DEBUG   --- [Thread-6] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-29 13:24:33.632 DEBUG   --- [Thread-6] com.hzz.common.dao.ModelDao              : [37be9c5d-2b34-4fa4-a02b-b862e509e785] select success, return count 13
+2018-03-29 13:24:33.639 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-29 13:24:33.639 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'updateTime' to property 'updateTime' of type 'java.lang.Long'
+2018-03-29 13:24:33.640 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'createTime' to property 'createTime' of type 'java.lang.Long'
+2018-03-29 13:24:33.640 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'status' to property 'status' of type 'java.lang.Integer'
+2018-03-29 13:24:33.641 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'description' to property 'description' of type 'java.lang.String'
+2018-03-29 13:24:33.642 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'configInfo' to property 'configInfo' of type 'java.lang.String'
+2018-03-29 13:24:33.643 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'type' to property 'type' of type 'java.lang.String'
+2018-03-29 13:24:33.643 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'symbol' to property 'symbol' of type 'java.lang.String'
+2018-03-29 13:24:33.644 DEBUG   --- [Thread-7] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-29 13:24:33.644 DEBUG   --- [Thread-7] com.hzz.common.dao.ModelDao              : [52a4e5db-0ad2-4803-9fb3-5e852fe40f82] select success, return count 1
+2018-03-29 13:24:33.645 DEBUG   --- [Thread-7] com.hzz.common.dao.ModelDao              : [fb253ded-d95f-4e0e-b0b2-590f75cc70d3] select : SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ?
+2018-03-29 13:24:33.645 DEBUG   --- [Thread-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-29 13:24:33.645 DEBUG   --- [Thread-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ?]
+2018-03-29 13:24:33.645 DEBUG   --- [Thread-7] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-29 13:24:33.645 DEBUG   --- [Thread-7] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-29 13:24:33.651 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-29 13:24:33.661 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'updateTime' to property 'updateTime' of type 'java.lang.Long'
+2018-03-29 13:24:33.661 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'createTime' to property 'createTime' of type 'java.lang.Long'
+2018-03-29 13:24:33.662 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'status' to property 'status' of type 'java.lang.Integer'
+2018-03-29 13:24:33.662 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'description' to property 'description' of type 'java.lang.String'
+2018-03-29 13:24:33.662 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'configInfo' to property 'configInfo' of type 'java.lang.String'
+2018-03-29 13:24:33.662 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'type' to property 'type' of type 'java.lang.String'
+2018-03-29 13:24:33.662 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'symbol' to property 'symbol' of type 'java.lang.String'
+2018-03-29 13:24:33.663 DEBUG   --- [Thread-7] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-29 13:24:33.663 DEBUG   --- [Thread-7] com.hzz.common.dao.ModelDao              : [fb253ded-d95f-4e0e-b0b2-590f75cc70d3] select success, return count 1
+2018-03-29 13:24:33.664 DEBUG   --- [Thread-7] com.hzz.common.dao.ModelDao              : [f851c879-2f0e-4426-a4b3-af26014f9177] select : SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ?
+2018-03-29 13:24:33.664 DEBUG   --- [Thread-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-29 13:24:33.664 DEBUG   --- [Thread-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ?]
+2018-03-29 13:24:33.664 DEBUG   --- [Thread-7] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-29 13:24:33.664 DEBUG   --- [Thread-7] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-29 13:24:33.669 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-29 13:24:33.670 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'updateTime' to property 'updateTime' of type 'java.lang.Long'
+2018-03-29 13:24:33.670 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'createTime' to property 'createTime' of type 'java.lang.Long'
+2018-03-29 13:24:33.670 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'status' to property 'status' of type 'java.lang.Integer'
+2018-03-29 13:24:33.670 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'description' to property 'description' of type 'java.lang.String'
+2018-03-29 13:24:33.670 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'configInfo' to property 'configInfo' of type 'java.lang.String'
+2018-03-29 13:24:33.671 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'type' to property 'type' of type 'java.lang.String'
+2018-03-29 13:24:33.671 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'symbol' to property 'symbol' of type 'java.lang.String'
+2018-03-29 13:24:33.673 DEBUG   --- [Thread-7] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-29 13:24:33.674 DEBUG   --- [Thread-7] com.hzz.common.dao.ModelDao              : [f851c879-2f0e-4426-a4b3-af26014f9177] select success, return count 4
+2018-03-29 13:24:33.738  INFO   --- [AWT-EventQueue-0] com.hzz.App                              : Main UI start finish
+2018-03-29 13:24:33.739 DEBUG   --- [Thread-9] com.hzz.common.dao.ModelDao              : [094bd6c9-8284-4b92-aeaa-b836f4c843ea] select : SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ? AND `symbol` = ?
+2018-03-29 13:24:33.740 DEBUG   --- [Thread-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-29 13:24:33.740 DEBUG   --- [Thread-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ? AND `symbol` = ?]
+2018-03-29 13:24:33.740 DEBUG   --- [Thread-9] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-29 13:24:33.740 DEBUG   --- [Thread-9] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-29 13:24:33.744  INFO   --- [AWT-EventQueue-0] com.hzz.App                              : doHm start... 
+2018-03-29 13:24:33.750 DEBUG   --- [Thread-10] com.hzz.common.dao.ModelDao              : [d4d06e09-b44f-460f-85b6-7d30e539fa01] select : SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ? AND `symbol` = ?
+2018-03-29 13:24:33.750 DEBUG   --- [Thread-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-29 13:24:33.750 DEBUG   --- [Thread-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ? AND `symbol` = ?]
+2018-03-29 13:24:33.750 DEBUG   --- [Thread-10] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-29 13:24:33.750 DEBUG   --- [Thread-10] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-29 13:24:33.757 DEBUG   --- [Thread-10] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-29 13:24:33.758 DEBUG   --- [Thread-10] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'updateTime' to property 'updateTime' of type 'java.lang.Long'
+2018-03-29 13:24:33.758 DEBUG   --- [Thread-10] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'createTime' to property 'createTime' of type 'java.lang.Long'
+2018-03-29 13:24:33.758 DEBUG   --- [Thread-10] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'status' to property 'status' of type 'java.lang.Integer'
+2018-03-29 13:24:33.758 DEBUG   --- [Thread-10] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'description' to property 'description' of type 'java.lang.String'
+2018-03-29 13:24:33.758 DEBUG   --- [Thread-10] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'configInfo' to property 'configInfo' of type 'java.lang.String'
+2018-03-29 13:24:33.758 DEBUG   --- [Thread-10] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'type' to property 'type' of type 'java.lang.String'
+2018-03-29 13:24:33.758 DEBUG   --- [Thread-10] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'symbol' to property 'symbol' of type 'java.lang.String'
+2018-03-29 13:24:33.760 DEBUG   --- [Thread-10] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-29 13:24:33.761 DEBUG   --- [Thread-10] com.hzz.common.dao.ModelDao              : [d4d06e09-b44f-460f-85b6-7d30e539fa01] select success, return count 1
+2018-03-29 13:24:33.762 DEBUG   --- [Thread-10] com.hzz.common.dao.ModelDao              : [1cb86937-b75e-4660-8390-abf881d6ba7a] select : SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ?
+2018-03-29 13:24:33.762 DEBUG   --- [Thread-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-29 13:24:33.762 DEBUG   --- [Thread-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ?]
+2018-03-29 13:24:33.762 DEBUG   --- [Thread-10] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-29 13:24:33.762 DEBUG   --- [Thread-10] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-29 13:24:33.766 DEBUG   --- [Thread-10] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-29 13:24:33.766 DEBUG   --- [Thread-10] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'updateTime' to property 'updateTime' of type 'java.lang.Long'
+2018-03-29 13:24:33.766 DEBUG   --- [Thread-10] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'createTime' to property 'createTime' of type 'java.lang.Long'
+2018-03-29 13:24:33.766 DEBUG   --- [Thread-10] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'status' to property 'status' of type 'java.lang.Integer'
+2018-03-29 13:24:33.766 DEBUG   --- [Thread-10] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'description' to property 'description' of type 'java.lang.String'
+2018-03-29 13:24:33.767 DEBUG   --- [Thread-10] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'configInfo' to property 'configInfo' of type 'java.lang.String'
+2018-03-29 13:24:33.767 DEBUG   --- [Thread-10] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'type' to property 'type' of type 'java.lang.String'
+2018-03-29 13:24:33.767 DEBUG   --- [Thread-10] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'symbol' to property 'symbol' of type 'java.lang.String'
+2018-03-29 13:24:33.768 DEBUG   --- [Thread-10] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-29 13:24:33.768 DEBUG   --- [Thread-10] com.hzz.common.dao.ModelDao              : [1cb86937-b75e-4660-8390-abf881d6ba7a] select success, return count 2
+2018-03-29 13:24:33.772 DEBUG   --- [Thread-9] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-29 13:24:33.772 DEBUG   --- [Thread-9] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'updateTime' to property 'updateTime' of type 'java.lang.Long'
+2018-03-29 13:24:33.772 DEBUG   --- [Thread-9] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'createTime' to property 'createTime' of type 'java.lang.Long'
+2018-03-29 13:24:33.772 DEBUG   --- [Thread-9] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'status' to property 'status' of type 'java.lang.Integer'
+2018-03-29 13:24:33.772 DEBUG   --- [Thread-9] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'description' to property 'description' of type 'java.lang.String'
+2018-03-29 13:24:33.772 DEBUG   --- [Thread-9] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'configInfo' to property 'configInfo' of type 'java.lang.String'
+2018-03-29 13:24:33.773 DEBUG   --- [Thread-9] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'type' to property 'type' of type 'java.lang.String'
+2018-03-29 13:24:33.774 DEBUG   --- [Thread-9] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'symbol' to property 'symbol' of type 'java.lang.String'
+2018-03-29 13:24:33.774 DEBUG   --- [Thread-9] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-29 13:24:33.775 DEBUG   --- [Thread-9] com.hzz.common.dao.ModelDao              : [094bd6c9-8284-4b92-aeaa-b836f4c843ea] select success, return count 1
+2018-03-29 13:24:33.775 DEBUG   --- [Thread-9] com.hzz.common.dao.ModelDao              : [8b9b3bf4-8d44-4603-ba71-1befc9f4f154] select : SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ?
+2018-03-29 13:24:33.775 DEBUG   --- [Thread-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-29 13:24:33.775 DEBUG   --- [Thread-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ?]
+2018-03-29 13:24:33.775 DEBUG   --- [Thread-9] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-29 13:24:33.775 DEBUG   --- [Thread-9] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-29 13:24:33.786 DEBUG   --- [Thread-9] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-29 13:24:33.786 DEBUG   --- [Thread-9] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'updateTime' to property 'updateTime' of type 'java.lang.Long'
+2018-03-29 13:24:33.787 DEBUG   --- [Thread-9] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'createTime' to property 'createTime' of type 'java.lang.Long'
+2018-03-29 13:24:33.788 DEBUG   --- [Thread-9] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'status' to property 'status' of type 'java.lang.Integer'
+2018-03-29 13:24:33.789 DEBUG   --- [Thread-9] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'description' to property 'description' of type 'java.lang.String'
+2018-03-29 13:24:33.790 DEBUG   --- [Thread-9] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'configInfo' to property 'configInfo' of type 'java.lang.String'
+2018-03-29 13:24:33.791 DEBUG   --- [Thread-9] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'type' to property 'type' of type 'java.lang.String'
+2018-03-29 13:24:33.791 DEBUG   --- [Thread-9] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'symbol' to property 'symbol' of type 'java.lang.String'
+2018-03-29 13:24:33.796 DEBUG   --- [Thread-9] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-29 13:24:33.797 DEBUG   --- [Thread-9] com.hzz.common.dao.ModelDao              : [8b9b3bf4-8d44-4603-ba71-1befc9f4f154] select success, return count 4
+2018-03-29 13:24:33.950 DEBUG   --- [Thread-7] com.hzz.common.dao.ModelDao              : [cf6ee2f6-d4ae-493f-8a20-f17758e2fdd7] select : SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ?
+2018-03-29 13:24:33.950 DEBUG   --- [Thread-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-29 13:24:33.950 DEBUG   --- [Thread-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ?]
+2018-03-29 13:24:33.950 DEBUG   --- [Thread-7] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-29 13:24:33.950 DEBUG   --- [Thread-7] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-29 13:24:33.957 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-29 13:24:33.957 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'updateTime' to property 'updateTime' of type 'java.lang.Long'
+2018-03-29 13:24:33.957 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'createTime' to property 'createTime' of type 'java.lang.Long'
+2018-03-29 13:24:33.957 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'status' to property 'status' of type 'java.lang.Integer'
+2018-03-29 13:24:33.957 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'description' to property 'description' of type 'java.lang.String'
+2018-03-29 13:24:33.957 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'configInfo' to property 'configInfo' of type 'java.lang.String'
+2018-03-29 13:24:33.958 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'type' to property 'type' of type 'java.lang.String'
+2018-03-29 13:24:33.958 DEBUG   --- [Thread-7] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'symbol' to property 'symbol' of type 'java.lang.String'
+2018-03-29 13:24:33.961 DEBUG   --- [Thread-7] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-29 13:24:33.961 DEBUG   --- [Thread-7] com.hzz.common.dao.ModelDao              : [cf6ee2f6-d4ae-493f-8a20-f17758e2fdd7] select success, return count 2
+2018-03-29 13:24:34.013  INFO   --- [Thread-7] com.hzz.ui.panel.UserInfoPanel           : 线程准备进入等待状态
+2018-03-29 13:24:44.680  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-29 13:24:44.680  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-29 13:24:44.680  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver
+2018-03-29 13:24:44.688 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [0405d5f0-cf87-472e-876a-cabf903ee758] select : SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ?
+2018-03-29 13:24:44.689 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2018-03-29 13:24:44.689 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT `id`,`updateTime`,`createTime`,`status`,`description`,`configInfo`,`type`,`symbol` FROM `bitcon_config` WHERE `status` = ? AND `type` = ?]
+2018-03-29 13:24:44.689 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+2018-03-29 13:24:44.689 DEBUG   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/bitcon?useUnicode=true&characterEncoding=UTF-8]
+2018-03-29 13:24:44.705 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'id' to property 'id' of type 'java.lang.Long'
+2018-03-29 13:24:44.705 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'updateTime' to property 'updateTime' of type 'java.lang.Long'
+2018-03-29 13:24:44.705 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'createTime' to property 'createTime' of type 'java.lang.Long'
+2018-03-29 13:24:44.705 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'status' to property 'status' of type 'java.lang.Integer'
+2018-03-29 13:24:44.705 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'description' to property 'description' of type 'java.lang.String'
+2018-03-29 13:24:44.706 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'configInfo' to property 'configInfo' of type 'java.lang.String'
+2018-03-29 13:24:44.706 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'type' to property 'type' of type 'java.lang.String'
+2018-03-29 13:24:44.706 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.core.BeanPropertyRowMapper      : Mapping column 'symbol' to property 'symbol' of type 'java.lang.String'
+2018-03-29 13:24:44.706 DEBUG   --- [AWT-EventQueue-0] o.s.jdbc.datasource.DataSourceUtils      : Returning JDBC Connection to DataSource
+2018-03-29 13:24:44.707 DEBUG   --- [AWT-EventQueue-0] com.hzz.common.dao.ModelDao              : [0405d5f0-cf87-472e-876a-cabf903ee758] select success, return count 1
+2018-03-29 13:25:01.351  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件开始
+2018-03-29 13:25:01.352  INFO   --- [AWT-EventQueue-0] com.hzz.utils.PropertiesUtils            : 加载属性文件结束
+2018-03-29 13:25:01.352  INFO   --- [AWT-EventQueue-0] o.s.j.d.DriverManagerDataSource          : Loaded JDBC driver: com.mysql.jdbc.Driver

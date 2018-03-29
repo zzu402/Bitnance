@@ -14,6 +14,8 @@ import com.hzz.utils.JsonMapper;
 import com.hzz.utils.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -53,11 +55,21 @@ public class TradeService {
                 if (sellOrBuyInfo != null&&!StringUtil.isBlank(sellOrBuyInfo.getSide())) {//交易成功，记录日志，邮件通知
                     logger.info(String.format("交易成功，成功以%s价格买入%s",currentPrice,config.getSymbol()));
                     mailService.sendNotify(config.getSymbol(),price.getPrice(),1);
+                    //买完之后，num设置为0，防止重复买
+                  doFinishUpdateNum(configInfo,config);
                 }else {
                     logger.info("手动买入交易失败");
                 }
             }
         }
+    }
+
+    public void doFinishUpdateNum(Map<String, String> configInfo,Config config){
+        configInfo.put("num","0");
+        config.setConfigInfo(JsonMapper.nonEmptyMapper().toJson(configInfo));
+        List<Config> list2=new ArrayList<>();
+        list2.add(config);
+        commonService.insertOrUpdateConfigs(list2);
     }
 
 
@@ -116,6 +128,7 @@ public class TradeService {
                 if(sellOrBuyInfo!=null&&!StringUtil.isBlank(sellOrBuyInfo.getSide())){//交易成功，记录日志，邮件通知
                     logger.info(String.format("交易成功，成功以%s价格卖出%s",currentPrice,config.getSymbol()));
                     mailService.sendNotify(config.getSymbol(),price.getPrice(),2);
+                    doFinishUpdateNum(configInfo,config);
                 }else {
                     logger.info("手动卖出交易失败");
                 }
