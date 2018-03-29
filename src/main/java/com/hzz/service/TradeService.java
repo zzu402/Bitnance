@@ -50,9 +50,11 @@ public class TradeService {
                     continue;
                 }
                 SellOrBuyInfo sellOrBuyInfo = api.buy(config.getSymbol(), Double.valueOf(configInfo.get("num")), price.getPrice());
-                if (sellOrBuyInfo != null) {//交易成功，记录日志，邮件通知
+                if (sellOrBuyInfo != null&&!StringUtil.isBlank(sellOrBuyInfo.getSide())) {//交易成功，记录日志，邮件通知
                     logger.info(String.format("交易成功，成功以%s价格买入%s",currentPrice,config.getSymbol()));
                     mailService.sendNotify(config.getSymbol(),price.getPrice(),1);
+                }else {
+                    logger.info("手动买入交易失败");
                 }
             }
         }
@@ -111,9 +113,11 @@ public class TradeService {
                     continue;
                 }
                 SellOrBuyInfo sellOrBuyInfo=api.sell(config.getSymbol(),Double.valueOf(configInfo.get("num")),price.getPrice());
-                if(sellOrBuyInfo!=null){//交易成功，记录日志，邮件通知
+                if(sellOrBuyInfo!=null&&!StringUtil.isBlank(sellOrBuyInfo.getSide())){//交易成功，记录日志，邮件通知
                     logger.info(String.format("交易成功，成功以%s价格卖出%s",currentPrice,config.getSymbol()));
                     mailService.sendNotify(config.getSymbol(),price.getPrice(),2);
+                }else {
+                    logger.info("手动卖出交易失败");
                 }
             }
         }

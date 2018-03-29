@@ -16,4 +16,6 @@ public class QueryConstant {
     public static final String CONFIG_SELECTED_AUTO_TYPE_1="AUTO_1";
     public static final String CONFIG_SELECTED_AUTO_TYPE_2="AUTO_2";
 
+    public static final String DEFAULT_TRADE_CONVERT_CON="BTC";//以币名查询价格均用BTC进行换算
+
 }

@@ -1,6 +1,7 @@
 package com.hzz.service;
 
 import com.hzz.common.dao.ModelDao;
+import com.hzz.constant.QueryConstant;
 import com.hzz.exception.CommonException;
 import com.hzz.main.Api;
 import com.hzz.model.*;
@@ -32,7 +33,9 @@ public class DataService {
             Map.Entry entry = (Map.Entry) it.next();
             String key = (String) entry.getKey();
             Balance value = (Balance) entry.getValue();
-            List prices = api.getMoneyPrice(key);
+
+            //KEY 是币名 ,查找价格均以BTC换算
+            List prices = api.getMoneyPrice(key+ QueryConstant.DEFAULT_TRADE_CONVERT_CON);
             if (prices == null)
                 continue;
             Price price = (Price) prices.get(0);
