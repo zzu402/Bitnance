@@ -34,7 +34,7 @@ public class TradeService {
     public void HmBuy() {
         List<Config> list1 = commonService.getConfigs(1, QueryConstant.CONFIG_SELECTED_HAND_TYPE, QueryConstant.CONFIG_BUY_TYPE);
 
-        if (list1 != null) {//买入配置
+        if (list1 != null&&!list1.isEmpty()) {//买入配置
             List list = commonService.getConfigSetList(QueryConstant.CONFIG_TYPE_PRE_BUY, 1);
             Config[] configs = commonService.sortConfigListByPriority(list);
             for (int i = 0; i < configs.length; i++) {
@@ -97,7 +97,7 @@ public class TradeService {
 
     public void HmSell(){
         List<Config> list1 = commonService.getConfigs(1, QueryConstant.CONFIG_SELECTED_HAND_TYPE, QueryConstant.CONFIG_SELL_TYPE);
-        if(list1!=null){//卖出配置
+        if(list1!=null&&!list1.isEmpty()){//卖出配置
             List list=commonService.getConfigSetList(QueryConstant.CONFIG_TYPE_PRE_SELL,1);
             Config[]configs= commonService.sortConfigListByPriority(list);
             for (int i=0;i<configs.length;i++){

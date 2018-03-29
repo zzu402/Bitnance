@@ -188,7 +188,7 @@ public class CommonService {
      获取实时价格
      */
     public List<Price> getPrices(String symbol) {
-        return getTestPrices(symbol);
+        return api.getMoneyPrice(symbol);
     }
 
 
@@ -201,33 +201,33 @@ public class CommonService {
      */
     public List<Account> getAccount() {
 
-//        try {
-//            List<Account>list=modelDao.select(new Account());
-//            return list;
-//        } catch (CommonException e) {
-//            logger.error("查询我的账户出错",e);
-//            return new ArrayList<Account>();
-//        }
+        try {
+            List<Account>list=modelDao.select(new Account());
+            return list;
+        } catch (CommonException e) {
+            logger.error("查询我的账户出错",e);
+            return new ArrayList<Account>();
+        }
 
 
-        List<Account> list = new ArrayList<>();
-        Account account = new Account();
-        account.setUpdateTime(1521529200L);
-        account.setMoneyCount(15000L);
-        list.add(account);
-        account = new Account();
-        account.setUpdateTime(1521615600L);
-        account.setMoneyCount(17000L);
-        list.add(account);
-        account = new Account();
-        account.setUpdateTime(1521702000L);
-        account.setMoneyCount(16300L);
-        list.add(account);
-        account = new Account();
-        account.setUpdateTime(1521788400L);
-        account.setMoneyCount(14000L);
-        list.add(account);
-        return list;
+//        List<Account> list = new ArrayList<>();
+//        Account account = new Account();
+//        account.setUpdateTime(1521529200L);
+//        account.setMoneyCount(15000L);
+//        list.add(account);
+//        account = new Account();
+//        account.setUpdateTime(1521615600L);
+//        account.setMoneyCount(17000L);
+//        list.add(account);
+//        account = new Account();
+//        account.setUpdateTime(1521702000L);
+//        account.setMoneyCount(16300L);
+//        list.add(account);
+//        account = new Account();
+//        account.setUpdateTime(1521788400L);
+//        account.setMoneyCount(14000L);
+//        list.add(account);
+//        return list;
 
     }
 
@@ -235,39 +235,38 @@ public class CommonService {
       获取目前我拥有的资产
      */
     public Map<String, Balance> getBalances() {
-//        return api.getAllMoneyFree();
-        Map<String, Balance> map = new HashMap<>();
-        Balance balance = new Balance();
-        balance.setFree("1234.05");
-        balance.setLocked("0");
-        map.put("BTC", balance);
-
-        balance = new Balance();
-        balance.setFree("2304.05");
-        balance.setLocked("0");
-        map.put("TFX", balance);
-        return map;
-
+        return api.getAllMoneyFree();
+//        Map<String, Balance> map = new HashMap<>();
+//        Balance balance = new Balance();
+//        balance.setFree("1234.05");
+//        balance.setLocked("0");
+//        map.put("BTC", balance);
+//
+//        balance = new Balance();
+//        balance.setFree("2304.05");
+//        balance.setLocked("0");
+//        map.put("TFX", balance);
+//        return map;
     }
 
 
-    public List<Price> getTestPrices(String symbol) {
-        List<Price> priceList = new ArrayList<>();
-        if (StringUtil.isBlank(symbol)) {
-            for (int i = 0; i < 60; i++) {
-                Price price = new Price();
-                price.setPrice("154.32" + i);
-                price.setSymbol("BTC_" + i);
-                priceList.add(price);
-            }
-        } else {
-            Price price = new Price();
-            price.setPrice("154.32");
-            price.setSymbol(symbol);
-            priceList.add(price);
-        }
-        return priceList;
-    }
+//    public List<Price> getTestPrices(String symbol) {
+//        List<Price> priceList = new ArrayList<>();
+//        if (StringUtil.isBlank(symbol)) {
+//            for (int i = 0; i < 60; i++) {
+//                Price price = new Price();
+//                price.setPrice("154.32" + i);
+//                price.setSymbol("BTC_" + i);
+//                priceList.add(price);
+//            }
+//        } else {
+//            Price price = new Price();
+//            price.setPrice("154.32");
+//            price.setSymbol(symbol);
+//            priceList.add(price);
+//        }
+//        return priceList;
+//    }
 
 
 }

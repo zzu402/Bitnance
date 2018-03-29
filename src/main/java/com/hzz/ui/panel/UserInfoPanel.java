@@ -90,6 +90,8 @@ public class UserInfoPanel extends JPanel {
 
 	private void initTradeMethod(JPanel panel){
 		Map<String,String>map=commonService.getTradeMethod();
+		if(map==null)
+			return;
 		String buy=map.get("buy");
 		String sell=map.get("sell");
 		JLabel label = new JLabel("买入策略");
@@ -122,7 +124,6 @@ public class UserInfoPanel extends JPanel {
 
 	private void initTradeHistory(JPanel panel){
 		ModelDao modelDao=DaoUtils.getDao(DaoUtils.getTemplate());
-
 		Map<JoinModel, JoinType> joinMap = new LinkedHashMap<>();
 		JoinModel joinModel = new JoinModel();
 		joinModel.setAliasName("t");
@@ -143,6 +144,8 @@ public class UserInfoPanel extends JPanel {
 		condition.columns().addAll(Arrays.asList(new String[]{"t.time","t.price","t.qty","t.isMaker","t.isBuyer","o.symbol"}));
 		try {
 			List<Map<String, Object>> tradeList = modelDao.select(joinMap, condition);
+			if(tradeList==null||tradeList.isEmpty())
+				return;
 			Map<String,Object> trade=null;
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd HH:mm");
 			int margin=20;
@@ -190,6 +193,8 @@ public class UserInfoPanel extends JPanel {
 
 	private void initUserFreeMoney(JPanel jp){
 		Map<String,Balance>balanceMap=commonService.getBalances();
+		if(balanceMap==null)
+			return;
 		Iterator it = balanceMap.entrySet().iterator();
 		DefaultPieDataset dataSet = new DefaultPieDataset();
 		while (it.hasNext()) {
@@ -211,7 +216,7 @@ public class UserInfoPanel extends JPanel {
 		Account account=null;
 		try {
 			java.util.List<Account> list=commonService.getAccount();
-			if(list.isEmpty())
+			if(list==null||list.isEmpty())
 				return;;
 			// 获取数据集对象
 			DefaultCategoryDataset dataset = new DefaultCategoryDataset();
