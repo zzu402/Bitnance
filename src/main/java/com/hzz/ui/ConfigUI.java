@@ -1,9 +1,11 @@
 package com.hzz.ui;
 
+import com.hzz.model.User;
 import com.hzz.service.CommonService;
 import com.hzz.constant.QueryConstant;
 import com.hzz.constant.UIConstant;
 import com.hzz.model.Config;
+import com.hzz.ui.panel.UserInfoPanel;
 import com.hzz.utils.AlertUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -287,6 +289,17 @@ public class ConfigUI extends AbstractUI implements ActionListener{
 			AlertUtils.showMessage("策略2帮助");
 		}else if(command.equals("SAVE")){
 			save();
+			//更新主页面的交易策略
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					synchronized (UserInfoPanel.object) {
+						UserInfoPanel.isNeedUpdateTradeMethod = true;
+						UserInfoPanel.object.notify();
+					}
+
+				}
+			}).start();
 
 		}
 	}
