@@ -62,26 +62,6 @@ public class UserInfoPanel extends JPanel {
 		panel_1.setLayout(null);
 		add(panel_1);
 
-		JLabel label = new JLabel("币名");
-		label.setBounds(20, 20, 55, 15);
-		panel_1.add(label);
-
-		JLabel label_1 = new JLabel("时间");
-		label_1.setBounds(100, 20, 55, 15);
-		panel_1.add(label_1);
-
-		JLabel label_2 = new JLabel("价格");
-		label_2.setBounds(155, 20, 55, 15);
-		panel_1.add(label_2);
-
-		JLabel label_3 = new JLabel("数量");
-		label_3.setBounds(242, 20, 55, 15);
-		panel_1.add(label_3);
-
-		JLabel label_4 = new JLabel("进/出");
-		label_4.setBounds(306, 20, 55, 15);
-		panel_1.add(label_4);
-
 		initTradeHistory(panel_1);
 
 
@@ -187,6 +167,27 @@ public class UserInfoPanel extends JPanel {
 						SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd HH:mm");
 						int margin = 20;
 						panel.removeAll();
+
+						JLabel tlabel = new JLabel("币名");
+						tlabel.setBounds(20, 20, 55, 15);
+						panel_1.add(tlabel);
+
+						tlabel= new JLabel("时间");
+						tlabel.setBounds(100, 20, 55, 15);
+						panel_1.add(tlabel);
+
+						tlabel= new JLabel("价格");
+						tlabel.setBounds(155, 20, 55, 15);
+						panel_1.add(tlabel);
+
+						tlabel= new JLabel("数量");
+						tlabel.setBounds(242, 20, 55, 15);
+						panel_1.add(tlabel);
+
+						tlabel= new JLabel("进/出");
+						tlabel.setBounds(306, 20, 55, 15);
+						panel_1.add(tlabel);
+
 						for (int i = 0; i < tradeList.size(); i++) {
 							trade = tradeList.get(i);
 							margin = 20 * (i + 1);

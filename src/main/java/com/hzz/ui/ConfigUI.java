@@ -284,7 +284,13 @@ public class ConfigUI extends AbstractUI implements ActionListener{
 				}
 			});
 		}else if (command.equals("HELP1")){
-			AlertUtils.showMessage("策略1帮助");
+			String message=null;
+			if(type== UIConstant.CONFIG_BUY_UI){
+				message="->币种设置->选择关注币种\r\n如果实时价格大于设定价格，则中止买入。\r\n如果设定价格为0，则执行下降拐点买入！";
+			}else{
+				message="->币种设置->选择关注币种\r\n如果实时价格小于设定价格，则中止卖出。\r\n如果设定价格为0，则执行上升拐点卖出！";
+			}
+			AlertUtils.showMessage(message);
 		}else if (command.equals("HELP2")){
 			AlertUtils.showMessage("策略2帮助");
 		}else if(command.equals("SAVE")){
