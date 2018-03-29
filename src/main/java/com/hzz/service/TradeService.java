@@ -27,6 +27,7 @@ public class TradeService {
     private Logger logger= LoggerFactory.getLogger(TradeService.class);
     private Api api=new Api();
     private CommonService commonService=new CommonService();
+    private MailService mailService=new MailService();
     /*
         手动处理交易
      */
@@ -51,6 +52,7 @@ public class TradeService {
                 SellOrBuyInfo sellOrBuyInfo = api.buy(config.getSymbol(), Double.valueOf(configInfo.get("num")), price.getPrice());
                 if (sellOrBuyInfo != null) {//交易成功，记录日志，邮件通知
                     logger.info(String.format("交易成功，成功以%s价格买入%s",currentPrice,config.getSymbol()));
+                    mailService.sendNotify(config.getSymbol(),price.getPrice(),1);
                 }
             }
         }
@@ -111,6 +113,7 @@ public class TradeService {
                 SellOrBuyInfo sellOrBuyInfo=api.sell(config.getSymbol(),Double.valueOf(configInfo.get("num")),price.getPrice());
                 if(sellOrBuyInfo!=null){//交易成功，记录日志，邮件通知
                     logger.info(String.format("交易成功，成功以%s价格卖出%s",currentPrice,config.getSymbol()));
+                    mailService.sendNotify(config.getSymbol(),price.getPrice(),2);
                 }
             }
         }
