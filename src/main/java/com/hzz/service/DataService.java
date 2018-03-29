@@ -35,15 +35,29 @@ public class DataService {
             Balance value = (Balance) entry.getValue();
 
             //KEY 是币名 ,查找价格均以BTC换算
-            List prices = api.getMoneyPrice(key+ QueryConstant.DEFAULT_TRADE_CONVERT_CON);
-            if (prices == null)
-                continue;
-            Price price = (Price) prices.get(0);
-            Double currentPrice = Double.valueOf(price.getPrice());
-            Double all = Double.valueOf(value.getFree()) + Double.valueOf(value.getLocked());
-            moneyCount += currentPrice * all;
+            if(key.equals("BTC")){
+                Double all = Double.valueOf(value.getFree()) + Double.valueOf(value.getLocked());
+                moneyCount += 1 * all;
+            } else{
+                List prices = api.getMoneyPrice(key + QueryConstant.DEFAULT_TRADE_CONVERT_CON);
+                if (prices == null)
+                    continue;
+                Price price = (Price) prices.get(0);
+                if (price.getPrice() == null)
+                    continue;
+                Double currentPrice = Double.valueOf(price.getPrice());
+                Double all = Double.valueOf(value.getFree()) + Double.valueOf(value.getLocked());
+                moneyCount += currentPrice * all;
+            }
         }
-        moneyCount = moneyCount * 100;
+        List prices = api.getMoneyPrice("BTCUSDT");
+        if (prices == null)
+            return;
+        Price price = (Price) prices.get(0);
+        if (price.getPrice() == null)
+            return;
+        Double currentPrice = Double.valueOf(price.getPrice());
+        moneyCount = moneyCount*currentPrice*6.2862;
         account.setMoneyCount(moneyCount.longValue());
         account.setUpdateTime(System.currentTimeMillis()/1000);
         try {
@@ -69,7 +83,7 @@ public class DataService {
     }
 
     public void getMyTrade(){
-        List<MyTrade> myTradeList=api.getMyTrades("","",10);
+        List<MyTrade> myTradeList=api.getMyTrades("TRXBTC","",10);
         try {
             modelDao.batchInsert(myTradeList);
         } catch (CommonException e) {
@@ -78,7 +92,7 @@ public class DataService {
     }
 
     public void getOrder(){
-        List<Order> orders=api.getMyOrders("","",10);
+        List<Order> orders=api.getMyOrders("TRXBTC","",10);
         try {
             modelDao.batchInsert(orders);
         } catch (CommonException e) {
@@ -94,7 +108,7 @@ public class DataService {
                 while (true){
                     try {
                         getAccount();
-                        Thread.sleep(24*60*60*1000);
+                        Thread.sleep(1*60*60*1000);
                     } catch (InterruptedException e) {
                         logger.error("线程执行错误",e);
                     }

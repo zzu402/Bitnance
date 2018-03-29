@@ -18,8 +18,8 @@ import java.util.Map;
  */
 public class Api {
     //global key
-    private static String secret_key = "";  //账户私密key，用于个人签名，所有账户相关敏感查询或操作都需要将参数加密做一个签名一起附带
-    private static String api_key = ""; //api接口key，用于发送请求时添加到http(s)头进行简单验证，大部分需要
+    private static String secret_key = "mvIaSMDnBhCdn9B2TfqIMdVEU7kUQsu7AqSDZzURHRHdt68w3l2b0DJLneVz3iU6";  //账户私密key，用于个人签名，所有账户相关敏感查询或操作都需要将参数加密做一个签名一起附带
+    private static String api_key = "ZdM5bjA3CrfSm43HH3hP4l5lvv3vXY8ejDDBIqPzTVYCB9dnzM6MO51fjhRx3RzK"; //api接口key，用于发送请求时添加到http(s)头进行简单验证，大部分需要
     private Long currentTime = 0L;
     private Integer recvWindow=150000;
     private Integer limit=500;
@@ -27,24 +27,24 @@ public class Api {
 
     public static void main(String[] args) {
         Api api = new Api();
-        System.out.println("------账户信息--------");
-        System.out.println(api.getAccountInfo());
-        System.out.println("------账户金币信息--------");
-        System.out.println(api.getAllMoneyFree());
-        System.out.println("------账户某币信息--------");
-        System.out.println(api.getMoneyFree("BTC"));
-        System.out.println("------币市价格信息--------");
-        System.out.println(api.getMoneyPrice(""));
+//        System.out.println("------账户信息--------");
+//        System.out.println(api.getAccountInfo());
+//        System.out.println("------账户金币信息--------");
+//        System.out.println(api.getAllMoneyFree());
+//        System.out.println("------账户某币信息--------");
+//        System.out.println(api.getMoneyFree("BTC"));
+//        System.out.println("------币市价格信息--------");
+//        System.out.println(api.getMoneyPrice(""));
         System.out.println("------币市某币价格信息--------");
-        System.out.println(api.getMoneyPrice("TRXBTC"));
-        System.out.println("------汇兑信息--------");
-        System.out.println(api.getExchangeInfo());
-        System.out.println("------出售--------");
-        System.out.println(api.sell("TRXBTC",1842.0,"0.00000416"));
-        System.out.println("------买进--------");
-        System.out.println(api.buy("TRXBTC",1843.0,"0.00000407"));
-        System.out.println("------打开待处理订单--------");
-        System.out.println(api.openMyOrders("TRXBTC"));
+        System.out.println(api.getMoneyPrice("BTCUSDT"));
+//        System.out.println("------汇兑信息--------");
+//        System.out.println(api.getExchangeInfo());
+//        System.out.println("------出售--------");
+//        System.out.println(api.sell("TRXBTC",1842.0,"0.00000416"));
+//        System.out.println("------买进--------");
+//        System.out.println(api.buy("TRXBTC",1843.0,"0.00000407"));
+//        System.out.println("------打开待处理订单--------");
+//        System.out.println(api.openMyOrders("TRXBTC"));
         System.out.println("------获取我的成交交易--------");
         System.out.println(api.getMyTrades("TRXBTC","",10));
         System.out.println("------获取我的订单--------");

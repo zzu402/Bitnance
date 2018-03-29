@@ -1,12 +1,17 @@
 package com.hzz.utils;
 
 import com.hzz.common.dao.ModelDao;
+import com.hzz.exception.CommonException;
+import com.hzz.main.Api;
+import com.hzz.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @Author: huangzz
@@ -35,6 +40,34 @@ public class DBUtils {
         }
         logger.info("init database end ...");
         return true;
+    }
+
+    public static boolean checkDBConfigAndKeys(){
+        File file=new File(String.format("%s//config.properties",System.getProperty("user.dir")));
+        if(!file.exists())
+            return false;
+        PropertiesUtils.loadProps(PropertiesUtils.getUserDir());
+        if(StringUtil.isBlank(PropertiesUtils.getString("userName",""))||StringUtil.isBlank(PropertiesUtils.getString("password","")))
+            return false;
+        ModelDao modelDao= DaoUtils.getDao(DaoUtils.getTemplate());
+        try {
+            List list=modelDao.select(new User());
+            if(list.isEmpty()) {
+                return false;
+            }
+            User user= (User) list.get(0);
+            String apiKey=user.getApi_key();
+            String secretKey=user.getSecret_key();
+            if(StringUtil.isBlank(secretKey)||StringUtil.isBlank(apiKey)) {
+                return false;
+            }
+            return  true;
+
+        } catch (CommonException e) {
+            return  false;
+        }
+
+
     }
 
 

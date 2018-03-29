@@ -1,11 +1,9 @@
 package com.hzz.ui.panel;
 
 import com.hzz.common.dao.*;
+import com.hzz.constant.QueryConstant;
 import com.hzz.exception.CommonException;
-import com.hzz.model.Account;
-import com.hzz.model.Balance;
-import com.hzz.model.MyTrade;
-import com.hzz.model.Order;
+import com.hzz.model.*;
 import com.hzz.service.CommonService;
 import com.hzz.utils.DaoUtils;
 import org.jfree.chart.ChartFactory;
@@ -204,7 +202,7 @@ public class UserInfoPanel extends JPanel {
 							panel.add(label);
 
 							Long time = (Long) trade.get("time");
-							JLabel label_1 = new JLabel(simpleDateFormat.format(new Date(time * 1000)));
+							JLabel label_1 = new JLabel(simpleDateFormat.format(new Date(time )));
 							label_1.setBounds(80, 20 + margin, 85, 15);
 							label_1.setForeground(color);
 							panel.add(label_1);
@@ -255,7 +253,13 @@ public class UserInfoPanel extends JPanel {
 						Map.Entry<String, Balance> entry = (Map.Entry) it.next();
 						String key = entry.getKey();
 						Balance value = entry.getValue();
-						dataSet.setValue(key, Double.valueOf(value.getFree()) + Double.valueOf(value.getLocked()));
+						Double d=Double.valueOf(value.getFree()) + Double.valueOf(value.getLocked());
+						if(key.equals("BTC"))
+							dataSet.setValue(key,d);
+						else {
+							Price price = commonService.getPrices(key + QueryConstant.DEFAULT_TRADE_CONVERT_CON).get(0);
+							dataSet.setValue(key,d*Double.valueOf(price.getPrice()));
+						}
 					}
 					//创建饼图
 					JFreeChart chart = ChartFactory.createPieChart(null,

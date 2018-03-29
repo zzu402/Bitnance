@@ -9,6 +9,7 @@ import com.hzz.ui.AbstractUI;
 import com.hzz.ui.InitUI;
 import com.hzz.ui.MainUI;
 import com.hzz.utils.AlertUtils;
+import com.hzz.utils.DBUtils;
 import com.hzz.utils.DaoUtils;
 import com.hzz.utils.SpringUtils;
 import org.slf4j.Logger;
@@ -39,22 +40,21 @@ public class App {
             public void run() {
                 try {
                     TradeService tradeService=new TradeService();
-                    logger.info("init Key start ...");
-                    tradeService.initKey();
-                    logger.info("init Key end ...");
-
-                    DataService dataService=new DataService();
-                    logger.info("get Data start ...");
-                    dataService.doSaveInfo();
-
+                    if(DBUtils.checkDBConfigAndKeys()) {
+                        logger.info("init Key start ...");
+                        tradeService.initKey();
+                        logger.info("init Key end ...");
+                        DataService dataService = new DataService();
+                        logger.info("get Data start ...");
+                        dataService.doSaveInfo();
+                        tradeService.doHm();
+                        logger.info("doHm start... ");
+                    }
                     logger.info("Main UI start ...");
                     AbstractUI window = new MainUI(WindowConstants.EXIT_ON_CLOSE);
                     window.frame.setVisible(true);
                     logger.info("Main UI start finish");
 
-
-                    tradeService.doHm();
-                    logger.info("doHm start... ");
                 } catch (Exception e) {
                     logger.error("Main UI error...",e);
                     if (e.getMessage().contains("JDBC Connection")){
