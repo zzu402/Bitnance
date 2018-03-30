@@ -93,7 +93,7 @@ public class DataService {
             if(myTradeList==null||myTradeList.isEmpty())
                 continue;
             try {
-                modelDao.batchInsert(myTradeList);
+                modelDao.batchInsertOrUpdate(myTradeList,new String[]{"price","qty","time","isBestMatch","isBuyerMaker"});
             } catch (CommonException e) {
                 logger.error("插入我的历史交易信息出错", e);
             }
@@ -111,7 +111,7 @@ public class DataService {
             if(orders==null||orders.isEmpty())
                 continue;
             try {
-                modelDao.batchInsert(orders);
+                modelDao.batchInsertOrUpdate(orders,new String[]{"symbol","orderId","clientOrderId","price","origQty","executedQty","status","timeInForce","type","side","stopPrice","icebergQty","isWorking","time"});
             } catch (CommonException e) {
                 logger.error("插入我的历史订单信息出错", e);
             }

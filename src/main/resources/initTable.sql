@@ -51,7 +51,8 @@ CREATE TABLE bitcon_trade (
   `time` bigint(20) DEFAULT NULL,
   `isBestMatch` varchar(6) DEFAULT NULL,
   `isBuyerMaker` varchar(6) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `time` (`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 --------------------
 CREATE TABLE bitcon_user (
@@ -83,7 +84,7 @@ CREATE TABLE bitcon_order (
   `isWorking` varchar(255) DEFAULT NULL,
   `time` bigint(32) DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `orderId` (`orderId`)
+  UNIQUE KEY `orderId_time` (`orderId`,`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 --------------------
 CREATE TABLE bitcon_config (

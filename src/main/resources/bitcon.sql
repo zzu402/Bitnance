@@ -62,7 +62,8 @@ CREATE TABLE `bitcon_trade` (
   `time` bigint(20) DEFAULT NULL,
   `isBestMatch` varchar(6) DEFAULT NULL,
   `isBuyerMaker` varchar(6) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `time` (`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
