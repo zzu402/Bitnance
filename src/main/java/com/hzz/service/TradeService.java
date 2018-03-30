@@ -9,10 +9,7 @@ import com.hzz.model.Config;
 import com.hzz.model.Price;
 import com.hzz.model.SellOrBuyInfo;
 import com.hzz.model.User;
-import com.hzz.utils.DaoUtils;
-import com.hzz.utils.EnDecryptUtil;
-import com.hzz.utils.JsonMapper;
-import com.hzz.utils.StringUtil;
+import com.hzz.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +28,11 @@ public class TradeService {
     private Api api=new Api();
     private CommonService commonService=new CommonService();
     private MailService mailService=new MailService();
+    private ModelDao modelDao=DaoUtils.getDao(DaoUtils.getTemplate());
+
+    private static Integer DISTANCE_THRESHOLD_MAX=18;//距离阈值，最小值距离当前价格的位置,一个单位代表10秒
+    private static Integer DISTANCE_THRESHOLD_MIN=6;//距离阈值，最小值距离当前价格的位置,一个单位代表10秒
+
     /*
         手动处理交易
      */
@@ -54,7 +56,7 @@ public class TradeService {
                 }
                 SellOrBuyInfo sellOrBuyInfo = api.buy(config.getSymbol(), Double.valueOf(configInfo.get("num")), price.getPrice());
                 if (sellOrBuyInfo != null&&!StringUtil.isBlank(sellOrBuyInfo.getSide())) {//交易成功，记录日志，邮件通知
-                    logger.info(String.format("交易成功，成功以%s价格买入%s",currentPrice,config.getSymbol()));
+                    logger.info(String.format("手动交易成功，成功以%s价格买入%s",currentPrice,config.getSymbol()));
                     mailService.sendNotify(config.getSymbol(),price.getPrice(),1);
                     //买完之后，num设置为0，防止重复买
                   doFinishUpdateNum(configInfo,config);
@@ -129,7 +131,7 @@ public class TradeService {
                 }
                 SellOrBuyInfo sellOrBuyInfo=api.sell(config.getSymbol(),Double.valueOf(configInfo.get("num")),price.getPrice());
                 if(sellOrBuyInfo!=null&&!StringUtil.isBlank(sellOrBuyInfo.getSide())){//交易成功，记录日志，邮件通知
-                    logger.info(String.format("交易成功，成功以%s价格卖出%s",currentPrice,config.getSymbol()));
+                    logger.info(String.format("手动交易成功，成功以%s价格卖出%s",currentPrice,config.getSymbol()));
                     mailService.sendNotify(config.getSymbol(),price.getPrice(),2);
                     doFinishUpdateNum(configInfo,config);
                 }else {
@@ -137,6 +139,140 @@ public class TradeService {
                 }
             }
         }
+    }
+
+    public void tradeAutoMethodSell1(){//自动卖出策略1
+        List<Config> list1 = commonService.getConfigs(1, QueryConstant.CONFIG_SELECTED_AUTO_TYPE_1, QueryConstant.CONFIG_SELL_TYPE);
+        if(list1!=null&&!list1.isEmpty()){//执行自动买入策略1
+            List list = commonService.getConfigSetList(QueryConstant.CONFIG_TYPE_PRE_SELL, 1);
+            Config[] configs = commonService.sortConfigListByPriority(list);
+            for (int i = 0; i < configs.length; i++) {
+                Config config = configs[i];
+                Map<String, String> configInfo = JsonMapper.nonDefaultMapper().fromJson(config.getConfigInfo(), Map.class);
+                List<Price> prices = api.getMoneyPrice(config.getSymbol());
+                if (prices == null)
+                    continue;
+                Price price = prices.get(0);//当前的价格
+                Double currentPrice=Double.valueOf(price.getPrice());
+                Price configPrice=new Price();
+                configPrice.setSymbol(config.getSymbol());
+                configPrice.limitCount(2*360);//获取最近两个小时的数据
+                configPrice.groupBy("createTime desc");
+                try {
+                    List<Price>priceList=modelDao.select(configPrice);
+                    if(priceList==null||priceList.isEmpty())
+                        continue;
+                    Double[] priceDoubles=coverPriceToDoubleArray(priceList);
+                    priceDoubles[priceDoubles.length-1]=currentPrice;//将当前价格加入
+                    Integer maxPosition=MathUtils.findMaxPosition(priceDoubles);//卖出去寻找最近两个小时最高价格
+                    //触发条件，当前出现最低点在最新价格附近
+                    if(maxPosition+DISTANCE_THRESHOLD_MAX>=priceDoubles.length-1&&maxPosition+DISTANCE_THRESHOLD_MIN<=priceDoubles.length-1) {
+                        //如果最小的价格在当前价格并且不是当前价格
+                        Double[] Ksub = MathUtils.getKsub(priceDoubles);
+                        //获取价格的ksub值,计算从最高位置到当前价格的k是递减的，则可以卖出
+                        Double sum = 0.0;
+                        for (int j = maxPosition; j < Ksub.length; j++) {
+                            sum += Ksub[i];
+                        }
+                        if (sum < 0) {//当前总体是下降趋势，判断可以卖出
+                            Double setPrice=Double.valueOf(configInfo.get("price"));//还要判断价格
+                            if(MathUtils.compareDouble(setPrice,0.0)>0) {
+                                //如果设定价格非0,就得判断当前要买入的价格和设置的价格比较
+                                if(MathUtils.compareDouble(currentPrice,setPrice)<0){//如果当前的价格比设置的价格小，就不卖出
+                                    continue;
+                                }else{
+                                    //这里执行卖出操作
+                                    SellOrBuyInfo sellOrBuyInfo=api.sell(config.getSymbol(),Double.valueOf(configInfo.get("num")),price.getPrice());
+                                    if(sellOrBuyInfo!=null&&!StringUtil.isBlank(sellOrBuyInfo.getSide())){//交易成功，记录日志，邮件通知
+                                        logger.info(String.format("自动交易成功，成功以%s价格卖出%s",currentPrice,config.getSymbol()));
+                                        mailService.sendNotify(config.getSymbol(),price.getPrice(),2);
+                                        doFinishUpdateNum(configInfo,config);
+                                    }else {
+                                        logger.info("自动卖出交易失败");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (CommonException e) {
+                    logger.error("执行自动策略获取数据库价格信息时候出错",e);
+                }
+            }
+        }
+    }
+
+
+
+    public void tradeAutoMethodBuy1(){//自动买入策略1
+        List<Config> list1 = commonService.getConfigs(1, QueryConstant.CONFIG_SELECTED_AUTO_TYPE_1, QueryConstant.CONFIG_BUY_TYPE);
+        if(list1!=null&&!list1.isEmpty()){//执行自动买入策略1
+            List list = commonService.getConfigSetList(QueryConstant.CONFIG_TYPE_PRE_BUY, 1);
+            Config[] configs = commonService.sortConfigListByPriority(list);
+            for (int i = 0; i < configs.length; i++) {
+                Config config = configs[i];
+                Map<String, String> configInfo = JsonMapper.nonDefaultMapper().fromJson(config.getConfigInfo(), Map.class);
+                List<Price> prices = api.getMoneyPrice(config.getSymbol());
+                if (prices == null)
+                    continue;
+                Price price = prices.get(0);//当前的价格
+                Double currentPrice=Double.valueOf(price.getPrice());
+                Price configPrice=new Price();
+                configPrice.setSymbol(config.getSymbol());
+                configPrice.limitCount(2*360);//获取最近两个小时的数据
+                configPrice.groupBy("createTime desc");
+                try {
+                    List<Price>priceList=modelDao.select(configPrice);
+                    if(priceList==null||priceList.isEmpty())
+                        continue;
+                    Double[] priceDoubles=coverPriceToDoubleArray(priceList);
+                    priceDoubles[priceDoubles.length-1]=currentPrice;//将当前价格加入
+                    Integer minPosition=MathUtils.findMinPosition(priceDoubles);//买入去寻找最近两个小时最低价格
+
+                    //触发条件，当前出现最低点在最新价格附近
+                    if(minPosition+DISTANCE_THRESHOLD_MAX>=priceDoubles.length-1&&minPosition+DISTANCE_THRESHOLD_MIN<=priceDoubles.length-1) {
+                        //如果最小的价格在当前价格并且不是当前价格
+                        Double[] Ksub = MathUtils.getKsub(priceDoubles);
+                        //获取价格的ksub值,计算从最小位置到当前价格的k是递增的，则可以买入
+                        Double sum = 0.0;
+                        for (int j = minPosition; j < Ksub.length; j++) {
+                            sum += Ksub[i];
+                        }
+                        if (sum > 0) {//当前总体是上升趋势，判断可以买入
+                           Double setPrice=Double.valueOf(configInfo.get("price"));//还要判断价格
+                            if(MathUtils.compareDouble(setPrice,0.0)>0) {
+                                //如果设定价格非0,就得判断当前要买入的价格和设置的价格比较
+                                if(MathUtils.compareDouble(currentPrice,setPrice)>0){//如果当前的价格比设置的价格大，就不买入
+                                    continue;
+                                }else{
+                                    //这里执行买入操作
+                                    SellOrBuyInfo sellOrBuyInfo = api.buy(config.getSymbol(), Double.valueOf(configInfo.get("num")), price.getPrice());
+                                    if (sellOrBuyInfo != null&&!StringUtil.isBlank(sellOrBuyInfo.getSide())) {//交易成功，记录日志，邮件通知
+                                        logger.info(String.format("自动交易成功，成功以%s价格买入%s",currentPrice,config.getSymbol()));
+                                        mailService.sendNotify(config.getSymbol(),price.getPrice(),1);
+                                        //买完之后，num设置为0，防止重复买
+                                        doFinishUpdateNum(configInfo,config);
+                                    }else {
+                                        logger.info("自动买入交易失败");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (CommonException e) {
+                    logger.error("执行自动策略获取数据库价格信息时候出错",e);
+                }
+
+
+            }
+        }
+    }
+
+    private Double[] coverPriceToDoubleArray(List<Price> priceList) {
+        Double[]doubles=new Double[priceList.size()+1];
+        for(int i=0;i<priceList.size();i++){
+            doubles[i]=Double.valueOf(priceList.get(i).getPrice());
+        }
+        return doubles;
     }
 
 
@@ -148,7 +284,10 @@ public class TradeService {
 
                 while (true){
                     try {
+                        //手动
                         HmBuy();
+                        //自动
+                        tradeAutoMethodBuy1();
                         Thread.sleep(10000);
                     } catch (Exception e) {
                         logger.error("线程执行买入出错",e);
@@ -163,6 +302,7 @@ public class TradeService {
                 while (true){
                     try {
                         HmSell();
+                        tradeAutoMethodSell1();
                         Thread.sleep(10000);
                     } catch (Exception e) {
                         logger.error("线程执行卖出出错",e);

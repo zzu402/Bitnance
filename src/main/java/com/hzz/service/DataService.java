@@ -140,7 +140,7 @@ public class DataService {
                 while (true){
                     try {
                         getPrice();
-                        Thread.sleep(10000);
+                        Thread.sleep(10000);//每隔10秒更新数据
                     } catch (InterruptedException e) {
                         logger.error("线程执行错误",e);
                     }
