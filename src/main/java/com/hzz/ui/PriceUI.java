@@ -71,7 +71,7 @@ public class PriceUI extends AbstractUI{
 			public void actionPerformed(ActionEvent e) {
 				String text=textField.getText().trim();
 				prices=commonService.getPrices(text);
-				if(prices.isEmpty()){
+				if(prices==null||prices.isEmpty()){
 					AlertUtils.showMessage("您查找的货币不存在，请检查输入是否正确！");
 				}
 				pageIndex=0;

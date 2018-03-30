@@ -257,7 +257,10 @@ public class UserInfoPanel extends JPanel {
 						if(key.equals("BTC"))
 							dataSet.setValue(key,d);
 						else {
-							Price price = commonService.getPrices(key + QueryConstant.DEFAULT_TRADE_CONVERT_CON).get(0);
+							List<Price>priceList=commonService.getPrices(key + QueryConstant.DEFAULT_TRADE_CONVERT_CON);
+							if(priceList==null)
+								continue;
+							Price price = priceList.get(0);
 							dataSet.setValue(key,d*Double.valueOf(price.getPrice()));
 						}
 					}

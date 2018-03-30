@@ -83,20 +83,38 @@ public class DataService {
     }
 
     public void getMyTrade(){
-        List<MyTrade> myTradeList=api.getMyTrades("TRXBTC","",10);
-        try {
-            modelDao.batchInsert(myTradeList);
-        } catch (CommonException e) {
-            logger.error("插入我的历史交易信息出错",e);
+        List<Price> priceList=api.getMoneyPrice("");
+        if(priceList==null)
+            return;
+        Price price=null;
+        for(int i=0;i<priceList.size();i++) {
+            price=priceList.get(i);
+            List<MyTrade> myTradeList = api.getMyTrades(price.getSymbol(), "", 10);
+            if(myTradeList==null||myTradeList.isEmpty())
+                continue;
+            try {
+                modelDao.batchInsert(myTradeList);
+            } catch (CommonException e) {
+                logger.error("插入我的历史交易信息出错", e);
+            }
         }
     }
 
     public void getOrder(){
-        List<Order> orders=api.getMyOrders("TRXBTC","",10);
-        try {
-            modelDao.batchInsert(orders);
-        } catch (CommonException e) {
-            logger.error("插入我的历史订单信息出错",e);
+        List<Price> priceList=api.getMoneyPrice("");
+        if(priceList==null)
+            return;
+        Price price=null;
+        for(int i=0;i<priceList.size();i++) {
+            price = priceList.get(i);
+            List<Order> orders = api.getMyOrders(price.getSymbol(), "", 10);
+            if(orders==null||orders.isEmpty())
+                continue;
+            try {
+                modelDao.batchInsert(orders);
+            } catch (CommonException e) {
+                logger.error("插入我的历史订单信息出错", e);
+            }
         }
     }
 

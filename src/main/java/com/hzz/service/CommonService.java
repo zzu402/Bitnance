@@ -191,11 +191,6 @@ public class CommonService {
         return api.getMoneyPrice(symbol);
     }
 
-
-
-
-
-
     /*
      获取我的账户
      */

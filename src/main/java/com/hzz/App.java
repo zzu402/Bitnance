@@ -4,6 +4,7 @@ import com.hzz.common.dao.ModelDao;
 import com.hzz.exception.CommonException;
 import com.hzz.model.Account;
 import com.hzz.service.DataService;
+import com.hzz.service.JobService;
 import com.hzz.service.TradeService;
 import com.hzz.ui.AbstractUI;
 import com.hzz.ui.InitUI;
@@ -39,17 +40,7 @@ public class App {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    TradeService tradeService=new TradeService();
-                    if(DBUtils.checkDBConfigAndKeys()) {
-                        logger.info("init Key start ...");
-                        tradeService.initKey();
-                        logger.info("init Key end ...");
-                        DataService dataService = new DataService();
-                        logger.info("get Data start ...");
-                        dataService.doSaveInfo();
-                        tradeService.doHm();
-                        logger.info("doHm start... ");
-                    }
+                    JobService.doJob();
                     logger.info("Main UI start ...");
                     AbstractUI window = new MainUI(WindowConstants.EXIT_ON_CLOSE);
                     window.frame.setVisible(true);

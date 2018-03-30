@@ -119,6 +119,8 @@ public class ConfigSetUI extends AbstractUI{
 			@Override
 			public void run() {
 				prices=commonService.getPrices("");
+				if(prices==null)
+					return;
 				textFieldList=new ArrayList<>(prices.size()*2);
 				checkboxList=new ArrayList<>(prices.size());
 				setData(button_1,button_2,panel);

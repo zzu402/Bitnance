@@ -1,5 +1,6 @@
 package com.hzz.service;
 
+import com.hzz.App;
 import com.hzz.common.dao.ModelDao;
 import com.hzz.constant.QueryConstant;
 import com.hzz.exception.CommonException;
@@ -74,37 +75,39 @@ public class TradeService {
 
 
     public boolean initKey(){//配置ApiKey和
-        ModelDao modelDao= DaoUtils.getDao(DaoUtils.getTemplate());
-        try {
-            logger.info("设置key开始");
-            List list=modelDao.select(new User());
-            if(list.isEmpty()) {
-                logger.info("当前数据库没有存储两项KEY");
+        if(StringUtil.isBlank(Api.getApi_key())||StringUtil.isBlank(Api.getSecret_key())) {
+            ModelDao modelDao = DaoUtils.getDao(DaoUtils.getTemplate());
+            try {
+                logger.info("设置key开始");
+                List list = modelDao.select(new User());
+                if (list.isEmpty()) {
+                    logger.info("当前数据库没有存储两项KEY");
+                    return false;
+                }
+                User user = (User) list.get(0);
+                String apiKey = user.getApi_key();
+                String secretKey = user.getSecret_key();
+                String salt = user.getSalt();
+                if (StringUtil.isBlank(secretKey) || StringUtil.isBlank(apiKey)) {
+                    logger.info("当前数据库没有存储两项KEY");
+                    return false;
+                }
+
+                String sk = EnDecryptUtil.decryptAES(secretKey, salt);
+                String ak = EnDecryptUtil.decryptAES(apiKey, salt);
+
+                Api.setApi_key(ak);
+                Api.setSecret_key(sk);
+                logger.info("设置Key结束");
+                return true;
+
+            } catch (CommonException e) {
+                logger.error("初始化用户Key失败", e);
                 return false;
             }
-            User user= (User) list.get(0);
-            String apiKey=user.getApi_key();
-            String secretKey=user.getSecret_key();
-            String salt=user.getSalt();
-            if(StringUtil.isBlank(secretKey)||StringUtil.isBlank(apiKey)) {
-                logger.info("当前数据库没有存储两项KEY");
-                return false;
-            }
-
-            String sk=EnDecryptUtil.decryptAES(secretKey,salt);
-            String ak=EnDecryptUtil.decryptAES(apiKey,salt);
-
-            Api.setApi_key(ak);
-            Api.setSecret_key(sk);
-            logger.info("设置Key结束");
-            return  true;
-
-        } catch (CommonException e) {
-            logger.error("初始化用户Key失败",e);
-            return  false;
+        }else{
+            return true;
         }
-
-
     }
 
     public void HmSell(){

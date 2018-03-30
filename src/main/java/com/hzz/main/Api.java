@@ -7,6 +7,9 @@ import com.hzz.utils.NumberUtils;
 import com.hzz.utils.SslUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +27,7 @@ public class Api {
     private Integer recvWindow=150000;
     private Integer limit=500;
     private Double rateFee =  0.001; //手续费比率
+    private static Logger logger= LoggerFactory.getLogger(Api.class);
 
     public static void main(String[] args) {
         Api api = new Api();
@@ -50,7 +54,7 @@ public class Api {
         System.out.println("------获取我的订单--------");
         System.out.println(api.getMyOrders("TRXBTC","",10));
         System.out.println("------获取历史成交交易--------");
-        System.out.println(api.getHistoticalTrades("TRXBTC",10,""));
+        System.out.println(api.getHistoricalTrades("TRXBTC",10,""));
         System.out.println("------获取最近成交交易--------");
         System.out.println(api.getRecentTrades("TRXBTC",10));
     }
@@ -61,6 +65,14 @@ public class Api {
 
     public static void setApi_key(String api_key) {
         Api.api_key = api_key;
+    }
+
+    public static String getSecret_key() {
+        return secret_key;
+    }
+
+    public static String getApi_key() {
+        return api_key;
     }
 
     private Map jsonStr2Map(String jsonStr){
@@ -80,6 +92,7 @@ public class Api {
         return map;
     }
     private String requestApi(String url, Map rQuery, Boolean bSign) {
+        logger.info("request API start...");
         try {
             SslUtils.ignoreSsl();
             String queryString = (String) rQuery.get("query_string");
@@ -122,43 +135,66 @@ public class Api {
             } else {
                 connection.method(Connection.Method.GET);
             }
-            return   connection.execute().body();
+            String body=connection.execute().body();
+            logger.info("request API end...");
+            return  body;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("request API error...",e);
             return null;
         }
     }
     //获取账户信息
     public Account getAccountInfo() {
+        logger.info("get account start...");
         String url_api = "https://api.binance.com/api/v3/account";
         String query_string = "recvWindow="+recvWindow;
         String result =requestApi(url_api, createRQuery("GET",query_string,true), true);
-        Gson gson = new Gson();
-        if(result!=null) {
-            Account account = gson.fromJson(result, Account.class);
-            return account;
+        try {
+            Gson gson = new Gson();
+            if(result!=null) {
+                Account account = gson.fromJson(result, Account.class);
+                logger.info("get account end...");
+                return account;
+            }
+        }catch (Exception e){
+            logger.error("get account error...",e);
+             return null;
         }
+        logger.error("no get any account info...");
         return null;
     }
     //获取所有闲置钱币
     public Map<String,Balance> getAllMoneyFree(){
+        logger.info("get all free money start ...");
         Map<String,Balance>newBalances=new HashMap<String, Balance>();
         Account account=getAccountInfo();
         if(account!=null){
            List<Balance>oldBalances=account.getBalances();
+           if(oldBalances==null||oldBalances.isEmpty()){
+               logger.info("no get any free money ...");
+               return null;
+           }
            for(int i=0;i<oldBalances.size();i++){
                Balance balance=oldBalances.get(i);
                if(NumberUtils.isEquals(NumberUtils.valueOf(balance.getFree()),0.0)){
                    newBalances.put(balance.getAsset(),balance);
                }
            }
+           logger.info("get all free money end...");
            return  newBalances;
         }
+        logger.info("no get any free money ...");
         return null;
     }
    //获取某种币的余额
     public Balance getMoneyFree(String name){
+        logger.info("get free money  start...");
         Map<String,Balance> balanceMap=getAllMoneyFree();
+        if(balanceMap==null) {
+            logger.info("get free money failure...");
+            return null;
+        }
+        logger.info("get free money end...");
         return balanceMap.get(name);
     }
     /**
@@ -167,28 +203,37 @@ public class Api {
      * @return
      */
     public List<Price> getMoneyPrice(String symbol){
+        logger.info("get money price start ...");
         String url_api="https://api.binance.com/api/v3/ticker/price";
         String query_string="";
         if(!symbol.equals("")){
             query_string+="symbol="+symbol;
         }
-        String result=requestApi(url_api,createRQuery("GET",query_string,false),false);
-        List<Price>priceList=null;
-        Gson gson = new Gson();
-        if(result!=null) {
-            if(symbol.equals(""))
-             priceList=gson.fromJson(result, new TypeToken<List<Price>>() {
-             }.getType());
-            else {
-                Price price=gson.fromJson(result,Price.class);
-                priceList=new ArrayList<Price>();
-                priceList.add(price);
+        try {
+            String result=requestApi(url_api,createRQuery("GET",query_string,false),false);
+            List<Price>priceList=null;
+            Gson gson = new Gson();
+            if(result!=null) {
+                if(symbol.equals(""))
+                    priceList=gson.fromJson(result, new TypeToken<List<Price>>() {
+                    }.getType());
+                else {
+                    Price price=gson.fromJson(result,Price.class);
+                    priceList=new ArrayList<Price>();
+                    priceList.add(price);
+                }
             }
+            logger.info("get money price end ...");
+            return  priceList;
+        }catch (Exception e){
+            logger.error("get money price error ...",e);
+            return null;
         }
-        return  priceList;
+
     }
     //尝试请求交易
     public String tryRequestOrder(String query_string,String method){
+        logger.info("try to request order ...");
         String url_api="https://api.binance.com/api/v3/order";
         String result =requestApi(url_api, createRQuery(method,query_string,true), true);
         return  result;
@@ -224,14 +269,22 @@ public class Api {
      * @return
      */
     public SellOrBuyInfo buy(String symbol,Double quantity,String price){
+        logger.info("try to buy start ...");
         String query_string="side=BUY&symbol="+symbol+"&quantity="+quantity+"&price="+price +
                 "&type=LIMIT&timeInForce=GTC&recvWindow="+recvWindow;
-        String result=tryRequestOrder(query_string,"POST");
-        Gson gson = new Gson();
-        if(result!=null) {
-            SellOrBuyInfo sellOrBuyInfo = gson.fromJson(result, SellOrBuyInfo.class);
-            return sellOrBuyInfo;
+        try {
+            String result=tryRequestOrder(query_string,"POST");
+            Gson gson = new Gson();
+            if(result!=null) {
+                SellOrBuyInfo sellOrBuyInfo = gson.fromJson(result, SellOrBuyInfo.class);
+                logger.info("try to buy end ...");
+                return sellOrBuyInfo;
+            }
+        }catch (Exception e){
+            logger.error("try to buy error ...",e);
+            return null;
         }
+        logger.info("try to buy failure...");
         return null;
 
     }
@@ -243,14 +296,22 @@ public class Api {
      * @return
      */
     public SellOrBuyInfo sell(String symbol, Double quantity, String price){
+        logger.info("try to sell start ...");
         String query_string="symbol="+symbol+"&side=SELL&type=LIMIT&timeInForce=GTC&quantity="+quantity+"&price="+price +
                 "&recvWindow="+recvWindow;
         String result=tryRequestOrder(query_string,"POST");
-        Gson gson = new Gson();
-        if(result!=null) {
-            SellOrBuyInfo sellOrBuyInfo = gson.fromJson(result, SellOrBuyInfo.class);
-            return sellOrBuyInfo;
+        try {
+            Gson gson = new Gson();
+            if(result!=null) {
+                SellOrBuyInfo sellOrBuyInfo = gson.fromJson(result, SellOrBuyInfo.class);
+                logger.info("try to sell end ...");
+                return sellOrBuyInfo;
+            }
+        }catch (Exception e){
+            logger.error("try to sell error...",e);
+            return null;
         }
+        logger.info("try to sell failure...");
         return null;
     }
     //获取服务器时间戳（毫秒）
@@ -279,68 +340,101 @@ public class Api {
     }
     //获取历史订单
     public List<Order> getMyOrders(String symbol,String orderId,Integer limit){
+        logger.info("try to get my order start ...");
+
         String query_string="symbol="+symbol+"&recvWindow="+recvWindow+"&limit="+limit;
         if(!orderId.equals("")){
             query_string+="&orderId="+orderId;
         }
-        String url_api="https://api.binance.com/api/v3/allOrders";
-        String result=requestApi(url_api,createRQuery("GET",query_string,true),true);
-        Gson gson = new Gson();
-        List<Order>orders=null;
-        if(result!=null) {
-            orders=gson.fromJson(result, new TypeToken<List<Order>>() {
-            }.getType());
-            return  orders;
+        try {
+            String url_api="https://api.binance.com/api/v3/allOrders";
+            String result=requestApi(url_api,createRQuery("GET",query_string,true),true);
+            Gson gson = new Gson();
+            List<Order>orders=null;
+            if(result!=null) {
+                orders=gson.fromJson(result, new TypeToken<List<Order>>() {
+                }.getType());
+                logger.info("try to get my order end ...");
+                return  orders;
+            }
+        }catch (Exception e){
+            logger.error("try to get my order error ...",e);
+            return null;
         }
+        logger.info("try to get my order failure ...");
         return null;
     }
     //获取我的历史交易
     public List<MyTrade> getMyTrades(String symbol,String formId,Integer limit){
+        logger.info("try to get my trade start ...");
         String query_string="symbol="+symbol+"&recvWindow="+recvWindow+"&limit="+limit;
         if(!formId.equals("")){
             query_string+="&formId="+formId;
         }
-        String url_api="https://api.binance.com/api/v3/myTrades";
-        String result=requestApi(url_api,createRQuery("GET",query_string,true),true);
-        Gson gson = new Gson();
-        List<MyTrade>trades=null;
-        if(result!=null) {
-            trades=gson.fromJson(result, new TypeToken<List<MyTrade>>() {
-            }.getType());
-            return  trades;
+        try {
+            String url_api="https://api.binance.com/api/v3/myTrades";
+            String result=requestApi(url_api,createRQuery("GET",query_string,true),true);
+            Gson gson = new Gson();
+            List<MyTrade>trades=null;
+            if(result!=null) {
+                trades=gson.fromJson(result, new TypeToken<List<MyTrade>>() {
+                }.getType());
+                logger.info("try to get my trade end ...");
+                return  trades;
+            }
+        }catch (Exception e){
+            logger.error("try to get my trade error ...",e);
+            return  null;
         }
+        logger.info("try to get my trade failure ...");
         return null;
     }
     //获取最新成交交易
     public List<Trade> getRecentTrades(String symbol,Integer limit){
+        logger.info("try to get my recent trade start ...");
         String query_string="symbol="+symbol+"&limit="+limit;
-        String url_api="https://api.binance.com/api/v1/trades";
-        String result=requestApi(url_api,createRQuery("GET",query_string,false),false);
-        Gson gson = new Gson();
-        List<Trade>trades=null;
-        if(result!=null) {
-            trades=gson.fromJson(result, new TypeToken<List<Trade>>() {
-            }.getType());
-            return  trades;
+        try {
+            String url_api="https://api.binance.com/api/v1/trades";
+            String result=requestApi(url_api,createRQuery("GET",query_string,false),false);
+            Gson gson = new Gson();
+            List<Trade>trades=null;
+            if(result!=null) {
+                trades=gson.fromJson(result, new TypeToken<List<Trade>>() {
+                }.getType());
+                logger.info("try to get my recent trade end ...");
+                return  trades;
+            }
+        }catch (Exception e){
+            logger.error("try to get my recent trade error ...",e);
+            return null;
         }
+        logger.info("try to get my recent trade failure ...");
         return null;
     }
 
     //获取历史成交交易
-    public List<Trade> getHistoticalTrades(String symbol, Integer limit, String formId){
+    public List<Trade> getHistoricalTrades(String symbol, Integer limit, String formId){
+        logger.info("try to get  historical trade start ...");
         String query_string="symbol="+symbol+"&limit="+limit;
         if(!formId.equals("")){
             query_string+="&formId="+formId;
         }
-        String url_api="https://api.binance.com/api/v1/historicalTrades";
-        String result=requestApi(url_api,createRQuery("GET",query_string,false),false);
-        Gson gson = new Gson();
-        List<Trade>trades=null;
-        if(result!=null) {
-           trades=gson.fromJson(result, new TypeToken<List<Trade>>() {
-            }.getType());
-            return  trades;
+        try {
+            String url_api="https://api.binance.com/api/v1/historicalTrades";
+            String result=requestApi(url_api,createRQuery("GET",query_string,false),false);
+            Gson gson = new Gson();
+            List<Trade>trades=null;
+            if(result!=null) {
+                trades=gson.fromJson(result, new TypeToken<List<Trade>>() {
+                }.getType());
+                logger.info("try to get  historical trade end ...");
+                return  trades;
+            }
+        }catch (Exception e){
+            logger.error("try to get  historical trade error ...",e);
+            return null;
         }
+        logger.info("try to get  historical trade failure ...");
         return null;
     }
 
