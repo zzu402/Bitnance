@@ -19,6 +19,16 @@ public class Price extends AbstractModel<Price> {
     private String price;
     @Column
     private Long createTime;
+    @Column
+    private Integer pointType;
+
+    public Integer getPointType() {
+        return pointType;
+    }
+
+    public void setPointType(Integer pointType) {
+        this.pointType = pointType;
+    }
 
     public Long getId() {
         return id;
