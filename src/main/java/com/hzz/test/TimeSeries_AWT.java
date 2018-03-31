@@ -7,12 +7,14 @@ import com.hzz.utils.DaoUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.Marker;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.general.SeriesException;
 import org.jfree.data.time.*;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.ApplicationFrame;
+import org.jfree.ui.Layer;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.TextAnchor;
 import java.awt.*;
@@ -95,20 +97,27 @@ public class TimeSeries_AWT extends ApplicationFrame
         if(currentPrice!=null&&currentPrice.size()>1) {
             for(int i=0;i<currentPrice.size();i++) {
 
-                ValueMarker valueMarker = new ValueMarker(Double.valueOf(currentPrice.get(i).getPrice()));
+
+                Marker valueMarker=new ValueMarker(new Date(currentPrice.get(i).getCreateTime()*1000).getTime());
+
+//                Marker valueMarker = new ValueMarker(Double.valueOf(currentPrice.get(i).getPrice()));
+
                 valueMarker.setPaint(Color.blue);   // 值标记线颜色
                 valueMarker.setAlpha(0.9F);         // 值标记线透明度
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd hh:mm:ss");
-                String labelStr = type == 1 ? "买入时间:" + simpleDateFormat.format(new Date(currentPrice.get(i).getCreateTime() * 1000)) : "卖出时间:" + simpleDateFormat.format(new Date(currentPrice.get(i).getCreateTime() * 1000));
-                valueMarker.setLabel(labelStr);        // 值标记线显示的文字
-                valueMarker.setLabelPaint(Color.BLUE);  // 值标记线显示的文字的颜色
-                // 值标记线显示的文字的字体
-                valueMarker.setLabelFont(new Font("宋体", Font.PLAIN, 12));
-                // 值标记线显示的文字定位到最左端的数据点处
-                valueMarker.setLabelAnchor(RectangleAnchor.LEFT);
-                // 值标记线在显示的文字的下方左端
-                valueMarker.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
-                plot.addRangeMarker(valueMarker); // 在图表中使用自定义的值标记线
+                System.out.println(simpleDateFormat.format(new Date(currentPrice.get(i).getCreateTime() * 1000)));
+
+//                String labelStr = type == 1 ? "买入时间:" + simpleDateFormat.format(new Date(currentPrice.get(i).getCreateTime() * 1000)) : "卖出时间:" + simpleDateFormat.format(new Date(currentPrice.get(i).getCreateTime() * 1000));
+//                valueMarker.setLabel(labelStr);        // 值标记线显示的文字
+//                valueMarker.setLabelPaint(Color.BLUE);  // 值标记线显示的文字的颜色
+//                // 值标记线显示的文字的字体
+//                valueMarker.setLabelFont(new Font("宋体", Font.PLAIN, 12));
+//                // 值标记线显示的文字定位到最左端的数据点处
+//                valueMarker.setLabelAnchor(RectangleAnchor.LEFT);
+//                // 值标记线在显示的文字的下方左端
+//                valueMarker.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
+                plot.addDomainMarker(valueMarker);
+//                plot.addRangeMarker(valueMarker); // 在图表中使用自定义的值标记线
             }
         }
         return localChart;
@@ -117,29 +126,30 @@ public class TimeSeries_AWT extends ApplicationFrame
     public static void main( final String[ ] args )
     {
         final String title = "模拟";
-//        List<Price> priceList=getTestList();
-//        List<Price> currentPrice=new ArrayList<>();
-//        currentPrice.add(priceList.get(200));
-//        currentPrice.add(priceList.get(360));
+        List<Price> priceList=getTestList();
+        List<Price> currentPrice=new ArrayList<>();
+        currentPrice.add(priceList.get(200));
+        currentPrice.add(priceList.get(360));
+        final TimeSeries_AWT demo = new TimeSeries_AWT( title,priceList,currentPrice,1);
 
-        final TimeSeries_AWT demo = new TimeSeries_AWT( title,getPrice("TFXBTC",0),getPrice("TFXBTC",1),1);
+//        final TimeSeries_AWT demo = new TimeSeries_AWT( title,getPrice("TFXBTC",0),getPrice("TFXBTC",1),1);
         demo.pack( );
         demo.setLocationRelativeTo(null);
         demo.setVisible( true );
     }
 
-//    public static java.util.List<Price> getTestList(){
-//        List<Price> priceList=new ArrayList<>();
-//        Price price=null;
-//        Random random = new Random();
-//        for(int i=0;i<720;i++){
-//            price=new Price();
-//            price.setPrice( String.valueOf(random.nextInt(1100)%(1100-1000+1) + 1000));
-//            price.setCreateTime(1522460467L+i*10);
-//            priceList.add(price);
-//        }
-//        return priceList;
-//    }
+    public static java.util.List<Price> getTestList(){
+        List<Price> priceList=new ArrayList<>();
+        Price price=null;
+        Random random = new Random();
+        for(int i=0;i<720;i++){
+            price=new Price();
+            price.setPrice( String.valueOf(random.nextInt(1100)%(1100-1000+1) + 1000));
+            price.setCreateTime(1522460467L+i*10);
+            priceList.add(price);
+        }
+        return priceList;
+    }
 
     public static List<Price> getPrice(String symbol,Integer type){
         Price price=new Price();
