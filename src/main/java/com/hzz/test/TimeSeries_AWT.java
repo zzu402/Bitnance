@@ -60,13 +60,13 @@ public class TimeSeries_AWT extends ApplicationFrame
         if(priceList==null||priceList.size()<1)
             return  new TimeSeriesCollection(new TimeSeries(""));
         final TimeSeries series = new TimeSeries( "Random Data" );
-        Minute current =null;
+        Second current =null;
         Double value=null;
         Price price=null;
         for (int i = 0; i <priceList.size() ; i++)
         {
             price=priceList.get(i);
-            current=new Minute(new Date(price.getCreateTime()*1000));
+            current=new Second(new Date(price.getCreateTime()*1000));
             value= Double.valueOf(price.getPrice());
             try
             {
@@ -85,7 +85,7 @@ public class TimeSeries_AWT extends ApplicationFrame
     {
         JFreeChart localChart= ChartFactory.createTimeSeriesChart(
                 null,
-                "Hour",
+                "Second",
                 "Value",
                 dataset,
                 false,
