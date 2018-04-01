@@ -22,8 +22,8 @@ import java.util.Map;
  */
 public class Api {
     //global key
-    private static String secret_key = "mvIaSMDnBhCdn9B2TfqIMdVEU7kUQsu7AqSDZzURHRHdt68w3l2b0DJLneVz3iU6";  //账户私密key，用于个人签名，所有账户相关敏感查询或操作都需要将参数加密做一个签名一起附带
-    private static String api_key = "ZdM5bjA3CrfSm43HH3hP4l5lvv3vXY8ejDDBIqPzTVYCB9dnzM6MO51fjhRx3RzK"; //api接口key，用于发送请求时添加到http(s)头进行简单验证，大部分需要
+    private static String secret_key = "";  //账户私密key，用于个人签名，所有账户相关敏感查询或操作都需要将参数加密做一个签名一起附带
+    private static String api_key = ""; //api接口key，用于发送请求时添加到http(s)头进行简单验证，大部分需要
     private Long currentTime = 0L;
     private Integer recvWindow=150000;
     private Integer limit=500;
