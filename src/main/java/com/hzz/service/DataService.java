@@ -93,11 +93,17 @@ public class DataService {
             if(myTradeList==null||myTradeList.isEmpty())
                 continue;
             try {
-                modelDao.batchInsertOrUpdate(myTradeList,new String[]{"price","qty","time","isBestMatch","isBuyerMaker"});
+                modelDao.batchInsertOrUpdate(myTradeList,new String[]{"price","qty","time","isBestMatch","isBuyer","isMaker"});
             } catch (CommonException e) {
                 logger.error("插入我的历史交易信息出错", e);
             }
         }
+    }
+
+    public static void main(String[]a){
+        DataService dataService=new DataService();
+        dataService.getMyTrade();
+        dataService.getOrder();
     }
 
     public void getOrder(){
@@ -117,7 +123,6 @@ public class DataService {
             }
         }
     }
-
 
     public void doSaveInfo(){
         new Thread(new Runnable() {

@@ -5,6 +5,7 @@ import com.hzz.model.*;
 import com.hzz.utils.HmacUtils;
 import com.hzz.utils.NumberUtils;
 import com.hzz.utils.SslUtils;
+import com.hzz.utils.StringUtil;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
@@ -21,8 +22,8 @@ import java.util.Map;
  */
 public class Api {
     //global key
-    private static String secret_key = "";  //账户私密key，用于个人签名，所有账户相关敏感查询或操作都需要将参数加密做一个签名一起附带
-    private static String api_key = ""; //api接口key，用于发送请求时添加到http(s)头进行简单验证，大部分需要
+    private static String secret_key = "mvIaSMDnBhCdn9B2TfqIMdVEU7kUQsu7AqSDZzURHRHdt68w3l2b0DJLneVz3iU6";  //账户私密key，用于个人签名，所有账户相关敏感查询或操作都需要将参数加密做一个签名一起附带
+    private static String api_key = "ZdM5bjA3CrfSm43HH3hP4l5lvv3vXY8ejDDBIqPzTVYCB9dnzM6MO51fjhRx3RzK"; //api接口key，用于发送请求时添加到http(s)头进行简单验证，大部分需要
     private Long currentTime = 0L;
     private Integer recvWindow=150000;
     private Integer limit=500;
@@ -39,8 +40,8 @@ public class Api {
 //        System.out.println(api.getMoneyFree("BTC"));
 //        System.out.println("------币市价格信息--------");
 //        System.out.println(api.getMoneyPrice(""));
-        System.out.println("------币市某币价格信息--------");
-        System.out.println(api.getMoneyPrice("BTCUSDT"));
+//        System.out.println("------币市某币价格信息--------");
+//        System.out.println(api.getMoneyPrice("BTCUSDT"));
 //        System.out.println("------汇兑信息--------");
 //        System.out.println(api.getExchangeInfo());
 //        System.out.println("------出售--------");
@@ -49,12 +50,12 @@ public class Api {
 //        System.out.println(api.buy("TRXBTC",1843.0,"0.00000407"));
 //        System.out.println("------打开待处理订单--------");
 //        System.out.println(api.openMyOrders("TRXBTC"));
-        System.out.println("------获取我的成交交易--------");
-        System.out.println(api.getMyTrades("TRXBTC","",10));
-        System.out.println("------获取我的订单--------");
-        System.out.println(api.getMyOrders("TRXBTC","",10));
-        System.out.println("------获取历史成交交易--------");
-        System.out.println(api.getHistoricalTrades("TRXBTC",10,""));
+//        System.out.println("------获取我的成交交易--------");
+//        System.out.println(api.getMyTrades("TRXBTC","",10));
+//        System.out.println("------获取我的订单--------");
+//        System.out.println(api.getMyOrders("TRXBTC","",10));
+//        System.out.println("------获取历史成交交易--------");
+//        System.out.println(api.getHistoricalTrades("TRXBTC",10,""));
         System.out.println("------获取最近成交交易--------");
         System.out.println(api.getRecentTrades("TRXBTC",10));
     }
@@ -367,9 +368,12 @@ public class Api {
     //获取我的历史交易
     public List<MyTrade> getMyTrades(String symbol,String formId,Integer limit){
         logger.info("try to get my trade start ...");
-        String query_string="symbol="+symbol+"&recvWindow="+recvWindow+"&limit="+limit;
+        String query_string="recvWindow="+recvWindow+"&limit="+limit;
         if(!formId.equals("")){
             query_string+="&formId="+formId;
+        }
+        if(!StringUtil.isBlank(symbol)){
+            query_string+="&symbol="+symbol;
         }
         try {
             String url_api="https://api.binance.com/api/v3/myTrades";
@@ -392,8 +396,11 @@ public class Api {
     //获取最新成交交易
     public List<Trade> getRecentTrades(String symbol,Integer limit){
         logger.info("try to get my recent trade start ...");
-        String query_string="symbol="+symbol+"&limit="+limit;
+        String query_string="limit="+limit;
         try {
+            if(!StringUtil.isBlank(symbol)){
+                query_string+="&symbol="+symbol;
+            }
             String url_api="https://api.binance.com/api/v1/trades";
             String result=requestApi(url_api,createRQuery("GET",query_string,false),false);
             Gson gson = new Gson();

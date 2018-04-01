@@ -96,26 +96,11 @@ public class TimeSeries_AWT extends ApplicationFrame
         // 设置值标记线
         if(currentPrice!=null&&currentPrice.size()>1) {
             for(int i=0;i<currentPrice.size();i++) {
-
-
                 Marker valueMarker=new ValueMarker(new Date(currentPrice.get(i).getCreateTime()*1000).getTime());
-
-//                Marker valueMarker = new ValueMarker(Double.valueOf(currentPrice.get(i).getPrice()));
-
                 valueMarker.setPaint(Color.blue);   // 值标记线颜色
                 valueMarker.setAlpha(0.9F);         // 值标记线透明度
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd hh:mm:ss");
                 System.out.println(simpleDateFormat.format(new Date(currentPrice.get(i).getCreateTime() * 1000)));
-
-//                String labelStr = type == 1 ? "买入时间:" + simpleDateFormat.format(new Date(currentPrice.get(i).getCreateTime() * 1000)) : "卖出时间:" + simpleDateFormat.format(new Date(currentPrice.get(i).getCreateTime() * 1000));
-//                valueMarker.setLabel(labelStr);        // 值标记线显示的文字
-//                valueMarker.setLabelPaint(Color.BLUE);  // 值标记线显示的文字的颜色
-//                // 值标记线显示的文字的字体
-//                valueMarker.setLabelFont(new Font("宋体", Font.PLAIN, 12));
-//                // 值标记线显示的文字定位到最左端的数据点处
-//                valueMarker.setLabelAnchor(RectangleAnchor.LEFT);
-//                // 值标记线在显示的文字的下方左端
-//                valueMarker.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
                 plot.addDomainMarker(valueMarker);
 //                plot.addRangeMarker(valueMarker); // 在图表中使用自定义的值标记线
             }
@@ -130,9 +115,9 @@ public class TimeSeries_AWT extends ApplicationFrame
         List<Price> currentPrice=new ArrayList<>();
         currentPrice.add(priceList.get(200));
         currentPrice.add(priceList.get(360));
-        final TimeSeries_AWT demo = new TimeSeries_AWT( title,priceList,currentPrice,1);
+//        final TimeSeries_AWT demo = new TimeSeries_AWT( title,priceList,currentPrice,1);
 
-//        final TimeSeries_AWT demo = new TimeSeries_AWT( title,getPrice("TFXBTC",0),getPrice("TFXBTC",1),1);
+        final TimeSeries_AWT demo = new TimeSeries_AWT( title,getPrice("BTCUSDT",0),getPrice("BTCUSDT",1),1);
         demo.pack( );
         demo.setLocationRelativeTo(null);
         demo.setVisible( true );

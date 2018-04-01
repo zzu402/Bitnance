@@ -28,14 +28,29 @@ public class DaoUtils {
     }
 
     public static JdbcTemplate getTemplate(){
-        setDataSource();
-        template=new JdbcTemplate(source);
+        if(source==null)
+            synchronized (DaoUtils.class) {
+                if(source==null)
+                    setDataSource();
+            }
+        if(template==null)
+            synchronized (DaoUtils.class) {
+                if(template==null) {
+                    template = new JdbcTemplate(source);
+                }
+            }
         return template;
     }
 
     public static ModelDao getDao(JdbcTemplate jdbcTemplate){
-        dao=new ModelDao();
-        dao.setJdbcTemplate(jdbcTemplate);
+        if(dao==null) {
+            synchronized (DaoUtils.class) {
+                if(dao==null) {
+                    dao = new ModelDao();
+                    dao.setJdbcTemplate(jdbcTemplate);
+                }
+            }
+        }
         return  dao;
 
     }

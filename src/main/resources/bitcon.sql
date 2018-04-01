@@ -117,6 +117,8 @@ ALTER TABLE bitcon_price
   ADD COLUMN `createTime` BIGINT(32) DEFAULT NULL ;
 ALTER TABLE bitcon_price
   ADD COLUMN `pointType` INT DEFAULT 0 ;
+  ALTER TABLE bitcon_price
+  ADD COLUMN `pointSellType` INT DEFAULT 0 ;
 
 ALTER TABLE bitcon_user
   ADD COLUMN `name` varchar(255) DEFAULT NULL ;

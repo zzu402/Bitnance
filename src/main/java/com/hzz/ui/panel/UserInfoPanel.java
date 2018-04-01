@@ -9,15 +9,19 @@ import com.hzz.utils.DaoUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.*;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.SeriesException;
+import org.jfree.data.time.*;
+import org.jfree.data.xy.XYDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -298,36 +302,83 @@ public class UserInfoPanel extends JPanel {
 						if (list == null || list.isEmpty())
 							return;
 						// 获取数据集对象
-						DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-						SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd");
-						for (int i = 0; i < list.size(); i++) {
-							account = list.get(i);
-							Date date = new Date(account.getUpdateTime() * 1000);
-							dataset.addValue(account.getMoneyCount(), "", simpleDateFormat.format(date));
+						TimeSeries series = new TimeSeries( "Account Data" );
+						Minute current =null;
+						Double value=null;
+						for (int i = 0; i <list.size() ; i++)
+						{
+							account=list.get(i);
+							current=new Minute(new Date(account.getUpdateTime()*1000));
+							value= Double.valueOf(account.getMoneyCount());
+							try
+							{
+								series.add(current, new Double( value ) );
+							}
+							catch ( SeriesException e )
+							{
+								System.err.println("Error adding to series");
+							}
 						}
-						JFreeChart chart = ChartFactory.createLineChart(null,
-								"date", "money", dataset, PlotOrientation.VERTICAL, false, true,
+
+
+						XYDataset dataset=new TimeSeriesCollection(series);
+						JFreeChart localChart= ChartFactory.createTimeSeriesChart(
+								null,
+								"Hour",
+								"Value",
+								dataset,
+								true,
+								true,
 								false);
-						// 获得图表区域对象
-						CategoryPlot categoryplot = (CategoryPlot) chart.getPlot();
-						categoryplot.setBackgroundPaint(Color.lightGray);
-						categoryplot.setRangeGridlinesVisible(false);
-						// 获显示线条对象
-						LineAndShapeRenderer lineandshaperenderer = (LineAndShapeRenderer) categoryplot
-								.getRenderer();
-						lineandshaperenderer.setBaseShapesVisible(true);
-						lineandshaperenderer.setDrawOutlines(true);
-						lineandshaperenderer.setUseFillPaint(true);
-						lineandshaperenderer.setBaseFillPaint(Color.white);
-						// 设置折线加粗
-						lineandshaperenderer.setSeriesStroke(0, new BasicStroke(3F));
-						lineandshaperenderer.setSeriesOutlineStroke(0, new BasicStroke(2.0F));
-						// 设置折线拐点
-						lineandshaperenderer.setSeriesShape(0,
-								new java.awt.geom.Ellipse2D.Double(-5D, -5D, 10D, 10D));
-						ChartPanel panel = new ChartPanel(chart, 360, 295, 300, 200, 1024, 768, true, true, true, true, true, true);
+						XYPlot plot = (XYPlot)localChart.getPlot();
+						plot.setBackgroundPaint(null);
+						ChartPanel chartPanel = new ChartPanel( localChart );
+						localChart.setNotify(true);
+						chartPanel.setPreferredSize( new java.awt.Dimension( 360 , 330 ) );
+						chartPanel.setMouseZoomable( true , false );
+						chartPanel.addMouseWheelListener(new MouseWheelListener() {
+							public void mouseWheelMoved(MouseWheelEvent e) {
+								if (-3 == e.getUnitsToScroll()) {
+									chartPanel.zoomInBoth(1, 10);
+								} else if (3 == e.getUnitsToScroll()) {
+									chartPanel.zoomOutBoth(1, 10);
+								}
+							}
+						});
+
+
+
+
+//						DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+//						SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd");
+//						for (int i = 0; i < list.size(); i++) {
+//							account = list.get(i);
+//							Date date = new Date(account.getUpdateTime() * 1000);
+//							dataset.addValue(account.getMoneyCount(), "", simpleDateFormat.format(date));
+//						}
+//						JFreeChart chart = ChartFactory.createLineChart(null,
+//								"date", "money", dataset, PlotOrientation.VERTICAL, false, true,
+//								false);
+//						// 获得图表区域对象
+//						CategoryPlot categoryplot = (CategoryPlot) chart.getPlot();
+//						categoryplot.setBackgroundPaint(Color.lightGray);
+//						categoryplot.setRangeGridlinesVisible(false);
+//						// 获显示线条对象
+//						LineAndShapeRenderer lineandshaperenderer = (LineAndShapeRenderer) categoryplot
+//								.getRenderer();
+//						lineandshaperenderer.setBaseShapesVisible(true);
+//						lineandshaperenderer.setDrawOutlines(true);
+//						lineandshaperenderer.setUseFillPaint(true);
+//						lineandshaperenderer.setBaseFillPaint(Color.white);
+//						// 设置折线加粗
+//						lineandshaperenderer.setSeriesStroke(0, new BasicStroke(3F));
+//						lineandshaperenderer.setSeriesOutlineStroke(0, new BasicStroke(2.0F));
+//						// 设置折线拐点
+//						lineandshaperenderer.setSeriesShape(0,
+//								new java.awt.geom.Ellipse2D.Double(-5D, -5D, 10D, 10D));
+//						ChartPanel panel = new ChartPanel(chart, 360, 295, 300, 200, 1024, 768, true, true, true, true, true, true);
 						jp.removeAll();
-						jp.add(panel, BorderLayout.CENTER);
+						jp.add(chartPanel, BorderLayout.CENTER);
 						jp.repaint();
 						try {
 							Thread.sleep(1 * 60 * 60 * 1000);//用户资产每隔1小时更新

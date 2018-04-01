@@ -30,10 +30,10 @@ import java.awt.*;
  * @Description:
  * @Date :2018/3/8
  */
-@Configuration
-@ComponentScan("com.hzz")
-@EnableAutoConfiguration
-@SpringBootApplication
+//@Configuration
+//@ComponentScan("com.hzz")
+//@EnableAutoConfiguration
+//@SpringBootApplication
 public class App {
     private static Logger logger= LoggerFactory.getLogger(App.class);
     public static void main(String[] args) {
