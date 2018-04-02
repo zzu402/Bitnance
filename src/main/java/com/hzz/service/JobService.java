@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
  */
 public class JobService {
     private static Logger logger= LoggerFactory.getLogger(JobService.class);
+    private  static  AccountService accountService = new AccountService();
+    private  static  PriceService priceService = new PriceService();
     public static void doJob(){
         boolean isDoJob=false;
         while(!isDoJob) {
@@ -19,9 +21,8 @@ public class JobService {
                 logger.info("init Key start ...");
                 tradeService.initKey();
                 logger.info("init Key end ...");
-                DataService dataService = new DataService();
+                doSaveInfo();
                 logger.info("get Data start ...");
-                dataService.doSaveInfo();
                 tradeService.doHm();
                 logger.info("doHm start... ");
                 isDoJob=true;
@@ -35,6 +36,37 @@ public class JobService {
             }
         }
     }
+
+    private static void doSaveInfo(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    try {
+                        accountService.saveAccount();
+                        Thread.sleep(1*60*60*1000);
+                    } catch (InterruptedException e) {
+                        logger.error("线程执行错误",e);
+                    }
+                }
+            }
+        }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    try {
+                        priceService.savePrice();
+                        Thread.sleep(10000);//每隔10秒更新数据
+                    } catch (InterruptedException e) {
+                        logger.error("线程执行错误",e);
+                    }
+                }
+            }
+        }).start();
+    }
+
 
 
 

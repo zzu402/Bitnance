@@ -6,14 +6,8 @@ import java.awt.Color;
 
 public class GuidePanel extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Create the panel.
-	 */
 	public GuidePanel() {
 		setLayout(null);
 		int offsetX=-60;

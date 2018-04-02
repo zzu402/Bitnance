@@ -1,10 +1,10 @@
 package com.hzz.ui;
-import com.hzz.service.CommonService;
-import com.hzz.common.dao.ModelDao;
 import com.hzz.constant.QueryConstant;
 import com.hzz.exception.CommonException;
 import com.hzz.model.Config;
 import com.hzz.model.Price;
+import com.hzz.service.ConfigService;
+import com.hzz.service.PriceService;
 import com.hzz.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,10 @@ public class ConfigSetUI extends AbstractUI{
 	private String titlePre;
 	private String configTypePre;
 	private String configInfoPre;
-	private CommonService commonService=new CommonService();
+	private ConfigService configService=new ConfigService();
+	private PriceService priceService=new PriceService();
+
+
 	public ConfigSetUI(Integer type,int closeOperation) {
 		switch (type){
 			case 1:
@@ -105,7 +108,7 @@ public class ConfigSetUI extends AbstractUI{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String symbol=textField.getText().trim();
-				prices=commonService.getPrices(symbol);
+				prices=priceService.getPrices(symbol);
 				if(prices.isEmpty()){
 					AlertUtils.showMessage("您查找的货币不存在，请检查输入是否正确！");
 				}
@@ -118,7 +121,7 @@ public class ConfigSetUI extends AbstractUI{
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				prices=commonService.getPrices("");
+				prices=priceService.getPrices("");
 				if(prices==null)
 					return;
 				textFieldList=new ArrayList<>(prices.size()*2);
@@ -142,8 +145,7 @@ public class ConfigSetUI extends AbstractUI{
 		JTextField jTextField4;
 		Price price;
 		List<Config>configList=new ArrayList<>();
-		ModelDao modelDao= DaoUtils.getDao(DaoUtils.getTemplate());
-		Map map=commonService.getConfigSets(configTypePre,0);
+		Map map=configService.getConfigSets(configTypePre,0);
 		int index=0;
 		for(int i=pageIndex*15;i<size;i++,index++){
 			price=prices.get(i);
@@ -203,13 +205,8 @@ public class ConfigSetUI extends AbstractUI{
 			config.setDescription(description);
 			configList.add(config);
 		}
-		try {
-			modelDao.batchInsertOrUpdate(configList,new String[]{"symbol","status","type","createTime","configInfo","description"});
-		} catch (CommonException e) {
-			logger.info("数据插入出错",e);
-		}
-		AlertUtils.showMessage("保存成功");
-
+		if(configService.insertOrUpdateConfigs(configList))
+			AlertUtils.showMessage("保存成功");
 	}
 
 
@@ -231,7 +228,7 @@ public class ConfigSetUI extends AbstractUI{
 		JTextField jTextField2=null;
 		JTextField jTextField3=null;
 		JTextField jTextField4=null;
-		Map map=commonService.getConfigSets(configTypePre,1);
+		Map map=configService.getConfigSets(configTypePre,1);
 		if(prices==null||prices.isEmpty()) {
 			AlertUtils.showMessage("查找不到实时货币信息，请检查网络是否异常");
 			return;

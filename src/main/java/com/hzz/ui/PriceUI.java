@@ -1,7 +1,7 @@
 package com.hzz.ui;
 
-import com.hzz.service.CommonService;
 import com.hzz.model.Price;
+import com.hzz.service.PriceService;
 import com.hzz.utils.AlertUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ public class PriceUI extends AbstractUI{
 	private JTextField textField;
 	private List<Price> prices=null;
 	private Integer pageIndex=0;
-	private CommonService commonService=new CommonService();
+	private PriceService priceService=new PriceService();
 	public PriceUI(int closeOperation) {
 		initialize(closeOperation);
 	}
@@ -70,7 +70,7 @@ public class PriceUI extends AbstractUI{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String text=textField.getText().trim();
-				prices=commonService.getPrices(text);
+				prices=priceService.getPrices(text);
 				if(prices==null||prices.isEmpty()){
 					AlertUtils.showMessage("您查找的货币不存在，请检查输入是否正确！");
 				}
@@ -83,7 +83,7 @@ public class PriceUI extends AbstractUI{
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				prices=commonService.getPrices("");
+				prices=priceService.getPrices("");
 				setData(button_1,button_2,panel);
 			}
 		}).start();

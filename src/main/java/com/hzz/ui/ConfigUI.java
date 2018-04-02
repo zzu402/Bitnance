@@ -1,10 +1,9 @@
 package com.hzz.ui;
 
-import com.hzz.model.User;
-import com.hzz.service.CommonService;
 import com.hzz.constant.QueryConstant;
 import com.hzz.constant.UIConstant;
 import com.hzz.model.Config;
+import com.hzz.service.ConfigService;
 import com.hzz.ui.panel.UserInfoPanel;
 import com.hzz.utils.AlertUtils;
 import org.slf4j.Logger;
@@ -19,7 +18,6 @@ import java.util.Map;
 
 public class ConfigUI extends AbstractUI implements ActionListener{
 	private static Logger logger = LoggerFactory.getLogger(ConfigUI.class);
-	private CommonService commonService=new CommonService();
 	private JCheckBox checkBox;
 	private JCheckBox checkBox_1;
 	private JCheckBox checkBox_2;
@@ -34,6 +32,8 @@ public class ConfigUI extends AbstractUI implements ActionListener{
 	private JButton save;
 	private String title;
 	private Integer type;
+	private ConfigService configService=new ConfigService();
+
 	public ConfigUI(String title ,Integer type,int closeOperation) {
 		this.title=title;
 		this.type=type;
@@ -149,7 +149,7 @@ public class ConfigUI extends AbstractUI implements ActionListener{
 		}else if(type==UIConstant.CONFIG_SELL_UI){
 			configType=QueryConstant.CONFIG_SELL_TYPE;
 		}
-		java.util.List <Config>list=commonService.getConfigs(1,"",configType);
+		java.util.List <Config>list=configService.getConfigs(1,"",configType);
 		if(list==null||list.isEmpty())
 			return;
 		Config config=list.get(0);
@@ -315,10 +315,10 @@ public class ConfigUI extends AbstractUI implements ActionListener{
 		String configType=null;
 		String configSelectedType="";
 		if(type== UIConstant.CONFIG_BUY_UI){
-			map=commonService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_BUY,1);
+			map=configService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_BUY,1);
 			configType=QueryConstant.CONFIG_BUY_TYPE;
 		}else if(type==UIConstant.CONFIG_SELL_UI){
-			map=commonService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_SELL,1);
+			map=configService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_SELL,1);
 			configType=QueryConstant.CONFIG_SELL_TYPE;
 		}
 		boolean isClose=false;
@@ -337,7 +337,7 @@ public class ConfigUI extends AbstractUI implements ActionListener{
 		}else if(checkBox_3.isSelected()&&!checkBox.isSelected()){
 			isClose=true;
 		}
-		java.util.List<Config> list=commonService.getConfigs(0,null,configType);
+		java.util.List<Config> list=configService.getConfigs(0,null,configType);
 		Config config=null;
 		int find=-1;
 		if(list!=null){
@@ -364,7 +364,7 @@ public class ConfigUI extends AbstractUI implements ActionListener{
 				list=new ArrayList<>();
 			list.add(config);
 		}
-		commonService.insertOrUpdateConfigs(list);
+		configService.insertOrUpdateConfigs(list);
 		AlertUtils.showMessage("保存成功，程序将按照配置进行！");
 		this.frame.dispose();
 	}

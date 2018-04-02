@@ -29,6 +29,24 @@ public class Api {
     private Integer limit=500;
     private Double rateFee =  0.001; //手续费比率
     private static Logger logger= LoggerFactory.getLogger(Api.class);
+    private static Api api=null;
+    private Api(){
+
+    }
+
+    public static Api getApi(){
+        if(api==null){
+            synchronized (Api.class){
+                if(api==null){
+                    api=new Api();
+                }
+            }
+        }
+        return  api;
+    }
+
+
+
 
     public static void main(String[] args) {
         Api api = new Api();

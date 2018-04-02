@@ -1,4 +1,4 @@
-package com.hzz.test;
+package com.hzz.test.jfreechart;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.hzz.cache.CacheInitHandler;

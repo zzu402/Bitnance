@@ -1,4 +1,4 @@
-package com.hzz.test;
+package com.hzz.test.jfreechart;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartFactory;

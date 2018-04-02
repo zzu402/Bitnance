@@ -1,16 +1,10 @@
 package com.hzz.ui.panel;
-import com.hzz.common.dao.*;
 import com.hzz.constant.QueryConstant;
-import com.hzz.exception.CommonException;
 import com.hzz.model.Config;
-import com.hzz.model.MyTrade;
-import com.hzz.model.Order;
-import com.hzz.service.CommonService;
-import com.hzz.service.DataService;
+import com.hzz.service.ConfigService;
+import com.hzz.service.TradeService;
 import com.hzz.utils.AlertUtils;
-import com.hzz.utils.DaoUtils;
 import com.hzz.utils.StringUtil;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,14 +12,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MyTradePanel extends JPanel {
-    private CommonService commonService = new CommonService();
-    private DataService dataService=new DataService();
+    private ConfigService configService = new ConfigService();
+    private TradeService tradeService=new TradeService();
     private String symbol = null;
     JTextArea textArea = null;
 
@@ -72,29 +63,10 @@ public class MyTradePanel extends JPanel {
     }
 
     public String getText() {
-
-        dataService.getMyTrade(symbol);
-        dataService.getMyTrade(symbol);
+        tradeService.saveMyTrade(symbol);
+        tradeService.saveOrder(symbol);
 		StringBuilder sb=new StringBuilder();
-        ModelDao modelDao = DaoUtils.getDao(DaoUtils.getTemplate());
-        Map<JoinModel, JoinType> joinMap = new LinkedHashMap<>();
-        JoinModel joinModel = new JoinModel();
-        joinModel.setAliasName("t");
-        joinModel.setJoinModel(MyTrade.class);
-        joinMap.put(joinModel, JoinType.INNER);
-
-        joinModel = new JoinModel();
-        joinModel.setAliasName("o");
-        joinModel.setJoinModel(Order.class);
-        joinModel.on().add(new ConditionCustom("o.orderId=t.orderId and o.symbol='"+symbol+"'"));
-        joinMap.put(joinModel, JoinType.INNER);
-
-        ConditionModel condition = new ConditionModel();
-        condition.orderBy("t.time desc");
-        condition.limitCount(13);
-        condition.columns().addAll(Arrays.asList(new String[]{"t.time", "t.price", "t.qty", "t.isMaker", "t.isBuyer", "o.symbol"}));
-        try {
-            java.util.List<Map<String, Object>> tradeList = modelDao.select(joinMap, condition);
+        java.util.List<Map<String, Object>>tradeList=tradeService.getTradeBySymbol(symbol);
             if(tradeList==null||tradeList.isEmpty())
                 return "";
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd HH:mm");
@@ -112,16 +84,13 @@ public class MyTradePanel extends JPanel {
                 sb.append(isBuyer?"买入":"卖出");
                 sb.append("\r\n");
             }
-        } catch (CommonException e) {
-            return "";
-        }
         return sb.toString();
     }
 
 
     private void addSymbolData(JComboBox comboBox) {
-        Map<String, Config> map = commonService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_BUY, 1);
-        Map<String, Config> map1 = commonService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_SELL, 1);
+        Map<String, Config> map = configService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_BUY, 1);
+        Map<String, Config> map1 = configService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_SELL, 1);
         map.putAll(map1);
         Iterator it = map.entrySet().iterator();
         comboBox.addItem("请选择");

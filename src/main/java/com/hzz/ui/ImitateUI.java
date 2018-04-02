@@ -2,7 +2,8 @@ package com.hzz.ui;
 
 import com.hzz.constant.QueryConstant;
 import com.hzz.model.Config;
-import com.hzz.service.CommonService;
+import com.hzz.service.ConfigService;
+import com.hzz.service.PriceService;
 import com.hzz.utils.AlertUtils;
 import com.hzz.utils.StringUtil;
 import java.awt.event.ActionEvent;
@@ -16,21 +17,10 @@ import javax.swing.*;
 public class ImitateUI extends AbstractUI {
 
 	private Integer type=0;
-	private CommonService commonService=new CommonService();
+	private ConfigService configService=new ConfigService();
 	private String symbol=null;
 	private Integer methodType=0;
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					ImitateUI window = new ImitateUI(WindowConstants.HIDE_ON_CLOSE);
-//					window.frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	private PriceService priceService=new PriceService();
 	public ImitateUI(Integer closeOperation) {
 		initialize(closeOperation);
 	}
@@ -111,7 +101,7 @@ public class ImitateUI extends AbstractUI {
 					return;
 				}
 				final String title = "模拟";
-				final ImitateBuyOrSellUI demo = new ImitateBuyOrSellUI( title,ImitateBuyOrSellUI.getPrice(symbol,0,0),ImitateBuyOrSellUI.getPrice("BTCUSDT",type==1?1:0,type==1?0:1),type);
+				final ImitateBuyOrSellUI demo = new ImitateBuyOrSellUI( title,priceService.getPrice(symbol,0,0),priceService.getPrice("BTCUSDT",type==1?1:0,type==1?0:1),type);
 				demo.pack( );
 				demo.setLocationRelativeTo(null);
 				demo.setVisible( true );
@@ -143,8 +133,8 @@ public class ImitateUI extends AbstractUI {
 	}
 
 	private void addSymbolData(JComboBox comboBox) {
-		Map<String, Config> map=commonService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_BUY,1);
-		Map<String,Config>	map1=commonService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_SELL,1);
+		Map<String, Config> map=configService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_BUY,1);
+		Map<String,Config>	map1=configService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_SELL,1);
 		map.putAll(map1);
 		Iterator it=map.entrySet().iterator();
 		comboBox.addItem("请选择");

@@ -1,4 +1,4 @@
-package com.hzz.test;
+package com.hzz.test.jfreechart;
 
 import java.awt.Color;
 import java.awt.BasicStroke;

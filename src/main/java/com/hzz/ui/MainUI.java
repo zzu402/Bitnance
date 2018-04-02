@@ -1,15 +1,12 @@
 package com.hzz.ui;
 import com.hzz.constant.CommandConstant;
 import com.hzz.constant.UIConstant;
-import com.hzz.service.DataService;
 import com.hzz.service.TradeService;
 import com.hzz.ui.panel.GuidePanel;
 import com.hzz.ui.panel.UserInfoPanel;
-import com.hzz.utils.AlertUtils;
-import com.hzz.utils.DaoUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.awt.EventQueue;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;

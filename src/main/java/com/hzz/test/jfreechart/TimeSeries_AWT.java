@@ -1,4 +1,4 @@
-package com.hzz.test;
+package com.hzz.test.jfreechart;
 
 import com.hzz.common.dao.ModelDao;
 import com.hzz.exception.CommonException;
@@ -14,13 +14,10 @@ import org.jfree.data.general.SeriesException;
 import org.jfree.data.time.*;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.Layer;
-import org.jfree.ui.RectangleAnchor;
-import org.jfree.ui.TextAnchor;
+
 import java.awt.*;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.awt.peer.ListPeer;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;

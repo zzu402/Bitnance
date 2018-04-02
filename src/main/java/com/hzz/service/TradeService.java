@@ -1,21 +1,16 @@
 package com.hzz.service;
 
 import com.hzz.App;
-import com.hzz.common.dao.ModelDao;
+import com.hzz.common.dao.*;
 import com.hzz.constant.QueryConstant;
 import com.hzz.exception.CommonException;
 import com.hzz.main.Api;
-import com.hzz.model.Config;
-import com.hzz.model.Price;
-import com.hzz.model.SellOrBuyInfo;
-import com.hzz.model.User;
+import com.hzz.model.*;
 import com.hzz.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author: huangzz
@@ -25,23 +20,80 @@ import java.util.Map;
 public class TradeService {
 
     private Logger logger= LoggerFactory.getLogger(TradeService.class);
-    private Api api=new Api();
-    private CommonService commonService=new CommonService();
+    private Api api=Api.getApi();
+    private ConfigService configService=new ConfigService();
     private MailService mailService=new MailService();
     private ModelDao modelDao=DaoUtils.getDao(DaoUtils.getTemplate());
 
     private static Integer DISTANCE_THRESHOLD_MAX=18;//距离阈值，最小值距离当前价格的位置,一个单位代表10秒
     private static Integer DISTANCE_THRESHOLD_MIN=6;//距离阈值，最小值距离当前价格的位置,一个单位代表10秒
 
+    public void saveMyTrade(String symbol){
+        List<MyTrade> myTradeList = api.getMyTrades(symbol, "", 10);
+        if(myTradeList==null||myTradeList.isEmpty())
+            return;
+        try {
+            modelDao.batchInsertOrUpdate(myTradeList,new String[]{"price","qty","time","isBestMatch","isBuyer","isMaker"});
+        } catch (CommonException e) {
+            logger.error("插入我的历史交易信息出错", e);
+        }
+    }
+
+
+    public void saveOrder(String symbol){
+        List<Order> orders = api.getMyOrders(symbol, "", 10);
+        if(orders==null||orders.isEmpty())
+            return;
+        try {
+            modelDao.batchInsertOrUpdate(orders,new String[]{"symbol","orderId","clientOrderId","price","origQty","executedQty","status","timeInForce","type","side","stopPrice","icebergQty","isWorking","time"});
+        } catch (CommonException e) {
+            logger.error("插入我的历史订单信息出错", e);
+        }
+    }
+
+
+    public List<Map<String, Object>> getTradeBySymbol(String symbol){
+        ModelDao modelDao = DaoUtils.getDao(DaoUtils.getTemplate());
+        Map<JoinModel, JoinType> joinMap = new LinkedHashMap<>();
+        JoinModel joinModel = new JoinModel();
+        joinModel.setAliasName("t");
+        joinModel.setJoinModel(MyTrade.class);
+        joinMap.put(joinModel, JoinType.INNER);
+
+        joinModel = new JoinModel();
+        joinModel.setAliasName("o");
+        joinModel.setJoinModel(Order.class);
+        joinModel.on().add(new ConditionCustom("o.orderId=t.orderId and o.symbol='"+symbol+"'"));
+        joinMap.put(joinModel, JoinType.INNER);
+
+        ConditionModel condition = new ConditionModel();
+        condition.orderBy("t.time desc");
+        condition.limitCount(13);
+        condition.columns().addAll(Arrays.asList(new String[]{"t.time", "t.price", "t.qty", "t.isMaker", "t.isBuyer", "o.symbol"}));
+
+        try {
+            List<Map<String, Object>> tradeList = modelDao.select(joinMap, condition);
+            return  tradeList;
+        } catch (CommonException e) {
+            logger.error("查询交易出错",e);
+            return  null;
+        }
+
+    }
+
+
+
+
+
     /*
         手动处理交易
      */
     public void HmBuy() {
-        List<Config> list1 = commonService.getConfigs(1, QueryConstant.CONFIG_SELECTED_HAND_TYPE, QueryConstant.CONFIG_BUY_TYPE);
+        List<Config> list1 = configService.getConfigs(1, QueryConstant.CONFIG_SELECTED_HAND_TYPE, QueryConstant.CONFIG_BUY_TYPE);
 
         if (list1 != null&&!list1.isEmpty()) {//买入配置
-            List list = commonService.getConfigSetList(QueryConstant.CONFIG_TYPE_PRE_BUY, 1);
-            Config[] configs = commonService.sortConfigListByPriority(list);
+            List list = configService.getConfigSetList(QueryConstant.CONFIG_TYPE_PRE_BUY, 1);
+            Config[] configs = configService.sortConfigListByPriority(list);
             for (int i = 0; i < configs.length; i++) {
                 Config config = configs[i];
                 Map<String, String> configInfo = JsonMapper.nonDefaultMapper().fromJson(config.getConfigInfo(), Map.class);
@@ -72,7 +124,7 @@ public class TradeService {
         config.setConfigInfo(JsonMapper.nonEmptyMapper().toJson(configInfo));
         List<Config> list2=new ArrayList<>();
         list2.add(config);
-        commonService.insertOrUpdateConfigs(list2);
+        configService.insertOrUpdateConfigs(list2);
     }
 
 
@@ -113,10 +165,10 @@ public class TradeService {
     }
 
     public void HmSell(){
-        List<Config> list1 = commonService.getConfigs(1, QueryConstant.CONFIG_SELECTED_HAND_TYPE, QueryConstant.CONFIG_SELL_TYPE);
+        List<Config> list1 = configService.getConfigs(1, QueryConstant.CONFIG_SELECTED_HAND_TYPE, QueryConstant.CONFIG_SELL_TYPE);
         if(list1!=null&&!list1.isEmpty()){//卖出配置
-            List list=commonService.getConfigSetList(QueryConstant.CONFIG_TYPE_PRE_SELL,1);
-            Config[]configs= commonService.sortConfigListByPriority(list);
+            List list=configService.getConfigSetList(QueryConstant.CONFIG_TYPE_PRE_SELL,1);
+            Config[]configs= configService.sortConfigListByPriority(list);
             for (int i=0;i<configs.length;i++){
                 Config config = configs[i];
                 Map<String,String> configInfo = JsonMapper.nonDefaultMapper().fromJson(config.getConfigInfo(), Map.class);
@@ -142,10 +194,10 @@ public class TradeService {
     }
 
     public void tradeAutoMethodSell1(){//自动卖出策略1
-        List<Config> list1 = commonService.getConfigs(1, QueryConstant.CONFIG_SELECTED_AUTO_TYPE_1, QueryConstant.CONFIG_SELL_TYPE);
+        List<Config> list1 = configService.getConfigs(1, QueryConstant.CONFIG_SELECTED_AUTO_TYPE_1, QueryConstant.CONFIG_SELL_TYPE);
         if(list1!=null&&!list1.isEmpty()){//执行自动买入策略1
-            List list = commonService.getConfigSetList(QueryConstant.CONFIG_TYPE_PRE_SELL, 1);
-            Config[] configs = commonService.sortConfigListByPriority(list);
+            List list = configService.getConfigSetList(QueryConstant.CONFIG_TYPE_PRE_SELL, 1);
+            Config[] configs = configService.sortConfigListByPriority(list);
             for (int i = 0; i < configs.length; i++) {
                 Config config = configs[i];
                 Map<String, String> configInfo = JsonMapper.nonDefaultMapper().fromJson(config.getConfigInfo(), Map.class);
@@ -204,10 +256,10 @@ public class TradeService {
 
 
     public void tradeAutoMethodBuy1(){//自动买入策略1
-        List<Config> list1 = commonService.getConfigs(1, QueryConstant.CONFIG_SELECTED_AUTO_TYPE_1, QueryConstant.CONFIG_BUY_TYPE);
+        List<Config> list1 = configService.getConfigs(1, QueryConstant.CONFIG_SELECTED_AUTO_TYPE_1, QueryConstant.CONFIG_BUY_TYPE);
         if(list1!=null&&!list1.isEmpty()){//执行自动买入策略1
-            List list = commonService.getConfigSetList(QueryConstant.CONFIG_TYPE_PRE_BUY, 1);
-            Config[] configs = commonService.sortConfigListByPriority(list);
+            List list = configService.getConfigSetList(QueryConstant.CONFIG_TYPE_PRE_BUY, 1);
+            Config[] configs = configService.sortConfigListByPriority(list);
             for (int i = 0; i < configs.length; i++) {
                 Config config = configs[i];
                 Map<String, String> configInfo = JsonMapper.nonDefaultMapper().fromJson(config.getConfigInfo(), Map.class);
@@ -274,6 +326,72 @@ public class TradeService {
         }
         return doubles;
     }
+
+
+    /*
+       生成我的交易策略
+    */
+    public Map<String, String> getTradeMethod() {
+        Map<String, String> map = new HashMap<>();
+        List<Config> list1 =configService. getConfigs(1, null, QueryConstant.CONFIG_BUY_TYPE);
+        List<Config> list2 = configService.getConfigs(1, null, QueryConstant.CONFIG_SELL_TYPE);
+        String buy = null;
+        String sell = null;
+        if (list1 != null) {
+            Config config = list1.get(0);
+            if (config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_HAND_TYPE)) {
+                buy = "当前使用手动买入策略:";
+                Map<String, Config> buySets =configService. getConfigSets(QueryConstant.CONFIG_TYPE_PRE_BUY, 1);
+                Iterator it = buySets.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry entry = (Map.Entry) it.next();
+                    String key = (String) entry.getKey();
+                    Config value = (Config) entry.getValue();
+                    Map<String, String> configInfo = JsonMapper.nonDefaultMapper().fromJson(value.getConfigInfo(), Map.class);
+                    Long time = Long.parseLong((String) configInfo.get("time"));
+                    String timeStr = time == 0 ? "无限" : DateUtil.format("yyyy-MM-dd hh:mm:ss", new Date(time * 1000));
+                    buy += "\r\n币种:" + key + "\r\n设置时币种价格:" + configInfo.get("price") + "\r\n设置买入价格:" + configInfo.get("buyPrice") + "\r\n优先级:" + configInfo.get("priority") + "\r\n截止时间:" + timeStr;
+                }
+            } else if (config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_AUTO_TYPE_1)) {
+                buy = "当前使用自动买入策略1！";
+            } else if (config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_AUTO_TYPE_2)) {
+                buy = "当前使用自动买入策略2！";
+            }
+        } else {
+            buy = "当前没有设置买入策略！";
+        }
+        if (list2 != null) {
+            Config config = list2.get(0);
+            if (config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_HAND_TYPE)) {
+                sell = "当前使用手动卖出策略:";
+                Map<String, Config> sellSets = configService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_SELL, 1);
+                Iterator it = sellSets.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry entry = (Map.Entry) it.next();
+                    String key = (String) entry.getKey();
+                    Config value = (Config) entry.getValue();
+                    Map<String, String> configInfo = JsonMapper.nonDefaultMapper().fromJson(value.getConfigInfo(), Map.class);
+                    Long time = Long.parseLong((String) configInfo.get("time"));
+                    String timeStr = time == 0 ? "无限" : DateUtil.format("yyyy-MM-dd hh:mm:ss", new Date(time * 1000));
+                    sell += "\r\n币种:" + key + "\r\n设置时币种价格:" + configInfo.get("price") + "\r\n设置卖出价格:" + configInfo.get("sellPrice") + "\r\n优先级:" + configInfo.get("priority") + " \r\n截止时间:" + timeStr;
+                }
+
+            } else if (config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_AUTO_TYPE_1)) {
+                sell = "当前使用自动卖出策略1!";
+            } else if (config.getSymbol().equals(QueryConstant.CONFIG_SELECTED_AUTO_TYPE_2)) {
+                sell = "当前使用自动卖出策略2!";
+            }
+        } else {
+            sell = "当前没有设置卖出策略!";
+        }
+        map.put("buy", buy);
+        map.put("sell", sell);
+        return map;
+    }
+
+
+
+
 
 
     public void doHm(){
