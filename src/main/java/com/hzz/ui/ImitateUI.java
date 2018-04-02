@@ -4,6 +4,7 @@ import com.hzz.constant.QueryConstant;
 import com.hzz.model.Config;
 import com.hzz.service.ConfigService;
 import com.hzz.service.PriceService;
+import com.hzz.service.TestService;
 import com.hzz.utils.AlertUtils;
 import com.hzz.utils.StringUtil;
 import java.awt.event.ActionEvent;
@@ -16,6 +17,7 @@ import javax.swing.*;
 
 public class ImitateUI extends AbstractUI {
 
+	private TestService testService=new TestService();
 	private Integer type=0;
 	private ConfigService configService=new ConfigService();
 	private String symbol=null;
@@ -100,6 +102,7 @@ public class ImitateUI extends AbstractUI {
 					AlertUtils.showMessage("请选择策略");
 					return;
 				}
+				testService.doImitate();
 				final String title = "模拟";
 				final ImitateBuyOrSellUI demo = new ImitateBuyOrSellUI( title,priceService.getPrice(symbol,0,0),priceService.getPrice("BTCUSDT",type==1?1:0,type==1?0:1),type);
 				demo.pack( );
