@@ -1,10 +1,16 @@
 package com.hzz;
 
+import com.hzz.service.JobService;
 import com.hzz.ui.AbstractUI;
 import com.hzz.ui.InitUI;
 import com.hzz.ui.MainUI;
 import com.hzz.utils.AlertUtils;
 import com.hzz.utils.DaoUtils;
+import org.pushingpixels.substance.api.SubstanceLookAndFeel;
+import org.pushingpixels.substance.api.painter.border.StandardBorderPainter;
+import org.pushingpixels.substance.api.shaper.StandardButtonShaper;
+import org.pushingpixels.substance.api.skin.SubstanceBusinessBlackSteelLookAndFeel;
+import org.pushingpixels.substance.api.watermark.SubstanceStripeWatermark;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,15 +29,16 @@ import java.awt.*;
 public class App {
     private static Logger logger= LoggerFactory.getLogger(App.class);
     public static void main(String[] args) {
+
+
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-//                    JobService.doJob();
+                    JobService.doJob();
                     logger.info("Main UI start ...");
                     AbstractUI window = new MainUI(WindowConstants.EXIT_ON_CLOSE);
                     window.frame.setVisible(true);
                     logger.info("Main UI start finish");
-
                 } catch (Exception e) {
                     logger.error("Main UI error...",e);
                     if (e.getMessage().contains("JDBC Connection")){
