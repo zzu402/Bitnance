@@ -1,5 +1,4 @@
 package com.hzz.ui.panel;
-
 import com.hzz.common.dao.*;
 import com.hzz.constant.QueryConstant;
 import com.hzz.exception.CommonException;
@@ -7,7 +6,10 @@ import com.hzz.model.Config;
 import com.hzz.model.MyTrade;
 import com.hzz.model.Order;
 import com.hzz.service.CommonService;
+import com.hzz.service.DataService;
+import com.hzz.utils.AlertUtils;
 import com.hzz.utils.DaoUtils;
+import com.hzz.utils.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +25,7 @@ import java.util.Map;
 
 public class MyTradePanel extends JPanel {
     private CommonService commonService = new CommonService();
+    private DataService dataService=new DataService();
     private String symbol = null;
     JTextArea textArea = null;
 
@@ -43,6 +46,10 @@ public class MyTradePanel extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(StringUtil.isBlank(symbol)){
+                    AlertUtils.showMessage("请选择币种");
+                    return;
+                }
                 setAreaText(getText());
             }
         });
@@ -65,6 +72,9 @@ public class MyTradePanel extends JPanel {
     }
 
     public String getText() {
+
+        dataService.getMyTrade(symbol);
+        dataService.getMyTrade(symbol);
 		StringBuilder sb=new StringBuilder();
         ModelDao modelDao = DaoUtils.getDao(DaoUtils.getTemplate());
         Map<JoinModel, JoinType> joinMap = new LinkedHashMap<>();

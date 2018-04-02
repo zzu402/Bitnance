@@ -82,46 +82,27 @@ public class DataService {
         }
     }
 
-    public void getMyTrade(){
-        List<Price> priceList=api.getMoneyPrice("");
-        if(priceList==null)
-            return;
-        Price price=null;
-        for(int i=0;i<priceList.size();i++) {
-            price=priceList.get(i);
-            List<MyTrade> myTradeList = api.getMyTrades(price.getSymbol(), "", 10);
+    public void getMyTrade(String symbol){
+            List<MyTrade> myTradeList = api.getMyTrades(symbol, "", 10);
             if(myTradeList==null||myTradeList.isEmpty())
-                continue;
+                return;
             try {
                 modelDao.batchInsertOrUpdate(myTradeList,new String[]{"price","qty","time","isBestMatch","isBuyer","isMaker"});
             } catch (CommonException e) {
                 logger.error("插入我的历史交易信息出错", e);
             }
-        }
     }
 
-    public static void main(String[]a){
-        DataService dataService=new DataService();
-        dataService.getMyTrade();
-        dataService.getOrder();
-    }
 
-    public void getOrder(){
-        List<Price> priceList=api.getMoneyPrice("");
-        if(priceList==null)
-            return;
-        Price price=null;
-        for(int i=0;i<priceList.size();i++) {
-            price = priceList.get(i);
-            List<Order> orders = api.getMyOrders(price.getSymbol(), "", 10);
+    public void getOrder(String symbol){
+            List<Order> orders = api.getMyOrders(symbol, "", 10);
             if(orders==null||orders.isEmpty())
-                continue;
+                return;
             try {
                 modelDao.batchInsertOrUpdate(orders,new String[]{"symbol","orderId","clientOrderId","price","origQty","executedQty","status","timeInForce","type","side","stopPrice","icebergQty","isWorking","time"});
             } catch (CommonException e) {
                 logger.error("插入我的历史订单信息出错", e);
             }
-        }
     }
 
     public void doSaveInfo(){
@@ -146,20 +127,6 @@ public class DataService {
                     try {
                         getPrice();
                         Thread.sleep(10000);//每隔10秒更新数据
-                    } catch (InterruptedException e) {
-                        logger.error("线程执行错误",e);
-                    }
-                }
-            }
-        }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true){
-                    try {
-                        getMyTrade();
-                        getOrder();
-                        Thread.sleep(12*60*60*1000);
                     } catch (InterruptedException e) {
                         logger.error("线程执行错误",e);
                     }
