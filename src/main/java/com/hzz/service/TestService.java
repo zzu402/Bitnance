@@ -49,7 +49,7 @@ public class TestService {
                 Double[] Ksub = MathUtils.getKsub(priceDoubles);
                 //获取价格的ksub值,计算从最高位置到当前价格的k是递减的，则可以卖出
                 Double sum = 0.0;
-                for (int j = maxPosition-(Ksub.length-1-maxPosition); j < Ksub.length; j++) {
+                for (int j = maxPosition; j < Ksub.length; j++) {
                     sum += Ksub[j];
                 }
                 if (sum < 0) {//当前总体是下降趋势，判断可以卖出
@@ -89,7 +89,7 @@ public class TestService {
                 Double[] Ksub = MathUtils.getKsub(priceDoubles);
                 //获取价格的ksub值,计算从最小位置到当前价格的k是递增的，则可以买入
                 Double sum = 0.0;
-                for (int j = minPosition-(Ksub.length-1-minPosition); j < Ksub.length; j++) {
+                for (int j = minPosition; j < Ksub.length; j++) {
                     sum += Ksub[j];
                 }
                 if (sum > 0) {//当前总体是上升趋势，判断可以买入

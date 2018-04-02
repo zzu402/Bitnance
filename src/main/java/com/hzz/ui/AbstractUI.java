@@ -14,12 +14,12 @@ public abstract class AbstractUI {
     public JFrame frame;
     protected  abstract void initialize(int closeOperation);
 
-    static {
-
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                SubstanceLookAndFeel.setSkin(new BusinessBlackSteelSkin());
-            }
-        });
-    }
+//    static {
+//
+//        SwingUtilities.invokeLater(new Runnable() {
+//            public void run() {
+//                SubstanceLookAndFeel.setSkin(new BusinessBlackSteelSkin());
+//            }
+//        });
+//    }
 }
