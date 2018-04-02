@@ -40,7 +40,7 @@ public class App {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    JobService.doJob();
+//                    JobService.doJob();
                     logger.info("Main UI start ...");
                     AbstractUI window = new MainUI(WindowConstants.EXIT_ON_CLOSE);
                     window.frame.setVisible(true);

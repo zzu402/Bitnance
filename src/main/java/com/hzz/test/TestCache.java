@@ -4,10 +4,8 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.hzz.cache.CacheInitHandler;
 import com.hzz.cache.CacheManager;
 import com.hzz.cache.ICacheService;
-import com.hzz.exception.CommonException;
 import com.hzz.model.Price;
 import com.hzz.utils.JsonMapper;
-import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
 
@@ -50,13 +48,19 @@ public class TestCache {
                     List<Price> priceList = new ArrayList<>();
                     Price price=new Price();
                     price.setSymbol("BTC");
-                     priceList.add(price);
+                    priceList.add(price);
                     return JsonMapper.nonEmptyMapper().toJson(priceList);
             }
         });
 
         System.out.println((List<Price>)CacheManager.getCacheValue("PRICE"));
 
+        //无效
+        List<Price> list=CacheManager.getCacheValue("PRICE");
+        Price price=new Price();
+        price.setSymbol("TRX");
+        list.add(price);
+        System.out.println((List<Price>)CacheManager.getCacheValue("PRICE"));
 
     }
 

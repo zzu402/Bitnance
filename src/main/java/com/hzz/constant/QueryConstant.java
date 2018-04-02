@@ -18,4 +18,7 @@ public class QueryConstant {
 
     public static final String DEFAULT_TRADE_CONVERT_CON="BTC";//以币名查询价格均用BTC进行换算
 
+    public static final Integer TYPE_BUY=1;
+    public static final Integer TYPE_SELL=2;
+
 }

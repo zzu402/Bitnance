@@ -20,8 +20,7 @@ public class UIConstant {
     public static final String MAIN_UI_MENU_ITEM_2_1="实时价格";
     public static final String MAIN_UI_MENU_ITEM_2_2="我的账户";
     public static final String MAIN_UI_MENU_ITEM_2_3="汇兑信息";
-    public static final String MAIN_UI_MENU_ITEM_2_4="买入模拟";
-    public static final String MAIN_UI_MENU_ITEM_2_5="卖出模拟";
+    public static final String MAIN_UI_MENU_ITEM_2_4="买卖模拟";
     public static final String MAIN_UI_MENU_ITEM_3_1="买入设置";
     public static final String MAIN_UI_MENU_ITEM_3_2="卖出设置";
     public static final String MAIN_UI_MENU_ITEM_3_3="交易策略";

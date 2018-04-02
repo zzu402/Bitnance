@@ -67,9 +67,12 @@ public class MainUI extends AbstractUI implements ActionListener {
         menu_1.add(menuItem_9);
 
         JMenuItem menuItem_17 = new JMenuItem(UIConstant.MAIN_UI_MENU_ITEM_2_4);
+        menuItem_17.setActionCommand(CommandConstant.MAIN_IMITATE);
+        menuItem_17.addActionListener(this);
         menu_1.add(menuItem_17);
-        JMenuItem menuItem_18 = new JMenuItem(UIConstant.MAIN_UI_MENU_ITEM_2_5);
-        menu_1.add(menuItem_18);
+
+
+
 
         JMenu menu_2 = new JMenu(UIConstant.MAIN_UI_MENU_3);
         menuBar.add(menu_2);
@@ -132,6 +135,8 @@ public class MainUI extends AbstractUI implements ActionListener {
             subWindow = new ConfigUI("卖出设置",UIConstant.CONFIG_SELL_UI,WindowConstants.HIDE_ON_CLOSE);
         }else if(command.equals(CommandConstant.MAIN_UI_HELP)){
             subWindow=new HelpUI();
+        }else if(command.equals(CommandConstant.MAIN_IMITATE)){
+            subWindow=new ImitateUI(WindowConstants.HIDE_ON_CLOSE);
         }
       new Thread(new Runnable() {
           @Override
