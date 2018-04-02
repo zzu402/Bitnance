@@ -113,6 +113,7 @@ public class ImitateUI extends AbstractUI {
 		});
 		frame.getContentPane().add(button);
 		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
 	}
 
 	private void addMethod(JComboBox comboBox_1) {

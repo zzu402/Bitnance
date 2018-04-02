@@ -25,5 +25,6 @@ public class HelpUI extends AbstractUI {
         frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         frame.add(new GuidePanel());
         frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
     }
 }

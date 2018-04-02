@@ -132,6 +132,7 @@ public class ConfigSetUI extends AbstractUI{
 
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(closeOperation);// 设置主窗体关闭按钮样式
+		frame.setResizable(false);
 	}
 
 

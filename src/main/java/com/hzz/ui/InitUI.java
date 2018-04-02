@@ -110,6 +110,7 @@ public class InitUI extends AbstractUI{
 		frame.getContentPane().add(button_1);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(closeOperation);// 设置主窗体关闭按钮样式
+		frame.setResizable(false);
 	}
 	private void initData(){
 		PropertiesUtils.loadProps(PropertiesUtils.getUserDir());

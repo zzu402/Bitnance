@@ -116,6 +116,7 @@ public class NotifyUI extends AbstractUI {
 		frame.getContentPane().add(button);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(closeOperation);// 设置主窗体关闭按钮样式
+		frame.setResizable(false);
 	}
 
 	private void initData(){

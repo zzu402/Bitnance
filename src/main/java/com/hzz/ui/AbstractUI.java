@@ -18,7 +18,6 @@ public abstract class AbstractUI {
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-         
                 SubstanceLookAndFeel.setSkin(new BusinessBlackSteelSkin());
             }
         });
