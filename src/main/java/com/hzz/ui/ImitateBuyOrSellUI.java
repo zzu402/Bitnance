@@ -13,6 +13,8 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.ApplicationFrame;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
@@ -48,6 +50,7 @@ public class ImitateBuyOrSellUI extends ApplicationFrame
         });
 
         setContentPane( chartPanel );
+        this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
     }
 
     private XYDataset createDataset( )
@@ -95,7 +98,7 @@ public class ImitateBuyOrSellUI extends ApplicationFrame
                 if(type==1)
                     valueMarker.setPaint(Color.GREEN);   // 值标记线颜色
                 else
-                    valueMarker.setPaint(Color.RED);
+                    valueMarker.setPaint(Color.BLUE);
                 valueMarker.setAlpha(0.9F);         // 值标记线透明度
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd hh:mm:ss");
                 System.out.println(simpleDateFormat.format(new Date(currentPrice.get(i).getCreateTime() * 1000)));

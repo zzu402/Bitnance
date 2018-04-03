@@ -336,7 +336,7 @@ public class ConfigSetUI extends AbstractUI{
 						return;
 					Double d=Double.valueOf(jTextField.getText());
 					Double price=Double.valueOf(prices.get(i).getPrice());
-					jTextField1.setText(String.format("%.2f",price+price*d/100));
+					jTextField1.setText(String.format("%s",price+price*d/100));
 				}catch (Exception e1){
 					AlertUtils.showMessage("非数字格式，请检查！");
 				}
