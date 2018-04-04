@@ -1,8 +1,5 @@
 package com.hzz.test.DL4J.predict;
-import com.hzz.model.Price;
-import com.hzz.service.PriceService;
 import com.hzz.utils.MathUtils;
-import com.hzz.utils.NumberUtils;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.api.DataSetPreProcessor;
@@ -16,7 +13,6 @@ import java.util.NoSuchElementException;
  * huangzz
  */
 public class BitconDataIterator implements DataSetIterator {
-
     //批数
     private int batchNum;
     //每组训练数据长度(DailyData的个数)
@@ -33,7 +29,6 @@ public class BitconDataIterator implements DataSetIterator {
     public BitconDataIterator(){
         dataRecord = new ArrayList<>();
     }
-
     /**
      * 加载数据并初始化
      * */
@@ -46,7 +41,6 @@ public class BitconDataIterator implements DataSetIterator {
         resetDataRecord();
         return true;
     }
-
     /**
      * 重置训练批次列表
      * */
@@ -57,7 +51,6 @@ public class BitconDataIterator implements DataSetIterator {
             dataRecord.add(i * exampleLength);
         }
     }
-
     /**
      * 获取指定历史价格信息，记录最大价格
      * */
@@ -101,7 +94,7 @@ public class BitconDataIterator implements DataSetIterator {
             throw new NoSuchElementException();
         }
         int actualBatchSize = Math.min(num, dataRecord.size());
-        int actualLength = Math.min(exampleLength,dataList.size()-dataRecord.get(0)-1);
+        int actualLength = Math.min(exampleLength,dataList.size()-dataRecord.get(0));
         INDArray input = Nd4j.create(new int[]{actualBatchSize,1,actualLength}, 'f');
         INDArray label = Nd4j.create(new int[]{actualBatchSize,1,actualLength}, 'f');
         SecondData nextData = null,curData = null;

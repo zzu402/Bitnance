@@ -17,7 +17,6 @@ import org.nd4j.linalg.lossfunctions.LossFunctions;
 
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  * @Author: huangzz
  * @Description:
@@ -27,34 +26,26 @@ public class PredictTest {
     private static PriceService priceService=new PriceService();
     private static final int IN_NUM = 1;
     private static final int OUT_NUM = 1;
-    private static final int Epochs = 100;
-
-    private static final int lstmLayer1Size = 50;
-    private static final int lstmLayer2Size = 100;
+    private static final int Epochs = 300;
     private static List<SecondData>list=readDataFromDB("BTCUSDT");
     public static MultiLayerNetwork getNetModel(int nIn, int nOut){
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
-                .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT).iterations(1)
-                .learningRate(0.1)
-                .rmsDecay(0.5)
-                .seed(12345)
-                .regularization(true)
-                .l2(0.001)
+                .seed(140)
+                .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
+                .iterations(1)
                 .weightInit(WeightInit.XAVIER)
-                .updater(Updater.RMSPROP)
+                .updater(Updater.NESTEROVS).momentum(0.9)
+                .learningRate(0.0015)
                 .list()
-                .layer(0, new GravesLSTM.Builder().nIn(nIn).nOut(lstmLayer1Size)
-                        .activation("tanh").build())
-                .layer(1, new GravesLSTM.Builder().nIn(lstmLayer1Size).nOut(lstmLayer2Size)
-                        .activation("tanh").build())
-                .layer(2, new RnnOutputLayer.Builder(LossFunctions.LossFunction.MSE).activation("identity")
-                        .nIn(lstmLayer2Size).nOut(nOut).build())
-                .pretrain(false).backprop(true)
+                .layer(0, new GravesLSTM.Builder().activation("tanh").nIn(1).nOut(10)
+                        .build())
+                .layer(1, new RnnOutputLayer.Builder(LossFunctions.LossFunction.MSE)
+                        .activation("identity").nIn(10).nOut(1).build())
                 .build();
 
         MultiLayerNetwork net = new MultiLayerNetwork(conf);
         net.init();
-        net.setListeners(new ScoreIterationListener(1));
+        net.setListeners(new ScoreIterationListener(20));
 
         return net;
     }
@@ -70,25 +61,14 @@ public class PredictTest {
             iterator.reset();
             System.out.println();
             System.out.println("=================>完成第"+i+"次完整训练");
-            INDArray initArray = getInitArray(iterator);
+
             System.out.println("预测结果：");
-            INDArray output = net.rnnTimeStep(initArray);
-            System.out.print(output.getDouble(0)*iterator.getMaxNum()+" ");
-            System.out.println();
-            System.out.println("实际价格：");
-            System.out.println(list.get(501).getPrice());
+            INDArray output = net.rnnTimeStep(dataSet.getFeatures());
+            System.out.print(list.get(1000).getPrice()+output.getDouble(0)*list.get(1000).getPrice() +"---"+list.get(1001).getPrice());
             System.out.println();
             net.rnnClearPreviousState();
         }
     }
-
-    private static INDArray getInitArray(BitconDataIterator iter){
-        double maxNum= iter.getMaxNum();
-        INDArray initArray = Nd4j.zeros(1, 1, 1);
-        initArray.putScalar(new int[]{0,0,0}, 6985.86/maxNum);
-        return initArray;
-    }
-
     public static List<SecondData> readDataFromDB(String symbol){
         List<SecondData> dataList = new ArrayList<>();
         List<Price>prices=priceService.getPrice(symbol,0,0);
@@ -104,11 +84,11 @@ public class PredictTest {
 
     public static void main(String[] args) {
         int batchSize = 1;
-        int exampleLength = 30;
+        int exampleLength = 50;
         //初始化深度神经网络
         BitconDataIterator iterator = new BitconDataIterator();
 
-        iterator.loadData(list,0,500,batchSize,exampleLength);
+        iterator.loadData(list,0,1000,batchSize,exampleLength);
         MultiLayerNetwork net = getNetModel(IN_NUM,OUT_NUM);
         train(net, iterator);
     }
