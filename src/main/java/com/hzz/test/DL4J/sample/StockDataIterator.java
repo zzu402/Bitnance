@@ -1,6 +1,7 @@
-package com.hzz.test.DL4J;
+package com.hzz.test.DL4J.sample;
 
 
+import com.hzz.test.DL4J.sample.DailyData;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.api.DataSetPreProcessor;

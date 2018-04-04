@@ -1,4 +1,4 @@
-package com.hzz.test.DL4J;
+package com.hzz.test.DL4J.sample;
 
 /**
  * @Author: huangzz

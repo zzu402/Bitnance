@@ -51,7 +51,7 @@ public class PriceService {
             price.setPointType(buyPointType);
         if(sellPointType>0)
             price.setPointSellType(sellPointType);
-        price.groupBy("createTime desc");
+        price.orderBy("createTime asc");//升序而不是降序
         ModelDao modelDao= DaoUtils.getDao(DaoUtils.getTemplate());
         try {
             List<Price> priceList=modelDao.select(price);
