@@ -23,7 +23,10 @@
         <spring_version>4.3.8.RELEASE</spring_version>
         <springData_version>1.8.3.RELEASE</springData_version>
 
-        <dl4j.version>0.9.1</dl4j.version>
+
+        <nd4j.version>0.7.1</nd4j.version>
+        <dl4j.version>0.7.1</dl4j.version>
+        <datavec.version>0.7.1</datavec.version>
     </properties>
     <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
     <dependencies>
@@ -113,13 +116,27 @@
         </dependency>
 
         <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-native</artifactId>
+            <version>${nd4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>dl4j-spark_2.11</artifactId>
+            <version>${dl4j.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.datavec/datavec-spark -->
+        <dependency>
+            <groupId>org.datavec</groupId>
+            <artifactId>datavec-spark_2.11</artifactId>
+            <version>0.7.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.deeplearning4j</groupId>
             <artifactId>deeplearning4j-core</artifactId>
             <version>${dl4j.version}</version>
         </dependency>
-
-
-
 
     </dependencies>
 
