@@ -16,6 +16,7 @@ public class CommandConstant {
     public static final String MAIN_UI_HELP="HELP";
     public static final String MAIN_IMITATE="IMITATE";
     public static final String MAIN_UI_TRADE="TRADE";
+    public static final String MAIN_UI_ABOUT="ABOUT";
 
 
 }

@@ -2,9 +2,11 @@ package com.hzz;
 
 import com.hzz.service.JobService;
 import com.hzz.ui.AbstractUI;
+import com.hzz.ui.AuthorizationUI;
 import com.hzz.ui.InitUI;
 import com.hzz.ui.MainUI;
 import com.hzz.utils.AlertUtils;
+import com.hzz.utils.AuthorizationUtils;
 import com.hzz.utils.DaoUtils;
 import org.pushingpixels.substance.api.SubstanceLookAndFeel;
 import org.pushingpixels.substance.api.painter.border.StandardBorderPainter;
@@ -30,7 +32,23 @@ public class App {
     private static Logger logger= LoggerFactory.getLogger(App.class);
     public static void main(String[] args) {
 
+        if(AuthorizationUtils.isAuthorization()) {
+          App.start();
+        }else {
+            EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    try {
+                        AuthorizationUI window = new AuthorizationUI();
+                        window.frame.setVisible(true);
+                    } catch (Exception e) {
+                        logger.error("注册时错误",e);
+                    }
+                }
+            });
 
+        }
+    }
+    public static void start(){
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -40,8 +58,8 @@ public class App {
                     window.frame.setVisible(true);
                     logger.info("Main UI start finish");
                 } catch (Exception e) {
-                    logger.error("Main UI error...",e);
-                    if (e.getMessage().contains("JDBC Connection")){
+                    logger.error("Main UI error...", e);
+                    if (e.getMessage().contains("JDBC Connection")) {
                         AlertUtils.showMessage("数据库信息异常!");
                         DaoUtils.DBError(new InitUI(WindowConstants.EXIT_ON_CLOSE));
                     }

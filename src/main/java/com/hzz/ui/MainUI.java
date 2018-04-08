@@ -4,6 +4,7 @@ import com.hzz.constant.UIConstant;
 import com.hzz.service.TradeService;
 import com.hzz.ui.panel.GuidePanel;
 import com.hzz.ui.panel.UserInfoPanel;
+import com.hzz.utils.AlertUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,8 +59,6 @@ public class MainUI extends AbstractUI implements ActionListener {
         JMenuItem menuItem_8 = new JMenuItem(UIConstant.MAIN_UI_MENU_ITEM_2_2);
         menu_1.add(menuItem_8);
 
-        JMenuItem menuItem_9 = new JMenuItem(UIConstant.MAIN_UI_MENU_ITEM_2_3);
-        menu_1.add(menuItem_9);
 
         JMenuItem menuItem_17 = new JMenuItem(UIConstant.MAIN_UI_MENU_ITEM_2_4);
         menuItem_17.setActionCommand(CommandConstant.MAIN_IMITATE);
@@ -91,6 +90,8 @@ public class MainUI extends AbstractUI implements ActionListener {
         menuBar.add(menu_3);
 
         JMenuItem menuItem_10 = new JMenuItem(UIConstant.MAIN_UI_MENU_ITEM_4_1);
+        menuItem_10.setActionCommand(CommandConstant.MAIN_UI_ABOUT);
+        menuItem_10.addActionListener(this);
         menu_3.add(menuItem_10);
 
         JMenuItem menuItem_11 = new JMenuItem(UIConstant.MAIN_UI_MENU_ITEM_4_2);
@@ -136,6 +137,8 @@ public class MainUI extends AbstractUI implements ActionListener {
             subWindow=new ImitateUI(WindowConstants.HIDE_ON_CLOSE);
         }else if(command.equals(CommandConstant.MAIN_UI_TRADE)){
             subWindow=new TradeSetUI(WindowConstants.HIDE_ON_CLOSE);
+        }else if (command.equals(CommandConstant.MAIN_UI_ABOUT)){
+            AlertUtils.showMessage("联系QQ:415354918");
         }
       new Thread(new Runnable() {
           @Override
