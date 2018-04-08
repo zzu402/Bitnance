@@ -138,7 +138,7 @@ public class TimeSeries_AWT extends ApplicationFrame
         price.setSymbol(symbol);
         if(type>0)
              price.setPointType(type);
-        price.groupBy("createTime desc");
+        price.orderBy("createTime desc");
 
         ModelDao modelDao= DaoUtils.getDao(DaoUtils.getTemplate());
         try {

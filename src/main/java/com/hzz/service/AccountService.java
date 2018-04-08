@@ -1,6 +1,7 @@
 package com.hzz.service;
 
 import com.hzz.common.dao.ModelDao;
+import com.hzz.constant.AppConstant;
 import com.hzz.constant.QueryConstant;
 import com.hzz.exception.CommonException;
 import com.hzz.main.Api;
@@ -84,7 +85,7 @@ public class AccountService {
         if (price.getPrice() == null)
             return;
         Double currentPrice = Double.valueOf(price.getPrice());
-        moneyCount = moneyCount*currentPrice*6.2862;
+        moneyCount = moneyCount*currentPrice* AppConstant.USDT_PRICE;
         account.setMoneyCount(moneyCount.longValue());
         account.setUpdateTime(System.currentTimeMillis()/1000);
         try {

@@ -2,6 +2,7 @@ package com.hzz.service;
 
 import com.hzz.App;
 import com.hzz.common.dao.*;
+import com.hzz.constant.AppConstant;
 import com.hzz.constant.QueryConstant;
 import com.hzz.exception.CommonException;
 import com.hzz.main.Api;
@@ -24,9 +25,6 @@ public class TradeService {
     private ConfigService configService=new ConfigService();
     private MailService mailService=new MailService();
     private ModelDao modelDao=DaoUtils.getDao(DaoUtils.getTemplate());
-
-    private static Integer DISTANCE_THRESHOLD_MAX=18;//距离阈值，最小值距离当前价格的位置,一个单位代表10秒
-    private static Integer DISTANCE_THRESHOLD_MIN=6;//距离阈值，最小值距离当前价格的位置,一个单位代表10秒
 
     public void saveMyTrade(String symbol){
         List<MyTrade> myTradeList = api.getMyTrades(symbol, "", 10);
@@ -68,7 +66,6 @@ public class TradeService {
 
         ConditionModel condition = new ConditionModel();
         condition.orderBy("t.time desc");
-        condition.limitCount(13);
         condition.columns().addAll(Arrays.asList(new String[]{"t.time", "t.price", "t.qty", "t.isMaker", "t.isBuyer", "o.symbol"}));
 
         try {
@@ -98,7 +95,7 @@ public class TradeService {
                     continue;
                 Price price = prices.get(0);
                 Double currentPrice = Double.valueOf(price.getPrice());
-                Double buyPrice = Double.valueOf(configInfo.get(QueryConstant.CONFIG_TYPE_PRE_BUY + "Price"));
+                Double buyPrice = Double.valueOf(configInfo.get( "buyPrice"));
                 if (currentPrice.doubleValue() > buyPrice.doubleValue()) {//买入（价格比较，当前价格币设定价格小，就可以买入）
                     continue;
                 }
@@ -173,7 +170,7 @@ public class TradeService {
                     continue;
                 Price price=prices.get(0);
                 Double currentPrice=Double.valueOf(price.getPrice());
-                Double sellPrice=Double.valueOf(configInfo.get(QueryConstant.CONFIG_TYPE_PRE_SELL+"Price"));
+                Double sellPrice=Double.valueOf(configInfo.get("sellPrice"));
                 if(currentPrice.doubleValue()<sellPrice.doubleValue()){//卖出（价格比较，当前价格币设定价大，就可以卖出）
                     continue;
                 }
@@ -204,8 +201,8 @@ public class TradeService {
                 Double currentPrice=Double.valueOf(price.getPrice());
                 Price configPrice=new Price();
                 configPrice.setSymbol(config.getSymbol());
-                configPrice.limitCount(2*360);//获取最近两个小时的数据
-                configPrice.groupBy("createTime desc");
+                configPrice.limitCount(AppConstant.TIME_MARGIN_DATA_COUNT);//获取时间段内多少条数据
+                configPrice.orderBy("createTime asc");
                 try {
                     List<Price>priceList=modelDao.select(configPrice);
                     if(priceList==null||priceList.isEmpty())
@@ -214,7 +211,7 @@ public class TradeService {
                     priceDoubles[priceDoubles.length-1]=currentPrice;//将当前价格加入
                     Integer maxPosition=MathUtils.findMaxPosition(priceDoubles);//卖出去寻找最近两个小时最高价格
                     //触发条件，当前出现最低点在最新价格附近
-                    if(maxPosition+DISTANCE_THRESHOLD_MAX>=priceDoubles.length-1&&maxPosition+DISTANCE_THRESHOLD_MIN<=priceDoubles.length-1) {
+                    if(maxPosition+ AppConstant.DISTANCE_THRESHOLD_MAX>=priceDoubles.length-1&&maxPosition+AppConstant.DISTANCE_THRESHOLD_MIN<=priceDoubles.length-1) {
 
                         Double setPrice=Double.valueOf(configInfo.get("price"));//还要判断价格
                         if(MathUtils.compareDouble(setPrice,0.0)>0) {
@@ -258,8 +255,8 @@ public class TradeService {
                 Double currentPrice=Double.valueOf(price.getPrice());
                 Price configPrice=new Price();
                 configPrice.setSymbol(config.getSymbol());
-                configPrice.limitCount(30);
-                configPrice.groupBy("createTime desc");
+                configPrice.limitCount(AppConstant.TIME_MARGIN_DATA_COUNT);
+                configPrice.orderBy("createTime asc");
                 try {
                     List<Price>priceList=modelDao.select(configPrice);
                     if(priceList==null||priceList.isEmpty())
@@ -269,7 +266,7 @@ public class TradeService {
                     Integer minPosition=MathUtils.findMinPosition(priceDoubles);
 
                     //触发条件，当前出现最低点在最新价格附近
-                    if(minPosition+DISTANCE_THRESHOLD_MAX>=priceDoubles.length-1&&minPosition+DISTANCE_THRESHOLD_MIN<=priceDoubles.length-1) {
+                    if(minPosition+AppConstant.DISTANCE_THRESHOLD_MAX>=priceDoubles.length-1&&minPosition+AppConstant.DISTANCE_THRESHOLD_MIN<=priceDoubles.length-1) {
                         Double setPrice=Double.valueOf(configInfo.get("price"));//还要判断价格
                         if(MathUtils.compareDouble(setPrice,0.0)>0) {
                             //如果设定价格非0,就得判断当前要买入的价格和设置的价格比较
@@ -385,7 +382,7 @@ public class TradeService {
                         HmBuy();
                         //自动
                         tradeAutoMethodBuy_1();
-                        Thread.sleep(10000);
+                        Thread.sleep(AppConstant.DO_BUY_TRADE_MARGIN_TIME);
                     } catch (Exception e) {
                         logger.error("线程执行买入出错",e);
                     }
@@ -400,7 +397,7 @@ public class TradeService {
                     try {
                         HmSell();
                         tradeAutoMethodSell_1();
-                        Thread.sleep(10000);
+                        Thread.sleep(AppConstant.DO_SELL_TRADE_MARGIN_TIME);
                     } catch (Exception e) {
                         logger.error("线程执行卖出出错",e);
                     }

@@ -1,5 +1,6 @@
 package com.hzz.service;
 import com.hzz.common.dao.ModelDao;
+import com.hzz.constant.AppConstant;
 import com.hzz.constant.QueryConstant;
 import com.hzz.exception.CommonException;
 import com.hzz.model.Config;
@@ -23,28 +24,23 @@ public class TestService {
     private ModelDao modelDao= DaoUtils.getDao(DaoUtils.getTemplate());
     private ConfigService configService=new ConfigService();
 
-    private static Integer DISTANCE_THRESHOLD_MAX=18;//距离阈值，最小值距离当前价格的位置,一个单位代表10秒
-    private static Integer DISTANCE_THRESHOLD_MIN=6;//距离阈值，最小值距离当前价格的位置,一个单位代表10秒
-
-
 
     public void imitateSell(List<Price> priceList){//自动卖出策略1
         List<Price> updateList=new ArrayList<>();
-        Integer margin=30;
         Price currentPrice;
-        List<Price> marginPrice=new ArrayList<>(30);
+        List<Price> marginPrice=new ArrayList<>();
         Double current;
-        for(int i=30;i<priceList.size();i++) {
+        for(int i=AppConstant.TIME_MARGIN_DATA_COUNT;i<priceList.size();i++) {
             currentPrice=priceList.get(i);
             current=Double.valueOf(currentPrice.getPrice());
             marginPrice.clear();
-            for(int j=i-margin;j<i;j++){
+            for(int j=i-AppConstant.TIME_MARGIN_DATA_COUNT;j<i;j++){
                 marginPrice.add(priceList.get(j));
             }
             Double[] priceDoubles=coverPriceToDoubleArray(marginPrice);
             priceDoubles[priceDoubles.length-1]=current;//将当前价格加入
             Integer maxPosition=MathUtils.findMaxPosition(priceDoubles);//寻找五分钟内最高价格
-            if(maxPosition+DISTANCE_THRESHOLD_MAX>=priceDoubles.length&&maxPosition+DISTANCE_THRESHOLD_MIN<=priceDoubles.length){
+            if(maxPosition+ AppConstant.DISTANCE_THRESHOLD_MAX>=priceDoubles.length&&maxPosition+AppConstant.DISTANCE_THRESHOLD_MIN<=priceDoubles.length){
                 //如果最小的价格在当前价格并且不是当前价格
                 Double[] Ksub = MathUtils.getKsub(priceDoubles);
                 //获取价格的ksub值,计算从最高位置到当前价格的k是递减的，则可以卖出
@@ -69,22 +65,21 @@ public class TestService {
 
     public void imitateBuy(List<Price> priceList){//自动买入策略1
         List<Price> updateList=new ArrayList<>();
-        Integer margin=30;
         Price currentPrice;
-        List<Price> marginPrice=new ArrayList<>(30);
+        List<Price> marginPrice=new ArrayList<>();
         Double current;
-        for(int i=30;i<priceList.size();i++) {
+        for(int i=AppConstant.TIME_MARGIN_DATA_COUNT;i<priceList.size();i++) {
             currentPrice=priceList.get(i);
             current=Double.valueOf(currentPrice.getPrice());
             marginPrice.clear();
-            for(int j=i-margin;j<i;j++){
+            for(int j=i-AppConstant.TIME_MARGIN_DATA_COUNT;j<i;j++){
 
                 marginPrice.add(priceList.get(j));
             }
             Double[] priceDoubles=coverPriceToDoubleArray(marginPrice);
             priceDoubles[priceDoubles.length-1]=current;//将当前价格加入
             Integer minPosition=MathUtils.findMinPosition(priceDoubles);//买入去寻找最近5分钟最低价格
-            if(minPosition+DISTANCE_THRESHOLD_MAX>=priceDoubles.length&&minPosition+DISTANCE_THRESHOLD_MIN<=priceDoubles.length){
+            if(minPosition+AppConstant.DISTANCE_THRESHOLD_MAX>=priceDoubles.length&&minPosition+AppConstant.DISTANCE_THRESHOLD_MIN<=priceDoubles.length){
                 //如果最小的价格在当前价格并且不是当前价格
                 Double[] Ksub = MathUtils.getKsub(priceDoubles);
                 //获取价格的ksub值,计算从最小位置到当前价格的k是递增的，则可以买入
@@ -122,13 +117,6 @@ public class TestService {
         }
         return doubles;
     }
-
-
-//    public static void main(String[]args){
-//        TestService testService=new TestService();
-//        testService.doImitate();
-//    }
-
     public void doImitate(){
         logger.info("start imitate ...");
         Map<String, Config> map=configService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_BUY,1);
@@ -140,7 +128,7 @@ public class TestService {
             String key = (String) entry.getKey();
             Price condition = new Price();
             condition.setSymbol(key);
-            condition.groupBy("createTime desc");
+            condition.orderBy("createTime asc");
             try {
                 List<Price> priceList=modelDao.select(condition);
                 imitateBuy(priceList);//对于整个symbol的价格进行

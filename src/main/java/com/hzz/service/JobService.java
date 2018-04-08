@@ -1,5 +1,6 @@
 package com.hzz.service;
 
+import com.hzz.constant.AppConstant;
 import com.hzz.utils.DBUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class JobService {
             } else {
                 logger.info("check db or keys no set...");
                 try {
-                    Thread.sleep(2*60*1000);//每个2分钟检查一次，直到进入正常工作
+                    Thread.sleep(AppConstant.JOB_CHECK_SLEEP_TIME);//每个2分钟检查一次，直到进入正常工作
                 } catch (InterruptedException e) {
                     logger.error("线程休眠异常",e);
                 }
@@ -44,7 +45,7 @@ public class JobService {
                 while (true){
                     try {
                         accountService.saveAccount();
-                        Thread.sleep(1*60*60*1000);
+                        Thread.sleep(AppConstant.SAVE_ACCOUNT_MARGIN_TIME);
                     } catch (InterruptedException e) {
                         logger.error("线程执行错误",e);
                     }
@@ -58,7 +59,7 @@ public class JobService {
                 while (true){
                     try {
                         priceService.savePrice();
-                        Thread.sleep(10000);//每隔10秒更新数据
+                        Thread.sleep(AppConstant.SAVE_PRICE_MARGIN_TIME);//每隔10秒更新数据
                     } catch (InterruptedException e) {
                         logger.error("线程执行错误",e);
                     }

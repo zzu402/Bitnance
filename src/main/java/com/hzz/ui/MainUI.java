@@ -45,8 +45,6 @@ public class MainUI extends AbstractUI implements ActionListener {
         tzItem.addActionListener(this);
         menu.add(tzItem);
 
-        JMenuItem menuItem_1 = new JMenuItem(UIConstant.MAIN_UI_MENU_ITEM_1_4);
-        menu.add(menuItem_1);
 
         JMenu menu_1 = new JMenu(UIConstant.MAIN_UI_MENU_2);
         menuBar.add(menu_1);
@@ -85,6 +83,8 @@ public class MainUI extends AbstractUI implements ActionListener {
         menu_2.add(menuItem_3);
 
         JMenuItem menuItem_4 = new JMenuItem(UIConstant.MAIN_UI_MENU_ITEM_3_3);
+        menuItem_4.setActionCommand(CommandConstant.MAIN_UI_TRADE);
+        menuItem_4.addActionListener(this);
         menu_2.add(menuItem_4);
 
         JMenu menu_3 = new JMenu(UIConstant.MAIN_UI_MENU_4);
@@ -134,6 +134,8 @@ public class MainUI extends AbstractUI implements ActionListener {
             subWindow=new HelpUI();
         }else if(command.equals(CommandConstant.MAIN_IMITATE)){
             subWindow=new ImitateUI(WindowConstants.HIDE_ON_CLOSE);
+        }else if(command.equals(CommandConstant.MAIN_UI_TRADE)){
+            subWindow=new TradeSetUI(WindowConstants.HIDE_ON_CLOSE);
         }
       new Thread(new Runnable() {
           @Override
