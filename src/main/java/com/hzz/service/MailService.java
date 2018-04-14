@@ -77,14 +77,14 @@ public class MailService {
             }
             User user = (User) list.get(0);
             mailBean.setTo(user.getEmail());
-            mailBean.setSubject(String.format("bitcon:%s%s提醒",symbol,type==1?"买入":"卖出"));
+            mailBean.setSubject(String.format("bitcon:%s %s notify",symbol,type==1?"buy":"sell"));
             if (StringUtil.isBlank(user.getEmail()) || StringUtil.isBlank(user.getBuyTemplet())) {
-                logger.info(String.format("没有设置通知信息，发送%s信息失败...",type==1?"买入":"卖出"));
+                logger.info(String.format("没有设置通知信息，发送%s信息失败...",type==1?"buy":"sell"));
                 return;
             }
-            String temple=user.getBuyTemplet();;
+            String temple=user.getSellTemplet();//这里保存的时候弄混了，应该sell才是buy
             if(type!=1) {
-                temple=user.getSellTemplet();
+                temple=user.getBuyTemplet();
             }
             String[] str = temple.split("\\{symbol\\}");
             temple = getString(str, symbol);

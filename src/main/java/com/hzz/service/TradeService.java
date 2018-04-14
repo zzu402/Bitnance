@@ -110,6 +110,10 @@ public class TradeService {
             }
         }
     }
+    public static void main(String[] args){
+        MailService mailService=new MailService();
+        mailService.sendNotify("","",1);
+    }
 
     private void doFinishUpdateNum(Map<String, String> configInfo,Config config){
         configInfo.put("num","0");
