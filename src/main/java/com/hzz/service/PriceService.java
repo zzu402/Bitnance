@@ -71,7 +71,7 @@ public class PriceService {
                 }
             }
         }
-        if(storyPriceList==null&&storyPriceList.isEmpty())
+        if(storyPriceList==null||storyPriceList.isEmpty())
             return;
         try {
             modelDao.batchInsert(storyPriceList);
