@@ -15,27 +15,34 @@ public class JobService {
     private  static  AccountService accountService = new AccountService();
     private  static  PriceService priceService = new PriceService();
     public static void doJob(){
-        boolean isDoJob=false;
-        while(!isDoJob) {
-            TradeService tradeService = new TradeService();
-            if (DBUtils.checkDBConfigAndKeys()) {
-                logger.info("init Key start ...");
-                tradeService.initKey();
-                logger.info("init Key end ...");
-                doSaveInfo();
-                logger.info("get Data start ...");
-                tradeService.doHm();
-                logger.info("doHm start... ");
-                isDoJob=true;
-            } else {
-                logger.info("check db or keys no set...");
-                try {
-                    Thread.sleep(AppConstant.JOB_CHECK_SLEEP_TIME);//每个2分钟检查一次，直到进入正常工作
-                } catch (InterruptedException e) {
-                    logger.error("线程休眠异常",e);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean isDoJob=false;
+                while(!isDoJob) {
+                    TradeService tradeService = new TradeService();
+                    if (DBUtils.checkDBConfigAndKeys()) {
+                        logger.info("init Key start ...");
+                        tradeService.initKey();
+                        logger.info("init Key end ...");
+                        doSaveInfo();
+                        logger.info("get Data start ...");
+                        tradeService.doHm();
+                        logger.info("doHm start... ");
+                        isDoJob=true;
+                    } else {
+                        logger.info("check db or keys no set...");
+                        try {
+                            Thread.sleep(AppConstant.JOB_CHECK_SLEEP_TIME);//每个2分钟检查一次，直到进入正常工作
+                        } catch (InterruptedException e) {
+                            logger.error("线程休眠异常",e);
+                        }
+                    }
                 }
             }
-        }
+        }).start();
+
     }
 
     private static void doSaveInfo(){

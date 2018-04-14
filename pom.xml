@@ -77,11 +77,11 @@
         <artifactId>spring-boot-starter-jdbc</artifactId>
     </dependency>
         <!-- https://mvnrepository.com/artifact/org.java.net.substance/substance -->
-        <dependency>
-            <groupId>org.java.net.substance</groupId>
-            <artifactId>substance</artifactId>
-            <version>6.0</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.java.net.substance</groupId>-->
+            <!--<artifactId>substance</artifactId>-->
+            <!--<version>6.0</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>jfree</groupId>
@@ -115,28 +115,28 @@
             <optional>true</optional>
         </dependency>
 
-        <dependency>
-            <groupId>org.nd4j</groupId>
-            <artifactId>nd4j-native</artifactId>
-            <version>${nd4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.deeplearning4j</groupId>
-            <artifactId>dl4j-spark_2.11</artifactId>
-            <version>${dl4j.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.datavec/datavec-spark -->
-        <dependency>
-            <groupId>org.datavec</groupId>
-            <artifactId>datavec-spark_2.11</artifactId>
-            <version>0.7.1</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.nd4j</groupId>-->
+            <!--<artifactId>nd4j-native</artifactId>-->
+            <!--<version>${nd4j.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.deeplearning4j</groupId>-->
+            <!--<artifactId>dl4j-spark_2.11</artifactId>-->
+            <!--<version>${dl4j.version}</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.datavec/datavec-spark &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.datavec</groupId>-->
+            <!--<artifactId>datavec-spark_2.11</artifactId>-->
+            <!--<version>0.7.1</version>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>org.deeplearning4j</groupId>
-            <artifactId>deeplearning4j-core</artifactId>
-            <version>${dl4j.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.deeplearning4j</groupId>-->
+            <!--<artifactId>deeplearning4j-core</artifactId>-->
+            <!--<version>${dl4j.version}</version>-->
+        <!--</dependency>-->
 
     </dependencies>
 

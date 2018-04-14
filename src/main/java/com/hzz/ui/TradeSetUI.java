@@ -13,7 +13,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class TradeSetUI extends AbstractUI implements ChangeListener{
+public class TradeSetUI extends AbstractUI implements ChangeListener,ActionListener{
 	private JSlider slider;
 	private JSlider slider_1;
 	private JSlider slider_2;
@@ -28,6 +28,10 @@ public class TradeSetUI extends AbstractUI implements ChangeListener{
 	private JLabel label_4;
 	private JLabel label_5;
 	private JLabel label_6;
+	private  JLabel label_7;
+	private JCheckBox checkBox_1;
+	private JCheckBox checkBox_2;
+	private JCheckBox checkBox_3;
 	private Integer v1= Math.toIntExact(AppConstant.SAVE_PRICE_MARGIN_TIME / 1000);
 	private Integer v2=Math.toIntExact(AppConstant.SAVE_ACCOUNT_MARGIN_TIME/(60*1000));
 	private Integer v3=(int) (AppConstant.DO_BUY_TRADE_MARGIN_TIME/1000);
@@ -35,6 +39,7 @@ public class TradeSetUI extends AbstractUI implements ChangeListener{
 	private Integer v5=AppConstant.TIME_MARGIN_DATA_COUNT/6;
 	private Integer v6=AppConstant.DISTANCE_THRESHOLD_MAX/6;
 	private Integer v7=AppConstant.DISTANCE_THRESHOLD_MIN/6;
+	private  Integer v8=AppConstant.PRICE_STORY_METHOD;
 
 	/**
 	 * Launch the application.
@@ -141,6 +146,43 @@ public class TradeSetUI extends AbstractUI implements ChangeListener{
 		slider_6.setBounds(197, 250, 358, 40);
 		setJSlider(slider_6,60,1);
 		frame.getContentPane().add(slider_6);
+
+
+		label_7=new JLabel("价格存储策略：");
+		label_7.setBounds(10,290,180,15);
+		frame.getContentPane().add(label_7);
+
+		checkBox_1 = new JCheckBox("暂不存储");
+		checkBox_1.setBounds(197, 290, 80, 20);
+		frame.getContentPane().add(checkBox_1);
+
+		checkBox_2 = new JCheckBox("存储全部币种");
+		checkBox_2.setBounds(285, 290, 115, 20);
+		frame.getContentPane().add(checkBox_2);
+
+		checkBox_3 = new JCheckBox("存储设置币种（推荐）");
+		checkBox_3.setBounds(400, 290, 165, 20);
+		frame.getContentPane().add(checkBox_3);
+
+		if(v8==0){
+			checkBox_1.setSelected(true);
+			checkBox_2.setSelected(false);
+			checkBox_3.setSelected(false);
+		}else if(v8==1){
+			checkBox_2.setSelected(true);
+			checkBox_1.setSelected(false);
+			checkBox_3.setSelected(false);
+		}else if(v8==2){
+			checkBox_3.setSelected(true);
+			checkBox_1.setSelected(false);
+			checkBox_2.setSelected(false);
+		}
+		checkBox_1.setActionCommand("0");
+		checkBox_2.setActionCommand("1");
+		checkBox_3.setActionCommand("2");
+		checkBox_1.addActionListener(this);
+		checkBox_2.addActionListener(this);
+		checkBox_3.addActionListener(this);
 		
 		JButton button = new JButton("保存设置");
 		button.setBounds(253, 329, 93, 23);
@@ -186,6 +228,15 @@ public class TradeSetUI extends AbstractUI implements ChangeListener{
 					AppConstant.DISTANCE_THRESHOLD_MIN=v7*6;
 					PropertiesUtils.updateProperty(userFile,"tradeMarginMin", String.valueOf(AppConstant.DISTANCE_THRESHOLD_MIN));
 				}
+
+				if(checkBox_1.isSelected()){
+					AppConstant.PRICE_STORY_METHOD=0;
+				}else  if(checkBox_2.isSelected()){
+					AppConstant.PRICE_STORY_METHOD=1;
+				}else  if(checkBox_3.isSelected()){
+					AppConstant.PRICE_STORY_METHOD=2;
+				}
+				PropertiesUtils.updateProperty(userFile,"priceStoryMethod",String.valueOf(AppConstant.PRICE_STORY_METHOD));
 				AlertUtils.showMessage("保存成功！");
 			}
 		});
@@ -235,5 +286,23 @@ public class TradeSetUI extends AbstractUI implements ChangeListener{
 				v7=eslider.getValue();
 			}
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+			String c=e.getActionCommand();
+			if (c.equals("0")){
+				checkBox_1.setSelected(true);
+				checkBox_2.setSelected(false);
+				checkBox_3.setSelected(false);
+			}else if(c.equals("1")){
+				checkBox_2.setSelected(true);
+				checkBox_1.setSelected(false);
+				checkBox_3.setSelected(false);
+			}else if(c.equals("2")){
+				checkBox_3.setSelected(true);
+				checkBox_2.setSelected(false);
+				checkBox_1.setSelected(false);
+			}
 	}
 }

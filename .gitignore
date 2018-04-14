@@ -10,3 +10,9 @@
 */.classpath
 .settings
 */.settings
+/out
+*/out
+/logs
+*/logs
+*.properties
+*/*.properties

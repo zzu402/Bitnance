@@ -1,8 +1,5 @@
 package com.hzz.ui;
 
-import org.pushingpixels.substance.api.SubstanceLookAndFeel;
-import org.pushingpixels.substance.api.skin.BusinessBlackSteelSkin;
-
 import javax.swing.*;
 
 /**

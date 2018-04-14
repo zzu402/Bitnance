@@ -1,6 +1,5 @@
 package com.hzz.service;
 
-import com.hzz.App;
 import com.hzz.common.dao.*;
 import com.hzz.constant.AppConstant;
 import com.hzz.constant.QueryConstant;
@@ -66,7 +65,7 @@ public class TradeService {
 
         ConditionModel condition = new ConditionModel();
         condition.orderBy("t.time desc");
-        condition.columns().addAll(Arrays.asList(new String[]{"t.time", "t.price", "t.qty", "t.isMaker", "t.isBuyer", "o.symbol"}));
+        condition.columns().addAll(Arrays.asList(new String[]{"t.time", "t.price", "t.qty", "t.isMaker", "t.isBuyer", "o.symbol","o.side"}));
 
         try {
             List<Map<String, Object>> tradeList = modelDao.select(joinMap, condition);

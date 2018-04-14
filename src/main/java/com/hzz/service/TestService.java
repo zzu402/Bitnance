@@ -41,17 +41,8 @@ public class TestService {
             priceDoubles[priceDoubles.length-1]=current;//将当前价格加入
             Integer maxPosition=MathUtils.findMaxPosition(priceDoubles);//寻找五分钟内最高价格
             if(maxPosition+ AppConstant.DISTANCE_THRESHOLD_MAX>=priceDoubles.length&&maxPosition+AppConstant.DISTANCE_THRESHOLD_MIN<=priceDoubles.length){
-                //如果最小的价格在当前价格并且不是当前价格
-                Double[] Ksub = MathUtils.getKsub(priceDoubles);
-                //获取价格的ksub值,计算从最高位置到当前价格的k是递减的，则可以卖出
-                Double sum = 0.0;
-                for (int j = maxPosition; j < Ksub.length; j++) {
-                    sum += Ksub[j];
-                }
-                if (sum < 0) {//当前总体是下降趋势，判断可以卖出
-                    currentPrice.setPointSellType(1);
-                    updateList.add(currentPrice);
-                }
+                currentPrice.setPointSellType(1);
+                updateList.add(currentPrice);
             }
         }
         try {
@@ -78,19 +69,12 @@ public class TestService {
             }
             Double[] priceDoubles=coverPriceToDoubleArray(marginPrice);
             priceDoubles[priceDoubles.length-1]=current;//将当前价格加入
-            Integer minPosition=MathUtils.findMinPosition(priceDoubles);//买入去寻找最近5分钟最低价格
+            Integer minPosition=MathUtils.findMinPosition(priceDoubles);//
             if(minPosition+AppConstant.DISTANCE_THRESHOLD_MAX>=priceDoubles.length&&minPosition+AppConstant.DISTANCE_THRESHOLD_MIN<=priceDoubles.length){
-                //如果最小的价格在当前价格并且不是当前价格
-                Double[] Ksub = MathUtils.getKsub(priceDoubles);
-                //获取价格的ksub值,计算从最小位置到当前价格的k是递增的，则可以买入
-                Double sum = 0.0;
-                for (int j = minPosition; j < Ksub.length; j++) {
-                    sum += Ksub[j];
-                }
-                if (sum > 0) {//当前总体是上升趋势，判断可以买入
-                    currentPrice.setPointType(1);
-                    updateList.add(currentPrice);
-                }
+                MathUtils.getKsub(priceDoubles);
+
+                currentPrice.setPointType(1);
+                updateList.add(currentPrice);
             }
         }
         try {

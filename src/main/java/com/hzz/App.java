@@ -8,11 +8,6 @@ import com.hzz.ui.MainUI;
 import com.hzz.utils.AlertUtils;
 import com.hzz.utils.AuthorizationUtils;
 import com.hzz.utils.DaoUtils;
-import org.pushingpixels.substance.api.SubstanceLookAndFeel;
-import org.pushingpixels.substance.api.painter.border.StandardBorderPainter;
-import org.pushingpixels.substance.api.shaper.StandardButtonShaper;
-import org.pushingpixels.substance.api.skin.SubstanceBusinessBlackSteelLookAndFeel;
-import org.pushingpixels.substance.api.watermark.SubstanceStripeWatermark;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +26,7 @@ import java.awt.*;
 public class App {
     private static Logger logger= LoggerFactory.getLogger(App.class);
     public static void main(String[] args) {
-
+        System.setProperty("user.timezone","GMT +08");
         if(AuthorizationUtils.isAuthorization()) {
           App.start();
         }else {

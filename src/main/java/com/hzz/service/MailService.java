@@ -82,10 +82,8 @@ public class MailService {
                 logger.info(String.format("没有设置通知信息，发送%s信息失败...",type==1?"买入":"卖出"));
                 return;
             }
-            String temple=null;
-            if(type==1) {
-                 temple= user.getBuyTemplet();
-            }else {
+            String temple=user.getBuyTemplet();;
+            if(type!=1) {
                 temple=user.getSellTemplet();
             }
             String[] str = temple.split("\\{symbol\\}");

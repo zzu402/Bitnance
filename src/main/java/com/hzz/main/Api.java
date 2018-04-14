@@ -95,7 +95,7 @@ public class Api {
     }
 
     private Map jsonStr2Map(String jsonStr){
-        System.out.println(jsonStr);
+        logger.info("-->jsonStr2Map:"+jsonStr);
         if(jsonStr==null)
             return null;
         Gson gson = new Gson();
@@ -168,6 +168,9 @@ public class Api {
         String url_api = "https://api.binance.com/api/v3/account";
         String query_string = "recvWindow="+recvWindow;
         String result =requestApi(url_api, createRQuery("GET",query_string,true), true);
+        if(result.contains("code")) {
+            logger.info("account origin result :" + result);
+        }
         try {
             Gson gson = new Gson();
             if(result!=null) {
@@ -190,7 +193,7 @@ public class Api {
         if(account!=null){
            List<Balance>oldBalances=account.getBalances();
            if(oldBalances==null||oldBalances.isEmpty()){
-               logger.info("no get any free money ...");
+               logger.info("no get any free money because account balance is  null...");
                return null;
            }
            for(int i=0;i<oldBalances.size();i++){
@@ -202,7 +205,7 @@ public class Api {
            logger.info("get all free money end...");
            return  newBalances;
         }
-        logger.info("no get any free money ...");
+        logger.info("no get any free money because account is null ...");
         return null;
     }
    //获取某种币的余额
@@ -210,7 +213,7 @@ public class Api {
         logger.info("get free money  start...");
         Map<String,Balance> balanceMap=getAllMoneyFree();
         if(balanceMap==null) {
-            logger.info("get free money failure...");
+            logger.info("get free money failure because balanceMap is null...");
             return null;
         }
         logger.info("get free money end...");
@@ -255,6 +258,8 @@ public class Api {
         logger.info("try to request order ...");
         String url_api="https://api.binance.com/api/v3/order";
         String result =requestApi(url_api, createRQuery(method,query_string,true), true);
+        if(result.contains("code"))
+            logger.info("try request order error,"+result);
         return  result;
     }
     //检查交易状态
@@ -368,6 +373,8 @@ public class Api {
         try {
             String url_api="https://api.binance.com/api/v3/allOrders";
             String result=requestApi(url_api,createRQuery("GET",query_string,true),true);
+            if(result.contains("code"))
+                logger.info("get order error,"+result);
             Gson gson = new Gson();
             List<Order>orders=null;
             if(result!=null) {
@@ -396,6 +403,8 @@ public class Api {
         try {
             String url_api="https://api.binance.com/api/v3/myTrades";
             String result=requestApi(url_api,createRQuery("GET",query_string,true),true);
+            if(result.contains("code"))
+                logger.info("get my trade error,"+result);
             Gson gson = new Gson();
             List<MyTrade>trades=null;
             if(result!=null) {

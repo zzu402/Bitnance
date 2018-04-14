@@ -5,16 +5,12 @@ import com.hzz.service.TradeService;
 import com.hzz.ui.panel.GuidePanel;
 import com.hzz.ui.panel.UserInfoPanel;
 import com.hzz.utils.AlertUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.*;
 
 public class MainUI extends AbstractUI implements ActionListener {
-    private static Logger logger = LoggerFactory.getLogger(MainUI.class);
     private static AbstractUI subWindow=null;
     private  TradeService tradeService=new TradeService();
     public MainUI(int closeOperation) {
@@ -64,8 +60,6 @@ public class MainUI extends AbstractUI implements ActionListener {
         menuItem_17.setActionCommand(CommandConstant.MAIN_IMITATE);
         menuItem_17.addActionListener(this);
         menu_1.add(menuItem_17);
-
-
 
 
         JMenu menu_2 = new JMenu(UIConstant.MAIN_UI_MENU_3);
@@ -139,6 +133,7 @@ public class MainUI extends AbstractUI implements ActionListener {
             subWindow=new TradeSetUI(WindowConstants.HIDE_ON_CLOSE);
         }else if (command.equals(CommandConstant.MAIN_UI_ABOUT)){
             AlertUtils.showMessage("联系QQ:415354918");
+            return;
         }
       new Thread(new Runnable() {
           @Override

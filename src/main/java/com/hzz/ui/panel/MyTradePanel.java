@@ -79,8 +79,8 @@ public class MyTradePanel extends JPanel {
                 sb.append("\t");
                 sb.append("数量:"+trade.get("qty"));
                 sb.append("\t");
-                String isMakey = (String) trade.get("isMaker");
-                boolean isBuyer = !isMakey.equals("true");
+                String isMakey = (String) trade.get("side");
+                boolean isBuyer = !isMakey.equals("SELL");
                 sb.append(isBuyer?"买入":"卖出");
                 sb.append("\r\n");
             }
@@ -91,22 +91,24 @@ public class MyTradePanel extends JPanel {
     private void addSymbolData(JComboBox comboBox) {
         Map<String, Config> map = configService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_BUY, 1);
         Map<String, Config> map1 = configService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_SELL, 1);
-        map.putAll(map1);
-        Iterator it = map.entrySet().iterator();
-        comboBox.addItem("请选择");
-        while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            String key = (String) entry.getKey();
-            comboBox.addItem(key);
-        }
-        comboBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    symbol = (String) e.getItem();
-                }
+        if(map!=null) {
+            map.putAll(map1);
+            Iterator it = map.entrySet().iterator();
+            comboBox.addItem("请选择");
+            while (it.hasNext()) {
+                Map.Entry entry = (Map.Entry) it.next();
+                String key = (String) entry.getKey();
+                comboBox.addItem(key);
             }
-        });
+            comboBox.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                        symbol = (String) e.getItem();
+                    }
+                }
+            });
+        }
     }
 
 }

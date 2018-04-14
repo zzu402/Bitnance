@@ -18,6 +18,8 @@ public class AppConstant {
     public static Long SAVE_PRICE_MARGIN_TIME=10*1000L;//每隔多长时间保存下价格
     public static Long DO_BUY_TRADE_MARGIN_TIME=10*1000L;//每隔多长时间计算
     public static Long DO_SELL_TRADE_MARGIN_TIME=10*1000L;//每隔多长时间计算
+
+    public static Integer PRICE_STORY_METHOD=0;//价格存储策略，0代表不存储，1代表存储全部，2代表存储币种设置的值
     static {
         PropertiesUtils.loadProps(PropertiesUtils.getUserDir());
         DISTANCE_THRESHOLD_MAX=Integer.parseInt(PropertiesUtils.getString("tradeMarginMax","18"));
@@ -27,6 +29,7 @@ public class AppConstant {
         SAVE_PRICE_MARGIN_TIME=Long.parseLong(PropertiesUtils.getString("savePriceMarginTime","10000"));
         DO_BUY_TRADE_MARGIN_TIME=Long.parseLong(PropertiesUtils.getString("doBuyMarginTime","10000"));
         DO_SELL_TRADE_MARGIN_TIME=Long.parseLong(PropertiesUtils.getString("doSellMarginTime","10000"));
+        PRICE_STORY_METHOD=Integer.parseInt(PropertiesUtils.getString("priceStoryMethod","0"));
     }
 
 
