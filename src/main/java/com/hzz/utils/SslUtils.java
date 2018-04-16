@@ -15,7 +15,7 @@ public class SslUtils {private static void trustAllHttpsCertificates() throws Ex
     TrustManager[] trustAllCerts = new TrustManager[1];
     TrustManager tm = new miTM();
     trustAllCerts[0] = tm;
-    SSLContext sc = SSLContext.getInstance("SSL");
+    SSLContext sc = SSLContext.getInstance("TLS");
     sc.init(null, trustAllCerts, null);
     HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 }

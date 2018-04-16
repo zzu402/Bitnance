@@ -11,6 +11,7 @@ import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,8 +53,8 @@ public class Api {
         Api api = new Api();
 //        System.out.println("------账户信息--------");
 //        System.out.println(api.getAccountInfo());
-//        System.out.println("------账户金币信息--------");
-//        System.out.println(api.getAllMoneyFree());
+        System.out.println("------账户金币信息--------");
+        System.out.println(api.getAllMoneyFree());
 //        System.out.println("------账户某币信息--------");
 //        System.out.println(api.getMoneyFree("BTC"));
 //        System.out.println("------币市价格信息--------");
@@ -74,8 +75,10 @@ public class Api {
 //        System.out.println(api.getMyOrders("TRXBTC","",10));
 //        System.out.println("------获取历史成交交易--------");
 //        System.out.println(api.getHistoricalTrades("TRXBTC",10,""));
-        System.out.println("------获取最近成交交易--------");
-        System.out.println(api.getRecentTrades("TRXBTC",10));
+//        System.out.println("------获取最近成交交易--------");
+//        System.out.println(api.getRecentTrades("TRXBTC",10));
+//        System.out.println("--------服务器时间------");
+//        System.out.println(api.getServerTime());
     }
 
     public static void setSecret_key(String secret_key) {
@@ -113,12 +116,12 @@ public class Api {
     private String requestApi(String url, Map rQuery, Boolean bSign) {
         logger.info("request API start...");
         try {
-            SslUtils.ignoreSsl();
+
             String queryString = (String) rQuery.get("query_string");
             Boolean addTimeFlag = (Boolean) rQuery.get("b_add_time");
             if (addTimeFlag) {
-                currentTime = System.currentTimeMillis();
-                queryString += "&timestamp=" + currentTime;
+//                currentTime = System.currentTimeMillis();
+                queryString += "&timestamp=" +getServerTime();
             }
             if (bSign) {
                 String signature = HmacUtils.getSignature(queryString, secret_key);
@@ -138,7 +141,7 @@ public class Api {
             }
             Map<String,String> header=new HashMap<String, String>();
             header.put("X-MBX-APIKEY",api_key);
-            Connection connection = Jsoup.connect(url).headers(header).ignoreContentType(true).ignoreHttpErrors(true).timeout(30000);
+            Connection connection = Jsoup.connect(url).headers(header).ignoreContentType(true).ignoreHttpErrors(true).timeout(100000);
             if (!isGetMethod) {
                 if(queryString!=null&&!queryString.equals("")) {
                     String[] querys=queryString.split("&");
@@ -168,7 +171,7 @@ public class Api {
         String url_api = "https://api.binance.com/api/v3/account";
         String query_string = "recvWindow="+recvWindow;
         String result =requestApi(url_api, createRQuery("GET",query_string,true), true);
-        if(result.contains("code")) {
+        if(result!=null&&result.contains("code")) {
             logger.info("account origin result :" + result);
         }
         try {
@@ -339,10 +342,14 @@ public class Api {
         return null;
     }
     //获取服务器时间戳（毫秒）
-    public Map getServerTime(){
+    public String getServerTime(){
+        Long pre=System.currentTimeMillis();
         String url_api="https://api.binance.com/api/v1/time";
         String result=requestApi(url_api,createRQuery("GET","",false),false);
-        return  jsonStr2Map(result);
+        Long post=System.currentTimeMillis();
+        Double serverTime= (Double) jsonStr2Map(result).get("serverTime");
+        serverTime+=post-pre-50;
+        return  NumberUtils.getNumberStr(serverTime);
     }
     //获取汇兑信息
     public ExchangeInfo getExchangeInfo(){
@@ -377,7 +384,7 @@ public class Api {
                 logger.info("get order error,"+result);
             Gson gson = new Gson();
             List<Order>orders=null;
-            if(result!=null) {
+            if(result!=null && !result.contains("code")) {
                 orders=gson.fromJson(result, new TypeToken<List<Order>>() {
                 }.getType());
                 logger.info("try to get my order end ...");

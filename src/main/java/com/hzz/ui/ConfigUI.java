@@ -297,16 +297,7 @@ public class ConfigUI extends AbstractUI implements ActionListener{
 		}else if(command.equals("SAVE")){
 			save();
 			//更新主页面的交易策略
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					synchronized (UserInfoPanel.object) {
-						UserInfoPanel.isNeedUpdateTradeMethod = true;
-						UserInfoPanel.object.notify();
-					}
-
-				}
-			}).start();
+			UserInfoPanel.UpdateTradeMethod();
 
 		}
 	}

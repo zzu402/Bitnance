@@ -1,5 +1,7 @@
 package com.hzz.utils;
 
+import java.text.NumberFormat;
+
 /**
  * @Author: huangzz
  * @Description:
@@ -18,6 +20,19 @@ public class NumberUtils {
                 return  null;
             }
         return  null;
+    }
+
+
+    public static String getNumberStr(Double d){
+        NumberFormat nf= NumberFormat.getInstance();
+        nf.setGroupingUsed(false);
+        return  nf.format(d);
+    }
+
+    public static String getNumberStr(Long d){
+        NumberFormat nf= NumberFormat.getInstance();
+        nf.setGroupingUsed(false);
+        return  nf.format(d);
     }
 
 }

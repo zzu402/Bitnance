@@ -5,6 +5,8 @@ import com.hzz.model.Config;
 import com.hzz.model.Price;
 import com.hzz.service.ConfigService;
 import com.hzz.service.PriceService;
+import com.hzz.ui.panel.MyTradePanel;
+import com.hzz.ui.panel.UserInfoPanel;
 import com.hzz.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -206,8 +208,11 @@ public class ConfigSetUI extends AbstractUI{
 			config.setDescription(description);
 			configList.add(config);
 		}
-		if(configService.insertOrUpdateConfigs(configList))
+		if(configService.insertOrUpdateConfigs(configList)) {
 			AlertUtils.showMessage("保存成功");
+			UserInfoPanel.UpdateTradeMethod();
+			MyTradePanel.updateCombox();
+		}
 	}
 
 

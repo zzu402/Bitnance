@@ -5,6 +5,9 @@ import com.hzz.service.ConfigService;
 import com.hzz.service.TradeService;
 import com.hzz.utils.AlertUtils;
 import com.hzz.utils.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,7 +21,10 @@ public class MyTradePanel extends JPanel {
     private ConfigService configService = new ConfigService();
     private TradeService tradeService=new TradeService();
     private String symbol = null;
-    JTextArea textArea = null;
+    private JTextArea textArea = null;
+    public static  boolean isNeedToUpdate=true;
+    public static Object object=new Object();
+    private static Logger logger= LoggerFactory.getLogger(MyTradePanel.class);
 
     public MyTradePanel() {
         setLayout(null);
@@ -29,7 +35,6 @@ public class MyTradePanel extends JPanel {
 
         JComboBox comboBox = new JComboBox();
         comboBox.setBounds(110, 10, 140, 20);
-        add(comboBox);
         addSymbolData(comboBox);
 
         JButton button = new JButton("查看");
@@ -41,7 +46,13 @@ public class MyTradePanel extends JPanel {
                     AlertUtils.showMessage("请选择币种");
                     return;
                 }
-                setAreaText(getText());
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setAreaText(getText());
+                    }
+                }).start();
+
             }
         });
         add(button);
@@ -87,28 +98,67 @@ public class MyTradePanel extends JPanel {
         return sb.toString();
     }
 
+    public static void updateCombox(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (MyTradePanel.object) {
+                    MyTradePanel.isNeedToUpdate = true;
+                    MyTradePanel.object.notify();
+                }
+
+            }
+        }).start();
+    }
+
 
     private void addSymbolData(JComboBox comboBox) {
-        Map<String, Config> map = configService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_BUY, 1);
-        Map<String, Config> map1 = configService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_SELL, 1);
-        if(map!=null) {
-            map.putAll(map1);
-            Iterator it = map.entrySet().iterator();
-            comboBox.addItem("请选择");
-            while (it.hasNext()) {
-                Map.Entry entry = (Map.Entry) it.next();
-                String key = (String) entry.getKey();
-                comboBox.addItem(key);
-            }
-            comboBox.addItemListener(new ItemListener() {
-                @Override
-                public void itemStateChanged(ItemEvent e) {
-                    if (e.getStateChange() == ItemEvent.SELECTED) {
-                        symbol = (String) e.getItem();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    if (isNeedToUpdate) {
+                        MyTradePanel.this.remove(comboBox);
+                        comboBox.removeAllItems();
+                        Map<String, Config> map = configService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_BUY, 1);
+                        Map<String, Config> map1 = configService.getConfigSets(QueryConstant.CONFIG_TYPE_PRE_SELL, 1);
+                        if (map != null) {
+                            if (map1 != null)
+                                map.putAll(map1);
+                            Iterator it = map.entrySet().iterator();
+                            comboBox.addItem("请选择");
+                            while (it.hasNext()) {
+                                Map.Entry entry = (Map.Entry) it.next();
+                                String key = (String) entry.getKey();
+                                comboBox.addItem(key);
+                            }
+                            comboBox.addItemListener(new ItemListener() {
+                                @Override
+                                public void itemStateChanged(ItemEvent e) {
+                                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                                        symbol = (String) e.getItem();
+                                    }
+                                }
+                            });
+                        }
+                        MyTradePanel.this.add(comboBox);
+                        MyTradePanel.this.repaint();
+                        isNeedToUpdate=false;
+                    }else {
+                        //让线程陷入阻塞，等到要更新时候再唤醒
+                        synchronized (MyTradePanel.object) {
+                            try {
+                                MyTradePanel.object.wait();
+                            } catch (InterruptedException e) {
+                                logger.error("线程进入等待唤醒异常", e);
+                            }
+                        }
+
                     }
                 }
-            });
-        }
+            }
+        }).start();
+
     }
 
 }

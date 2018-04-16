@@ -112,6 +112,16 @@ CREATE TABLE `bitcon_config` (
   UNIQUE KEY `symbol_type` (`symbol`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `bitcon_available_symbol`;
+CREATE TABLE `bitcon_available_symbol` (
+  `id` bigint(32) NOT NULL AUTO_INCREMENT,
+  `symbol` varchar(255) DEFAULT NULL,
+  `qty` VARCHAR(100) NOT NULL,
+  `updateTime` BIGINT DEFAULT NULL,
+  `createTime` BIGINT DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 ALTER TABLE bitcon_price
   ADD COLUMN `createTime` BIGINT(32) DEFAULT NULL ;

@@ -71,11 +71,21 @@ public class AccountService {
                 if (prices == null)
                     continue;
                 Price price = (Price) prices.get(0);
-                if (price.getPrice() == null)
-                    continue;
-                Double currentPrice = Double.valueOf(price.getPrice());
-                Double all = Double.valueOf(value.getFree()) + Double.valueOf(value.getLocked());
-                moneyCount += currentPrice * all;
+                if (price.getPrice() != null) {
+                    Double currentPrice = Double.valueOf(price.getPrice());
+                    Double all = Double.valueOf(value.getFree()) + Double.valueOf(value.getLocked());
+                    moneyCount += currentPrice * all;
+                }else{
+                    prices = api.getMoneyPrice( QueryConstant.DEFAULT_TRADE_CONVERT_CON+key);
+                    if (prices == null)
+                        continue;
+                    price = (Price) prices.get(0);
+                    if (price.getPrice() != null) {
+                        Double currentPrice = Double.valueOf(price.getPrice());
+                        Double all = Double.valueOf(value.getFree()) + Double.valueOf(value.getLocked());
+                        moneyCount +=  all/currentPrice;
+                    }
+                }
             }
         }
         List prices = api.getMoneyPrice("BTCUSDT");
