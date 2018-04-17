@@ -26,6 +26,9 @@ public class TradeService {
     private MailService mailService=new MailService();
     private ModelDao modelDao=DaoUtils.getDao(DaoUtils.getTemplate());
 
+    private  static long buyLogger=-1L;
+    private  static long sellLogger=-1L;
+
     public void saveMyTrade(String symbol){
         List<MyTrade> myTradeList = api.getMyTrades(symbol, "", 10);
         if(myTradeList==null||myTradeList.isEmpty())
@@ -82,8 +85,10 @@ public class TradeService {
         手动处理交易
      */
     public void HmBuy() {
+        buyLogger++;
         List<Config> list1 = configService.getConfigs(1, QueryConstant.CONFIG_SELECTED_HAND_TYPE, QueryConstant.CONFIG_BUY_TYPE);
-
+        if(buyLogger%60==0)
+            logger.info("进入手动买入程序...");
         if (list1 != null&&!list1.isEmpty()) {//买入配置
             List list = configService.getConfigSetList(QueryConstant.CONFIG_TYPE_PRE_BUY, 1);
             if(list==null||list.isEmpty())
@@ -93,6 +98,8 @@ public class TradeService {
                 Config config = configs[i];
                 Map<String, String> configInfo = JsonMapper.nonDefaultMapper().fromJson(config.getConfigInfo(), Map.class);
                 Double num=Double.valueOf(configInfo.get("num"));
+                if(buyLogger%60==0)
+                    logger.info("手动买入查询币种:"+config.getSymbol());
                 if(NumberUtils.isEquals(num,0.0))
                     continue;
                 List<Price> prices = api.getMoneyPrice(config.getSymbol());
@@ -105,6 +112,8 @@ public class TradeService {
                 if (currentPrice.doubleValue() > buyPrice.doubleValue()) {//买入（价格比较，当前价格币设定价格小，就可以买入）
                     continue;
                 }
+                if(buyLogger%60==0)
+                    logger.info("手动买入价格适合币种:"+config.getSymbol());
                 SellOrBuyInfo sellOrBuyInfo = api.buy(config.getSymbol(), num, price.getPrice());
                 if (sellOrBuyInfo != null&&!StringUtil.isBlank(sellOrBuyInfo.getSide())) {//交易成功，记录日志，邮件通知
                     logger.info(String.format("手动交易成功，成功以%s价格买入%s",currentPrice,config.getSymbol()));
@@ -198,14 +207,19 @@ public class TradeService {
     }
 
     public void HmSell(){
+        sellLogger++;
         List<Config> list1 = configService.getConfigs(1, QueryConstant.CONFIG_SELECTED_HAND_TYPE, QueryConstant.CONFIG_SELL_TYPE);
         if(list1!=null&&!list1.isEmpty()){//卖出配置
+            if(sellLogger%60==0)
+                logger.info("进入手动卖出程序...");
             List list=configService.getConfigSetList(QueryConstant.CONFIG_TYPE_PRE_SELL,1);
             if(list==null||list.isEmpty())
                 return;
             Config[]configs= configService.sortConfigListByPriority(list);
             for (int i=0;i<configs.length;i++){
                 Config config = configs[i];
+                if(sellLogger%60==0)
+                    logger.info("手动卖出币种查询:"+config.getSymbol());
                 Map<String,String> configInfo = JsonMapper.nonDefaultMapper().fromJson(config.getConfigInfo(), Map.class);
                 Double num=Double.valueOf(configInfo.get("num"));
                 if(NumberUtils.isEquals(num,0.0))
@@ -219,6 +233,8 @@ public class TradeService {
                 if(currentPrice.doubleValue()<sellPrice.doubleValue()){//卖出（价格比较，当前价格币设定价大，就可以卖出）
                     continue;
                 }
+                if(sellLogger%60==0)
+                    logger.info("手动卖出价格合适币种:"+config.getSymbol());
                 AvailableSymbol condition=new AvailableSymbol();
                 condition.setSymbol(config.getSymbol());
                 List symbolList= null;
@@ -231,6 +247,8 @@ public class TradeService {
                     continue;
                 AvailableSymbol availableSymbol= (AvailableSymbol) symbolList.get(0);
                 num=NumberUtils.valueOf(availableSymbol.getQty());
+                if(sellLogger%60==0)
+                    logger.info("手动卖出币种可用数量:"+num);
                 if(num<=0)
                     continue;
 
@@ -239,6 +257,13 @@ public class TradeService {
                     logger.info(String.format("手动交易成功，成功以%s价格卖出%s",currentPrice,config.getSymbol()));
                     mailService.sendNotify(config.getSymbol(),price.getPrice(),2);
                     doFinishUpdateNum(configInfo,config);
+                    availableSymbol.setQty(NumberUtils.getNumberStr(0.0));
+                    availableSymbol.setUpdateTime(System.currentTimeMillis()/1000);
+                    try {
+                        modelDao.insertOrUpdate(availableSymbol,new String[]{"qty","updateTime"});
+                    } catch (CommonException e) {
+                        logger.error("手动卖出更新可用币种数量失败",e);
+                    }
                     UserInfoPanel.UpdateTradeMethod();
                 }else {
                     logger.info("手动卖出交易失败");

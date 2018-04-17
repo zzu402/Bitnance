@@ -201,7 +201,7 @@ public class Api {
            }
            for(int i=0;i<oldBalances.size();i++){
                Balance balance=oldBalances.get(i);
-               if(NumberUtils.isEquals(NumberUtils.valueOf(balance.getFree()),0.0)){
+               if(!NumberUtils.isEquals(NumberUtils.valueOf(balance.getFree()),0.0)){
                    newBalances.put(balance.getAsset(),balance);
                }
            }
